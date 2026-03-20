@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeonMoney — Stop Overpaying Online 💸</title>
+  <meta name="description" content="Check prices, unlock deals, and earn coins before you buy. Compare Amazon vs Flipkart instantly.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: var(--nav-height); position: relative; overflow: hidden;
+    }
+    #particles { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      align-items: center; position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,255,178,0.08); border: 1px solid rgba(0,255,178,0.2);
+      border-radius: 100px; padding: 6px 16px; margin-bottom: 24px;
+      font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.12em;
+      color: var(--neon-green);
+    }
+    .hero-title { font-size: clamp(2.8rem, 6vw, 4.8rem); line-height: 1.1; margin-bottom: 20px; }
+    .hero-subtitle { font-size: 1.1rem; margin-bottom: 36px; max-width: 460px; line-height: 1.7; }
+    .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-social-proof { display: flex; align-items: center; gap: 16px; margin-top: 32px; }
+    .proof-avatars { display: flex; }
+    .proof-avatars .av {
+      width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg-deep);
+      background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+      display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
+      margin-left: -8px;
+    }
+    .proof-avatars .av:first-child { margin-left: 0; }
+    .proof-text { font-family: var(--font-ui); font-size: 0.85rem; color: var(--text-secondary); }
+    .proof-text strong { color: var(--neon-green); }
+
+    /* HERO RIGHT — Floating card */
+    .hero-right { position: relative; }
+    .hero-price-card {
+      background: rgba(15,23,42,0.7); backdrop-filter: blur(24px);
+      border: 1px solid rgba(0,255,178,0.2); border-radius: var(--radius-xl);
+      padding: 28px; position: relative; z-index: 2;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), var(--shadow-green);
+    }
+    .hpc-product { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .hpc-img { width: 56px; height: 56px; border-radius: 12px; background: rgba(0,255,178,0.08); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+    .hpc-name { font-weight: 600; font-size: 0.95rem; color: var(--text-primary); font-family: var(--font-ui); }
+    .hpc-cat  { font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-ui); }
+    .hpc-compare { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+    .hpc-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: var(--radius-md); }
+    .hpc-row.amazon { background: rgba(255,153,0,0.08); border: 1px solid rgba(255,153,0,0.15); }
+    .hpc-row.flipkart { background: rgba(40,116,240,0.08); border: 1px solid rgba(40,116,240,0.15); }
+    .hpc-store { font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .hpc-store.amazon { color: #FF9900; }
+    .hpc-store.flipkart { color: #2874F0; }
+    .hpc-price { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+    .hpc-best { font-size: 0.65rem; font-weight: 700; background: var(--neon-green); color: #0A0A0F; padding: 2px 7px; border-radius: 100px; }
+    .hpc-saving {
+      text-align: center; padding: 12px; border-radius: var(--radius-md);
+      background: rgba(0,255,178,0.08); border: 1px solid rgba(0,255,178,0.15);
+      font-family: var(--font-display); font-size: 0.75rem; color: var(--neon-green);
+    }
+    .hpc-saving strong { font-size: 1.1rem; }
+
+    /* floating mini chips */
+    .float-chip {
+      position: absolute; background: rgba(15,23,42,0.85); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 10px 14px; font-family: var(--font-display); font-size: 0.68rem;
+      display: flex; align-items: center; gap: 6px; box-shadow: var(--shadow-card);
+      white-space: nowrap; z-index: 3;
+    }
+    .chip-1 { top: -20px; right: -20px; color: var(--neon-yellow); border-color: rgba(251,191,36,0.2); }
+    .chip-2 { bottom: -16px; left: -24px; color: var(--neon-green); border-color: rgba(0,255,178,0.2); }
+    .chip-3 { top: 50%; right: -50px; transform: translateY(-50%); color: #A78BFA; border-color: rgba(124,58,237,0.2); }
+
+    /* ── SEARCH SECTION ── */
+    .search-section { padding: 80px 0; }
+    .search-wrap { max-width: 700px; margin: 0 auto; }
+    .search-box {
+      position: relative;
+      background: rgba(15,23,42,0.6); backdrop-filter: blur(20px);
+      border: 1px solid rgba(0,255,178,0.2); border-radius: var(--radius-xl);
+      padding: 8px 8px 8px 24px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: var(--shadow-green);
+    }
+    .search-box input {
+      flex: 1; background: none; border: none; outline: none;
+      font-family: var(--font-ui); font-size: 1rem; color: var(--text-primary);
+      padding: 8px 0;
+    }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-icon { font-size: 1.2rem; color: var(--text-muted); }
+    #search-results {
+      position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+      background: rgba(10,10,15,0.97); backdrop-filter: blur(20px);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      overflow: hidden; z-index: 100; display: none;
+    }
+    .search-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; justify-content: center; }
+    .search-tag {
+      font-family: var(--font-ui); font-size: 0.82rem; color: var(--text-secondary);
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 100px; cursor: pointer; transition: var(--transition);
+    }
+    .search-tag:hover { color: var(--neon-green); border-color: rgba(0,255,178,0.3); }
+
+    /* ── RESULTS SECTION ── */
+    #results-section { display: none; padding: 40px 0 80px; }
+    #results-title { font-size: 1.5rem; margin-bottom: 32px; }
+
+    /* ── TRENDING ── */
+    .trending-section { padding: 80px 0; }
+    #trending-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+    /* ── LOSS ALERT ── */
+    .loss-section { padding: 60px 0; }
+    .loss-alert-box {
+      display: flex; align-items: center; gap: 20px;
+      background: rgba(255,107,43,0.06); border: 1px solid rgba(255,107,43,0.2);
+      border-radius: var(--radius-lg); padding: 24px 32px;
+      max-width: 760px; margin: 0 auto;
+      animation: alert-pulse 2.5s ease-in-out infinite;
+    }
+    .alert-icon-big { font-size: 2.5rem; flex-shrink: 0; }
+    .alert-msg { font-family: var(--font-ui); font-size: 1rem; color: var(--text-primary); transition: opacity 0.4s; }
+    .alert-msg strong { color: var(--neon-orange); }
+
+    /* ── SPIN SECTION ── */
+    .spin-home-section { padding: 80px 0; }
+    .spin-home-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .spin-content h2 { margin-bottom: 16px; }
+    .spin-content p { margin-bottom: 28px; }
+    .spin-perks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .spin-perk {
+      display: flex; align-items: center; gap: 12px;
+      font-family: var(--font-ui); font-size: 0.9rem; color: var(--text-secondary);
+    }
+    .spin-perk-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; background: rgba(0,255,178,0.08); }
+
+    .spin-visual { position: relative; text-align: center; }
+    #spin-wheel-el-home { width: 280px; height: 280px; }
+
+    /* ── HOW IT WORKS ── */
+    .how-section { padding: 80px 0; }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; }
+    .steps-connector {
+      position: absolute; top: 40px; left: 25%; right: 25%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,255,178,0.3), transparent);
+    }
+    .step-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 36px 28px; text-align: center;
+      transition: var(--transition);
+    }
+    .step-card:hover { border-color: rgba(0,255,178,0.2); transform: translateY(-6px); box-shadow: var(--shadow-green); }
+    .step-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+    .step-card h3 { font-family: var(--font-body); font-size: 1.1rem; margin-bottom: 10px; font-weight: 700; }
+    .step-card p { font-size: 0.88rem; }
+
+    /* ── REVIEWS ── */
+    .reviews-section { padding: 80px 0; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .review-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px; transition: var(--transition);
+    }
+    .review-card:hover { border-color: rgba(0,255,178,0.15); transform: translateY(-4px); }
+    .review-stars { color: var(--neon-yellow); font-size: 0.9rem; margin-bottom: 12px; }
+    .review-text { font-family: var(--font-ui); font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.7; }
+    .review-author { display: flex; align-items: center; gap: 10px; }
+    .review-av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .review-name { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); font-family: var(--font-ui); }
+    .review-meta { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-ui); }
+    .review-saving { font-family: var(--font-display); font-size: 0.7rem; color: var(--neon-green); background: rgba(0,255,178,0.08); padding: 2px 8px; border-radius: 100px; display: inline-block; margin-top: 4px; }
+
+    /* ── STATS BANNER ── */
+    .stats-section { padding: 60px 0; }
+    .stats-bar {
+      background: linear-gradient(135deg, rgba(0,255,178,0.06), rgba(124,58,237,0.06));
+      border: 1px solid rgba(0,255,178,0.12); border-radius: var(--radius-xl);
+      padding: 48px; display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px; text-align: center;
+    }
+    .stat-num { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: var(--neon-green); }
+    .stat-label { font-family: var(--font-ui); font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── CTA ── */
+    .cta-section { padding: 100px 0; }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(0,255,178,0.08), rgba(124,58,237,0.08));
+      border: 1px solid rgba(0,255,178,0.15); border-radius: var(--radius-xl);
+      padding: 80px 48px; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.15), transparent 70%);
+    }
+    .cta-box::after {
+      content: ''; position: absolute; bottom: -60px; left: -60px;
+      width: 240px; height: 240px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,178,0.1), transparent 70%);
+    }
+    .cta-box h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 16px; position: relative; z-index: 1; }
+    .cta-box p  { margin-bottom: 36px; font-size: 1.05rem; position: relative; z-index: 1; }
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; position: relative; z-index: 1; }
+
+    /* ── MODAL ── */
+    #product-modal {
+      display: none; position: fixed; inset: 0; z-index: 9998;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-content {
+      background: var(--bg-mid); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 36px; max-width: 480px;
+      width: 100%; position: relative; animation: scale-in 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-secondary); width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      font-size: 0.9rem; transition: var(--transition);
+    }
+    .modal-close:hover { color: var(--text-primary); border-color: var(--neon-green); }
+    #modal-img { font-size: 4rem; text-align: center; display: block; margin-bottom: 16px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) { #trending-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) {
+      .hero-grid, .spin-home-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .hero-right { display: none; }
+      .steps-grid, .reviews-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      #trending-grid { grid-template-columns: repeat(2, 1fr); }
+      .chip-1, .chip-2, .chip-3 { display: none; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+    }
+    @media (max-width: 480px) {
+      #trending-grid, .stats-bar { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-mesh"></div>
+<div class="bg-noise"></div>
+<div id="particles"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">💸</div>
+      Neon<span class="accent">Money</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="deals.html">Deals</a>
+      <a href="store.html">Stores</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <div class="nav-coins" id="nav-coins" style="display:none;">💰 <span id="nav-coins-val">0</span></div>
+      <div id="nav-auth-links" style="display:flex; gap:8px;">
+        <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+        <a href="signup.html" class="btn btn-primary btn-sm">Sign Up Free</a>
+      </div>
+      <div id="nav-user-menu" style="display:none; gap:8px; align-items:center;">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+        <button class="btn btn-secondary btn-sm btn-logout">Logout</button>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     SECTION 1: HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+
+      <!-- Left -->
+      <div class="hero-left">
+        <div class="hero-eyebrow hero-title" style="animation-delay:0s;">
+          🔥 Live Price Comparison · India's #1 Deal Finder
+        </div>
+        <h1 class="hero-title gradient-text" style="animation-delay:0.1s;">
+          Stop Overpaying<br>Online 💸
+        </h1>
+        <p class="hero-subtitle hero-subtitle" style="animation-delay:0.2s;">
+          Check prices, unlock deals, and earn coins before you buy. Compare Amazon vs Flipkart instantly — and get rewarded for smart shopping.
+        </p>
+        <div class="hero-buttons hero-cta">
+          <a href="deals.html" class="btn btn-primary btn-lg btn-ripple">🔍 Check Deals</a>
+          <a href="signup.html" class="btn btn-secondary btn-lg btn-ripple">🚀 Start Saving</a>
+        </div>
+        <div class="hero-social-proof">
+          <div class="proof-avatars">
+            <div class="av">👤</div><div class="av">👤</div><div class="av">👤</div><div class="av">👤</div><div class="av">+</div>
+          </div>
+          <p class="proof-text"><strong>50,000+</strong> users saved this month</p>
+        </div>
+      </div>
+
+      <!-- Right — Price Comparison Card -->
+      <div class="hero-right hero-card-anim">
+        <div class="hero-price-card float-1 pulse-green">
+          <div class="hpc-product">
+            <div class="hpc-img">🎧</div>
+            <div>
+              <div class="hpc-name">Sony WH-1000XM5</div>
+              <div class="hpc-cat">Wireless Headphones · Electronics</div>
+            </div>
+          </div>
+          <div class="hpc-compare">
+            <div class="hpc-row amazon">
+              <span class="hpc-store amazon">🛒 Amazon</span>
+              <span class="hpc-price" style="color:#FF9900">₹24,990</span>
+            </div>
+            <div class="hpc-row flipkart">
+              <span class="hpc-store flipkart">🛍️ Flipkart</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="hpc-price" style="color:#2874F0">₹23,499</span>
+                <span class="hpc-best">BEST</span>
+              </div>
+            </div>
+          </div>
+          <div class="hpc-saving">
+            You save <strong>₹1,491</strong> on Flipkart · Earn <span style="color:var(--neon-yellow)">💰 120 Coins</span>
+          </div>
+        </div>
+
+        <!-- Floating chips -->
+        <div class="float-chip chip-1 float-2">💰 +120 Coins earned!</div>
+        <div class="float-chip chip-2 float-3">✅ Best price found!</div>
+        <div class="float-chip chip-3 float-2">⚡ Live comparison</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 2: SEARCH BAR
+══════════════════════════════════════════ -->
+<section class="search-section">
+  <div class="container">
+    <div class="search-wrap">
+      <div class="section-label animate-on-scroll"><span class="section-tag">🔍 Smart Search</span></div>
+      <h2 class="section-title animate-on-scroll">Find the Best Price <span class="gradient-text">Instantly</span></h2>
+      <p class="section-sub animate-on-scroll">Type any product — we'll compare Amazon & Flipkart live and show you the best deal.</p>
+
+      <form id="search-form" style="position:relative;" class="animate-on-scroll">
+        <div class="search-box streak-container">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder='Try "Headphones", "Nike Shoes", "Samsung TV"…' autocomplete="off">
+          <button type="submit" class="btn btn-primary btn-ripple">Search</button>
+        </div>
+        <div id="search-results"></div>
+      </form>
+
+      <div class="search-tags animate-on-scroll delay-2">
+        <button class="search-tag" onclick="doSearchTag('Headphones')">🎧 Headphones</button>
+        <button class="search-tag" onclick="doSearchTag('Shoes')">👟 Shoes</button>
+        <button class="search-tag" onclick="doSearchTag('Samsung')">📺 Samsung TV</button>
+        <button class="search-tag" onclick="doSearchTag('Apple')">🍎 Apple</button>
+        <button class="search-tag" onclick="doSearchTag('Speaker')">🔊 Speakers</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Results -->
+<section id="results-section">
+  <div class="container">
+    <h3 id="results-title"></h3>
+    <div id="results-grid" class="grid-4"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 3: TRENDING DEALS
+══════════════════════════════════════════ -->
+<section class="trending-section">
+  <div class="container">
+    <div class="section-label animate-on-scroll"><span class="section-tag">🔥 Trending Now</span></div>
+    <div class="flex-between animate-on-scroll" style="margin-bottom: 40px;">
+      <h2>Today's <span class="gradient-text">Hot Deals</span></h2>
+      <a href="deals.html" class="btn btn-secondary btn-sm">View All →</a>
+    </div>
+    <div id="trending-grid"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 4: LOSS ALERT
+══════════════════════════════════════════ -->
+<section class="loss-section">
+  <div class="container">
+    <div class="section-label animate-on-scroll"><span class="section-tag">⚠️ Price Intelligence</span></div>
+    <h2 class="section-title animate-on-scroll">Don't Lose Money<br>on <span class="gradient-text">Bad Timing</span></h2>
+    <br>
+    <div class="loss-alert-box animate-on-scroll">
+      <div class="alert-icon-big">⚠️</div>
+      <div>
+        <div class="alert-msg" id="loss-alert-text"></div>
+        <a href="deals.html" class="btn btn-secondary btn-sm" style="margin-top:12px;">See All Alerts →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 5: SPIN & WIN
+══════════════════════════════════════════ -->
+<section class="spin-home-section">
+  <div class="container">
+    <div class="spin-home-wrap">
+      <div class="spin-content animate-on-scroll">
+        <span class="section-tag">🎰 Daily Rewards</span>
+        <h2 style="margin-top:16px;">Spin & Win <span class="gradient-text">Coins</span> Every Day</h2>
+        <p>Come back daily to spin the wheel. Win coins, unlock premium deals, and redeem for gift cards or recharges.</p>
+        <div class="spin-perks">
+          <div class="spin-perk"><div class="spin-perk-icon">🎯</div> One free spin every 24 hours</div>
+          <div class="spin-perk"><div class="spin-perk-icon">🔥</div> Streak bonuses up to 100 coins</div>
+          <div class="spin-perk"><div class="spin-perk-icon">🎁</div> Redeem for Amazon/Flipkart vouchers</div>
+        </div>
+        <a href="dashboard.html" class="btn btn-primary btn-lg btn-ripple">🎰 Spin Now</a>
+      </div>
+      <div class="spin-visual animate-on-scroll delay-2">
+        <div class="spin-wheel-wrap" style="width:280px;height:280px;margin:0 auto;">
+          <div class="spin-outer-ring"></div>
+          <div class="spin-pointer">▼</div>
+          <svg id="spin-wheel-svg" class="spin-wheel-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <p style="text-align:center; margin-top:16px; font-size:0.85rem; color:var(--text-muted);">Login to spin for free</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 6: HOW IT WORKS
+══════════════════════════════════════════ -->
+<section class="how-section">
+  <div class="container">
+    <div class="section-label animate-on-scroll"><span class="section-tag">🧠 Simple Process</span></div>
+    <h2 class="section-title animate-on-scroll">How <span class="gradient-text">NeonMoney</span> Works</h2>
+    <p class="section-sub animate-on-scroll">Three easy steps to start saving money and earning coins on every purchase.</p>
+    <div class="steps-grid">
+      <div class="steps-connector"></div>
+      <div class="step-card glass-card animate-on-scroll delay-1">
+        <span class="step-num">01</span>
+        <span class="step-icon">🔍</span>
+        <h3>Search Any Product</h3>
+        <p>Type the product name — headphones, shoes, phones, anything. Our engine scans Amazon and Flipkart instantly.</p>
+      </div>
+      <div class="step-card glass-card animate-on-scroll delay-2">
+        <span class="step-num">02</span>
+        <span class="step-icon">💸</span>
+        <h3>Check the Best Price</h3>
+        <p>We compare both platforms side by side and highlight where you save the most. No hidden tricks, just the truth.</p>
+      </div>
+      <div class="step-card glass-card animate-on-scroll delay-3">
+        <span class="step-num">03</span>
+        <span class="step-icon">🏆</span>
+        <h3>Earn Coins & Save</h3>
+        <p>Buy through our link, come back, and earn coins. Use them for gift cards, recharges, or exclusive deals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     STATS BANNER
+══════════════════════════════════════════ -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-bar animate-on-scroll">
+      <div>
+        <div class="stat-num" data-count="50000" data-suffix="+">50,000+</div>
+        <div class="stat-label">Happy Users</div>
+      </div>
+      <div>
+        <div class="stat-num" data-count="2500000" data-prefix="₹">₹25L</div>
+        <div class="stat-label">Total Savings</div>
+      </div>
+      <div>
+        <div class="stat-num" data-count="10000" data-suffix="+">10,000+</div>
+        <div class="stat-label">Deals Tracked</div>
+      </div>
+      <div>
+        <div class="stat-num" data-count="500000" data-suffix="+">5L+</div>
+        <div class="stat-label">Coins Distributed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 7: REVIEWS
+══════════════════════════════════════════ -->
+<section class="reviews-section">
+  <div class="container">
+    <div class="section-label animate-on-scroll"><span class="section-tag">⭐ Real Reviews</span></div>
+    <h2 class="section-title animate-on-scroll">People Are <span class="gradient-text">Loving It</span></h2>
+    <p class="section-sub animate-on-scroll">Real users, real savings. Here's what they're saying.</p>
+    <div class="reviews-grid">
+      <div class="review-card animate-on-scroll delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I saved ₹2,000 on my Sony headphones just by comparing prices here. The coin rewards are real — already redeemed for a Flipkart voucher!"</p>
+        <div class="review-author">
+          <div class="review-av" style="background:rgba(0,255,178,0.1)">👤</div>
+          <div>
+            <div class="review-name">Priya S.</div>
+            <div class="review-meta">Mumbai · 3 days ago</div>
+            <div class="review-saving">Saved ₹2,000 💚</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card animate-on-scroll delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The price alert feature is a game changer. Got notified exactly when the Samsung TV dropped. Saved ₹5,000 plus got 350 coins!"</p>
+        <div class="review-author">
+          <div class="review-av" style="background:rgba(124,58,237,0.1)">👤</div>
+          <div>
+            <div class="review-name">Rahul M.</div>
+            <div class="review-meta">Bengaluru · 1 week ago</div>
+            <div class="review-saving">Saved ₹5,000 💚</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card animate-on-scroll delay-3">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">"Daily spin is genuinely fun! I've been on a 7-day streak and already have 400+ coins. Got rewards easily without doing anything complicated."</p>
+        <div class="review-author">
+          <div class="review-av" style="background:rgba(59,130,246,0.1)">👤</div>
+          <div>
+            <div class="review-name">Ananya K.</div>
+            <div class="review-meta">Delhi · 5 days ago</div>
+            <div class="review-saving">400+ Coins earned 💰</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 8: CTA
+══════════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box animate-on-scroll">
+      <span class="section-tag">🚀 Join Free</span>
+      <h2 style="margin-top:16px;">Start Saving <span class="gradient-text">Right Now</span></h2>
+      <p>Join 50,000+ smart shoppers who never overpay. Free to sign up. Real rewards. Zero risk.</p>
+      <div class="cta-buttons">
+        <a href="signup.html" class="btn btn-primary btn-lg btn-ripple">👉 Sign Up Free</a>
+        <a href="deals.html" class="btn btn-secondary btn-lg btn-ripple">🔥 Browse Deals</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:12px; display:inline-flex;"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+        <p>We help users save money by finding the best deals and rewarding them with coins for smart shopping.</p>
+      </div>
+      <div class="footer-col"><h4>Platform</h4><a href="deals.html">All Deals</a><a href="store.html">Stores</a><a href="rewards.html">Rewards</a><a href="dashboard.html">Dashboard</a></div>
+      <div class="footer-col"><h4>Support</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a><a href="about.html">About Us</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 NeonMoney. All rights reserved.</p>
+      <p>We earn through affiliate links. <a href="disclaimer.html" style="color:var(--neon-green);text-decoration:none;">Read Disclaimer</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- PRODUCT MODAL -->
+<div id="product-modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span id="modal-img"></span>
+    <h3 id="modal-title" style="margin-bottom:20px;"></h3>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <div class="hpc-row amazon"><span class="hpc-store amazon">🛒 Amazon</span><span id="modal-amazon" class="hpc-price" style="color:#FF9900;"></span></div>
+      <div class="hpc-row flipkart"><span class="hpc-store flipkart">🛍️ Flipkart</span><span id="modal-flipkart" class="hpc-price" style="color:#2874F0;"></span></div>
+    </div>
+    <div class="hpc-saving" style="margin-bottom:16px;" id="modal-saving"></div>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:var(--font-display);font-size:0.8rem;color:var(--neon-yellow);margin-bottom:24px;">💰 <span id="modal-coins"></span></div>
+    <a href="deals.html" class="btn btn-primary" style="width:100%;justify-content:center;">🛒 Go to Best Deal</a>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/spin.js"></script>
+<script src="js/alerts.js"></script>
+<script>
+  function doSearchTag(q) {
+    document.getElementById('search-input').value = q;
+    doSearch(q);
+  }
+</script>
+</body>
+</html>

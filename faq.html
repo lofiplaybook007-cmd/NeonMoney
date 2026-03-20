@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — NeonMoney 💸</title>
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css">
+  <style>
+    .page-hero { padding: calc(var(--nav-height) + 60px) 0 60px; text-align:center; }
+    .faq-layout { max-width: 760px; margin: 0 auto; padding-bottom: 100px; }
+    .faq-category { font-family:var(--font-display); font-size:0.65rem; letter-spacing:0.15em; color:var(--neon-green); text-transform:uppercase; margin:48px 0 16px; }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 12px; overflow: hidden; transition: var(--transition); }
+    .faq-item:hover { border-color: rgba(0,255,178,0.2); }
+    .faq-question {
+      padding: 20px 24px; display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; font-family: var(--font-ui); font-size: 0.95rem; font-weight: 600;
+      color: var(--text-primary); gap: 16px; user-select: none;
+    }
+    .faq-icon { font-size: 1.1rem; transition: transform 0.3s; flex-shrink: 0; color: var(--neon-green); }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.3s;
+      font-family: var(--font-ui); font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { max-height: 400px; padding: 0 24px 20px; }
+    .faq-answer strong { color: var(--text-primary); }
+  </style>
+</head>
+<body>
+<div class="bg-mesh"></div><div class="bg-noise"></div>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+    <div class="nav-links"><a href="index.html">Home</a><a href="deals.html">Deals</a><a href="rewards.html">Rewards</a><a href="faq.html" class="active">FAQ</a></div>
+    <div class="nav-actions">
+      <div id="nav-auth-links" style="display:flex;gap:8px;"><a href="login.html" class="btn btn-secondary btn-sm">Login</a><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></div>
+      <div id="nav-user-menu" style="display:none;gap:8px;align-items:center;"><a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a><button class="btn btn-secondary btn-sm btn-logout">Logout</button></div>
+    </div>
+  </div>
+</nav>
+
+<div class="container page-hero">
+  <span class="section-tag animate-on-scroll">❓ Help Center</span>
+  <h1 class="animate-on-scroll" style="margin-top:12px;">Frequently Asked <span class="gradient-text">Questions</span></h1>
+  <p class="animate-on-scroll" style="margin-top:12px; max-width:540px; margin-left:auto; margin-right:auto;">Everything you need to know about NeonMoney, coins, deals, and rewards.</p>
+</div>
+
+<div class="container">
+  <div class="faq-layout">
+
+    <div class="faq-category animate-on-scroll">💰 About Coins</div>
+
+    <div class="faq-item animate-on-scroll">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        What are coins? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Coins are NeonMoney's reward currency. You earn them by purchasing products through our affiliate links, spinning the daily wheel, maintaining daily streaks, and referring friends. <strong>100 coins = ₹10 in real value</strong>, redeemable for gift cards, recharges, and exclusive deals.
+      </div>
+    </div>
+
+    <div class="faq-item animate-on-scroll delay-1">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        How do I earn coins? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        You can earn coins in several ways:<br><br>
+        <strong>🛒 Shopping:</strong> Click our affiliate links and purchase — coins are added based on the product's commission value.<br>
+        <strong>🎰 Daily Spin:</strong> Spin the wheel once per day to win 5–100 coins.<br>
+        <strong>🔥 Streak Bonus:</strong> Log in and spin daily for consecutive days to earn milestone bonuses.<br>
+        <strong>👥 Referral:</strong> Invite friends — earn 200 coins per successful referral.
+      </div>
+    </div>
+
+    <div class="faq-item animate-on-scroll delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Why are my coins showing as "Pending"? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        When you purchase a product through our affiliate link, coins go into <strong>Pending</strong> status first. This is because we only receive the affiliate commission after the return/refund window (typically 15–30 days) closes on Amazon or Flipkart. Once the platform confirms the sale, your coins automatically move to <strong>Confirmed</strong> and become redeemable. Coins from spin and streaks are confirmed immediately.
+      </div>
+    </div>
+
+    <div class="faq-item animate-on-scroll delay-3">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        When do coins expire? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Confirmed coins are valid for <strong>12 months</strong> from the date they are confirmed. Pending coins expire if the underlying purchase is returned or cancelled. You'll receive a notification 30 days before any coins are set to expire so you have time to redeem them.
+      </div>
+    </div>
+
+    <div class="faq-item animate-on-scroll">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        How do I use / redeem coins? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Go to the <strong>Rewards</strong> page, choose a reward (gift card, recharge, etc.), and click <strong>Redeem</strong>. You need a minimum of <strong>500 confirmed coins</strong> to redeem. The voucher code will be sent to your registered email within 24–48 hours. Recharges are processed within 2–4 hours.
+      </div>
+    </div>
+
+    <div class="faq-category animate-on-scroll">🔥 About Deals</div>
+
+    <div class="faq-item animate-on-scroll">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        How does price comparison work? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        We aggregate publicly available product pricing from Amazon India and Flipkart and display them side by side. We update prices regularly, but for the most accurate real-time price, always click through to the store to confirm before purchasing. Prices can change frequently due to flash sales and limited-time offers.
+      </div>
+    </div>
+
+    <div class="faq-item animate-on-scroll delay-1">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Are the prices always accurate? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        We strive to keep prices as accurate as possible, but we are not Amazon or Flipkart. Prices shown are for informational purposes. <strong>Always confirm the final price on the store's checkout page</strong> before completing a purchase. We are not responsible for price discrepancies.
+      </div>
+    </div>
+
+    <div class="faq-item animate-on-scroll delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        What are Price Drop Alerts? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Price Drop Alerts notify you when a product on your wishlist drops in price. You can set a target price, and we'll notify you via email or in-app notification when the deal matches your target. This helps you buy at the right time and avoid overpaying.
+      </div>
+    </div>
+
+    <div class="faq-category animate-on-scroll">🔐 Account & Privacy</div>
+
+    <div class="faq-item animate-on-scroll">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Is NeonMoney free to use? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Yes! NeonMoney is <strong>completely free</strong> for users. We earn a small affiliate commission when you buy through our links. This commission does not increase the product price for you — you pay the same price as on the store directly. In fact, we use part of that commission to fund your coin rewards!
+      </div>
+    </div>
+
+    <div class="faq-item animate-on-scroll delay-1">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Is my data safe? Do you sell it? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <strong>We do not sell your personal data.</strong> We collect only your email address and usage data (which products you view) to improve our service and track your rewards. Your data is stored securely on Firebase. Please read our full <a href="privacy-policy.html" style="color:var(--neon-green);">Privacy Policy</a> for complete details.
+      </div>
+    </div>
+
+    <div class="faq-item animate-on-scroll delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Is NeonMoney directly affiliated with Amazon or Flipkart? <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        No. NeonMoney is an <strong>independent affiliate platform</strong>. We are part of the Amazon Associates and Flipkart Affiliate programs, which are public programs open to any website. We earn a commission from qualifying purchases made through our links, but we are not directly affiliated with, endorsed by, or a subsidiary of Amazon or Flipkart. See our <a href="disclaimer.html" style="color:var(--neon-green);">Disclaimer</a> for full details.
+      </div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="glass-card animate-on-scroll" style="padding:40px; text-align:center; margin-top:48px;">
+      <div style="font-size:2rem; margin-bottom:12px;">📧</div>
+      <h3 style="font-family:var(--font-body); margin-bottom:8px;">Still have questions?</h3>
+      <p style="margin-bottom:20px;">Our support team is here to help.</p>
+      <a href="contact.html" class="btn btn-primary btn-ripple">Contact Support</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

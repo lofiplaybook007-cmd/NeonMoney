@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Deals — NeonMoney 💸</title>
+  <meta name="description" content="Browse all deals. Compare Amazon vs Flipkart prices and earn coins.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .deals-header { padding: calc(var(--nav-height) + 60px) 0 60px; }
+    .deals-layout { display: grid; grid-template-columns: 260px 1fr; gap: 32px; }
+    .filters-sidebar {
+      position: sticky; top: calc(var(--nav-height) + 20px); height: fit-content;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 28px;
+    }
+    .filter-heading { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 12px; }
+    .filter-group { margin-bottom: 24px; }
+    .filter-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0; cursor: pointer; font-family: var(--font-ui); font-size: 0.9rem; color: var(--text-secondary);
+      transition: var(--transition);
+    }
+    .filter-option:hover { color: var(--text-primary); }
+    .filter-option input[type="checkbox"] { accent-color: var(--neon-green); width: 16px; height: 16px; }
+    .filter-option.active { color: var(--neon-green); }
+    .price-range { width: 100%; accent-color: var(--neon-green); }
+    .price-labels { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; font-family: var(--font-ui); }
+
+    .deals-main {}
+    .deals-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-tab {
+      font-family: var(--font-ui); font-size: 0.82rem; font-weight: 500;
+      padding: 8px 16px; border-radius: 100px; cursor: pointer;
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-secondary); transition: var(--transition);
+    }
+    .filter-tab.active, .filter-tab:hover {
+      background: rgba(0,255,178,0.08); border-color: rgba(0,255,178,0.25); color: var(--neon-green);
+    }
+    .sort-select {
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem;
+      padding: 8px 14px; border-radius: var(--radius-md); outline: none; cursor: pointer;
+    }
+    #deals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    @media (max-width: 1024px) { .deals-layout { grid-template-columns: 1fr; } .filters-sidebar { position: static; } #deals-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { #deals-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div class="bg-noise"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+    <div class="nav-links"><a href="index.html">Home</a><a href="deals.html" class="active">Deals</a><a href="store.html">Stores</a><a href="rewards.html">Rewards</a><a href="faq.html">FAQ</a></div>
+    <div class="nav-actions">
+      <div class="nav-coins" id="nav-coins" style="display:none;">💰 <span id="nav-coins-val">0</span></div>
+      <div id="nav-auth-links" style="display:flex;gap:8px;"><a href="login.html" class="btn btn-secondary btn-sm">Login</a><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></div>
+      <div id="nav-user-menu" style="display:none;gap:8px;align-items:center;"><a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a><button class="btn btn-secondary btn-sm btn-logout">Logout</button></div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+
+<div class="container deals-header">
+  <div class="animate-on-scroll"><span class="section-tag">🔥 Best Deals</span></div>
+  <h1 class="animate-on-scroll" style="margin-top:12px;">All <span class="gradient-text">Deals</span></h1>
+  <p class="animate-on-scroll" style="margin-top:8px; max-width:520px;">Compare prices across Amazon & Flipkart. Earn coins on every purchase through our affiliate links.</p>
+</div>
+
+<div class="container" style="padding-bottom: 100px;">
+  <div class="deals-layout">
+
+    <!-- Filters -->
+    <aside class="filters-sidebar animate-on-scroll">
+      <h3 style="margin-bottom:24px; font-size:1.1rem;">Filters</h3>
+
+      <div class="filter-group">
+        <div class="filter-heading">STORE</div>
+        <label class="filter-option"><input type="checkbox" checked> Amazon</label>
+        <label class="filter-option"><input type="checkbox" checked> Flipkart</label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-heading">CATEGORY</div>
+        <label class="filter-option"><input type="checkbox" checked> Electronics</label>
+        <label class="filter-option"><input type="checkbox"> Fashion</label>
+        <label class="filter-option"><input type="checkbox"> Home & Kitchen</label>
+        <label class="filter-option"><input type="checkbox"> Sports</label>
+        <label class="filter-option"><input type="checkbox"> Books</label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-heading">PRICE RANGE</div>
+        <input type="range" class="price-range" min="0" max="100000" value="100000" id="price-filter">
+        <div class="price-labels"><span>₹0</span><span id="price-val">₹1,00,000</span></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-heading">COINS REWARD</div>
+        <label class="filter-option"><input type="checkbox"> 10+ Coins</label>
+        <label class="filter-option"><input type="checkbox"> 50+ Coins</label>
+        <label class="filter-option"><input type="checkbox"> 100+ Coins</label>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%;" onclick="applyFilters()">Apply Filters</button>
+      <button class="btn btn-secondary" style="width:100%;margin-top:8px;" onclick="resetFilters()">Reset</button>
+    </aside>
+
+    <!-- Deals Grid -->
+    <div class="deals-main">
+      <div class="deals-toolbar">
+        <div class="filter-tabs">
+          <button class="filter-tab active">All</button>
+          <button class="filter-tab">Electronics</button>
+          <button class="filter-tab">Fashion</button>
+          <button class="filter-tab">Home</button>
+          <button class="filter-tab">Trending</button>
+        </div>
+        <select class="sort-select" id="sort-select">
+          <option>Sort: Best Savings</option>
+          <option>Sort: Price Low-High</option>
+          <option>Sort: Most Coins</option>
+          <option>Sort: Newest</option>
+        </select>
+      </div>
+      <div id="deals-grid"></div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="index.html" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a><p>Compare deals, earn coins, save money.</p></div>
+      <div class="footer-col"><h4>Platform</h4><a href="deals.html">All Deals</a><a href="store.html">Stores</a><a href="rewards.html">Rewards</a></div>
+      <div class="footer-col"><h4>Support</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 NeonMoney.</p><p><a href="disclaimer.html" style="color:var(--neon-green);text-decoration:none;">Affiliate Disclaimer</a></p></div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // Load all deals
+  const dealsGrid = document.getElementById('deals-grid');
+  if (dealsGrid && typeof DEMO_PRODUCTS !== 'undefined') {
+    renderProductCards(DEMO_PRODUCTS, dealsGrid);
+  }
+
+  // Price filter
+  const priceFilter = document.getElementById('price-filter');
+  const priceVal = document.getElementById('price-val');
+  if (priceFilter) {
+    priceFilter.addEventListener('input', () => {
+      priceVal.textContent = '₹' + parseInt(priceFilter.value).toLocaleString('en-IN');
+    });
+  }
+
+  function applyFilters() { showNotification && showNotification('✅ Filters applied!', 'success'); }
+  function resetFilters() { if(priceFilter) { priceFilter.value = 100000; priceVal.textContent = '₹1,00,000'; } }
+
+  window.addEventListener('load', () => {
+    if (dealsGrid && typeof DEMO_PRODUCTS !== 'undefined') renderProductCards(DEMO_PRODUCTS, dealsGrid);
+  });
+</script>
+</body>
+</html>

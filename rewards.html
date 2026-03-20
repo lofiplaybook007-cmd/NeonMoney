@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rewards — NeonMoney 💸</title>
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css">
+  <style>
+    .page-hero { padding: calc(var(--nav-height) + 60px) 0 60px; }
+    .coins-balance-bar { background:linear-gradient(135deg,rgba(0,255,178,0.08),rgba(124,58,237,0.08)); border:1px solid rgba(0,255,178,0.15); border-radius:var(--radius-xl); padding:36px 48px; display:flex; align-items:center; justify-content:space-between; margin-bottom:60px; }
+    .bal-num { font-family:var(--font-display); font-size:3rem; font-weight:900; color:var(--neon-green); }
+    .bal-label { font-family:var(--font-display); font-size:0.65rem; letter-spacing:0.15em; color:var(--text-muted); }
+    .reward-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-xl); padding:28px; text-align:center; transition:var(--transition); }
+    .reward-card:hover { border-color:rgba(0,255,178,0.2); transform:translateY(-6px); box-shadow:var(--shadow-green); }
+    .reward-icon { font-size:3rem; margin-bottom:16px; display:block; }
+    .reward-name { font-family:var(--font-body); font-size:1rem; font-weight:700; margin-bottom:8px; }
+    .reward-cost { font-family:var(--font-display); font-size:1.4rem; font-weight:900; color:var(--neon-yellow); margin-bottom:16px; }
+    .reward-desc { font-size:0.85rem; color:var(--text-muted); font-family:var(--font-ui); margin-bottom:20px; }
+  </style>
+</head>
+<body>
+<div class="bg-mesh"></div><div class="bg-noise"></div>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+    <div class="nav-links"><a href="index.html">Home</a><a href="deals.html">Deals</a><a href="store.html">Stores</a><a href="rewards.html" class="active">Rewards</a><a href="faq.html">FAQ</a></div>
+    <div class="nav-actions">
+      <div class="nav-coins" id="nav-coins" style="display:none;">💰 <span id="nav-coins-val">0</span></div>
+      <div id="nav-auth-links" style="display:flex;gap:8px;"><a href="login.html" class="btn btn-secondary btn-sm">Login</a><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></div>
+      <div id="nav-user-menu" style="display:none;gap:8px;align-items:center;"><a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a><button class="btn btn-secondary btn-sm btn-logout">Logout</button></div>
+    </div>
+  </div>
+</nav>
+
+<div class="container page-hero">
+  <span class="section-tag animate-on-scroll">🎁 Coin Rewards</span>
+  <h1 class="animate-on-scroll" style="margin-top:12px;">Redeem Your <span class="gradient-text">Coins</span></h1>
+  <p class="animate-on-scroll" style="margin-top:8px;max-width:500px;">Turn your coins into real value — gift cards, mobile recharges, and exclusive deals.</p>
+</div>
+
+<div class="container" style="padding-bottom:100px;">
+  <!-- Balance Bar -->
+  <div class="coins-balance-bar animate-on-scroll">
+    <div>
+      <div class="bal-label">YOUR BALANCE</div>
+      <div class="bal-num">1,250 💰</div>
+      <div style="font-family:var(--font-ui);font-size:0.85rem;color:var(--text-secondary);margin-top:4px;">800 confirmed · 350 pending · 100 expiring soon</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:var(--font-display);font-size:0.7rem;color:var(--text-muted);margin-bottom:8px;">COIN → VALUE</div>
+      <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--text-primary);">100 coins = ₹10</div>
+      <div style="font-size:0.78rem;color:var(--text-muted);font-family:var(--font-ui);margin-top:4px;">Min. redemption: 500 coins</div>
+    </div>
+    <a href="dashboard.html" class="btn btn-primary btn-lg btn-ripple">Earn More Coins →</a>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="filter-tabs animate-on-scroll" style="margin-bottom:32px;">
+    <button class="filter-tab active">All</button>
+    <button class="filter-tab">Gift Cards</button>
+    <button class="filter-tab">Recharge</button>
+    <button class="filter-tab">Exclusive Deals</button>
+  </div>
+
+  <!-- Reward Cards -->
+  <div class="grid-4">
+    <div class="reward-card animate-on-scroll delay-1">
+      <span class="reward-icon">🛒</span>
+      <div class="reward-name">Amazon Gift Card</div>
+      <div class="reward-cost">500 💰</div>
+      <div class="reward-desc">Get a ₹50 Amazon voucher. Valid for 1 year.</div>
+      <button class="btn btn-primary btn-ripple" style="width:100%;" onclick="redeemReward('Amazon Gift Card', 500)">Redeem</button>
+    </div>
+    <div class="reward-card animate-on-scroll delay-2">
+      <span class="reward-icon">🛍️</span>
+      <div class="reward-name">Flipkart Voucher</div>
+      <div class="reward-cost">500 💰</div>
+      <div class="reward-desc">₹50 off your next Flipkart order.</div>
+      <button class="btn btn-primary btn-ripple" style="width:100%;" onclick="redeemReward('Flipkart Voucher', 500)">Redeem</button>
+    </div>
+    <div class="reward-card animate-on-scroll delay-3">
+      <span class="reward-icon">📱</span>
+      <div class="reward-name">Mobile Recharge</div>
+      <div class="reward-cost">1000 💰</div>
+      <div class="reward-desc">₹100 recharge for any network.</div>
+      <button class="btn btn-primary btn-ripple" style="width:100%;" onclick="redeemReward('Mobile Recharge', 1000)">Redeem</button>
+    </div>
+    <div class="reward-card animate-on-scroll delay-4">
+      <span class="reward-icon">🎮</span>
+      <div class="reward-name">Google Play Credit</div>
+      <div class="reward-cost">750 💰</div>
+      <div class="reward-desc">₹75 Google Play Store credit.</div>
+      <button class="btn btn-primary btn-ripple" style="width:100%;" onclick="redeemReward('Google Play Credit', 750)">Redeem</button>
+    </div>
+    <div class="reward-card animate-on-scroll delay-1">
+      <span class="reward-icon">☕</span>
+      <div class="reward-name">Swiggy Voucher</div>
+      <div class="reward-cost">600 💰</div>
+      <div class="reward-desc">₹60 off on food orders.</div>
+      <button class="btn btn-primary btn-ripple" style="width:100%;" onclick="redeemReward('Swiggy Voucher', 600)">Redeem</button>
+    </div>
+    <div class="reward-card animate-on-scroll delay-2">
+      <span class="reward-icon">🎬</span>
+      <div class="reward-name">OTT Subscription</div>
+      <div class="reward-cost">2000 💰</div>
+      <div class="reward-desc">1 month Netflix/Prime access.</div>
+      <button class="btn btn-secondary btn-ripple" style="width:100%;" onclick="showNotification('Need 2000 coins. You have 1250.', 'error')">2000 Coins Needed</button>
+    </div>
+    <div class="reward-card animate-on-scroll delay-3">
+      <span class="reward-icon">⚡</span>
+      <div class="reward-name">Flash Deal Access</div>
+      <div class="reward-cost">250 💰</div>
+      <div class="reward-desc">Unlock exclusive 24h flash deals.</div>
+      <button class="btn btn-purple btn-ripple" style="width:100%;" onclick="redeemReward('Flash Deal Access', 250)">Redeem</button>
+    </div>
+    <div class="reward-card animate-on-scroll delay-4">
+      <span class="reward-icon">🎁</span>
+      <div class="reward-name">Mystery Box</div>
+      <div class="reward-cost">1500 💰</div>
+      <div class="reward-desc">Random reward worth ₹150+!</div>
+      <button class="btn btn-secondary btn-ripple" style="width:100%;" onclick="showNotification('Need 1500 coins.', 'error')">1500 Coins Needed</button>
+    </div>
+  </div>
+
+  <!-- How coins work -->
+  <div class="glass-card animate-on-scroll" style="padding:40px;margin-top:60px;">
+    <h3 style="font-family:var(--font-body);font-weight:700;margin-bottom:8px;">📋 How Coins Work</h3>
+    <div class="grid-3" style="margin-top:24px;">
+      <div><div style="font-size:1.5rem;margin-bottom:8px;">🛒</div><h4 style="font-size:0.95rem;margin-bottom:6px;">Earn by Shopping</h4><p style="font-size:0.85rem;">Buy through our affiliate links and earn coins based on the product value.</p></div>
+      <div><div style="font-size:1.5rem;margin-bottom:8px;">⏳</div><h4 style="font-size:0.95rem;margin-bottom:6px;">Coins go Pending</h4><p style="font-size:0.85rem;">Coins stay pending for 15–30 days while the return window is open on the store.</p></div>
+      <div><div style="font-size:1.5rem;margin-bottom:8px;">✅</div><h4 style="font-size:0.95rem;margin-bottom:6px;">Confirmed & Redeemable</h4><p style="font-size:0.85rem;">Once confirmed, redeem for gift cards, recharges, or exclusive deals anytime.</p></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="index.html" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a><p>Real rewards for smart shopping.</p></div>
+      <div class="footer-col"><h4>Platform</h4><a href="deals.html">Deals</a><a href="rewards.html">Rewards</a><a href="dashboard.html">Dashboard</a></div>
+      <div class="footer-col"><h4>Support</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 NeonMoney.</p></div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  function redeemReward(name, cost) {
+    showNotification(`🎁 Redeeming ${name} for ${cost} coins... (Login required)`, 'success');
+  }
+</script>
+</body>
+</html>

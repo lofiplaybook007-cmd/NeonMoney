@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stores — Amazon & Flipkart Deals | NeonMoney</title>
+  <meta name="description" content="Browse top deals from Amazon and Flipkart. Compare prices, earn coins, and save big with NeonMoney.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .store-hero { padding: calc(var(--nav-height) + 60px) 0 50px; text-align: center; }
+    .store-hero h1 { font-size: clamp(2rem,5vw,3.2rem); margin-bottom: 14px; }
+    .store-hero p { color: var(--text-secondary); font-size: 1.05rem; max-width: 520px; margin: 0 auto; }
+
+    /* Store Tabs */
+    .store-tabs { padding: 20px 0 40px; }
+    .store-tab-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .store-tab {
+      display: flex; align-items: center; gap: 12px; padding: 16px 28px;
+      border-radius: var(--radius-xl); border: 2px solid rgba(255,255,255,0.08);
+      background: rgba(15,23,42,0.5); cursor: pointer; transition: all 0.3s;
+      font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.06em;
+      min-width: 200px; justify-content: center;
+    }
+    .store-tab .store-logo { font-size: 1.8rem; }
+    .store-tab .store-name { font-size: 1rem; }
+    .store-tab .store-deals-count { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+    .store-tab:hover, .store-tab.active {
+      border-color: var(--tab-color, var(--neon-green));
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      transform: translateY(-3px);
+    }
+    .store-tab.amazon.active { --tab-color: #FF9900; box-shadow: 0 0 30px rgba(255,153,0,0.2); border-color: #FF9900; }
+    .store-tab.flipkart.active { --tab-color: #2874F0; box-shadow: 0 0 30px rgba(40,116,240,0.2); border-color: #2874F0; }
+    .store-tab.both.active { border-color: var(--neon-green); box-shadow: var(--shadow-green); }
+
+    /* Stats bar */
+    .store-stats-bar {
+      display: flex; gap: 0; background: rgba(15,23,42,0.6);
+      border: 1px solid rgba(255,255,255,0.07); border-radius: var(--radius-xl);
+      overflow: hidden; margin-bottom: 40px;
+    }
+    .store-stat {
+      flex: 1; padding: 20px; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .store-stat:last-child { border-right: none; }
+    .store-stat .sstat-num { font-family: var(--font-display); font-size: 1.6rem; font-weight: 900; }
+    .store-stat .sstat-label { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
+
+    /* Store header */
+    .store-section-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+    }
+    .store-badge {
+      display: flex; align-items: center; gap: 10px; padding: 10px 20px;
+      border-radius: var(--radius-lg); font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.06em;
+    }
+    .store-badge.amazon { background: rgba(255,153,0,0.1); border: 1px solid rgba(255,153,0,0.25); color: #FF9900; }
+    .store-badge.flipkart { background: rgba(40,116,240,0.1); border: 1px solid rgba(40,116,240,0.25); color: #2874F0; }
+    .store-badge.both { background: rgba(0,255,178,0.07); border: 1px solid rgba(0,255,178,0.2); color: var(--neon-green); }
+
+    /* Filter row */
+    .filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+    .filter-chip {
+      padding: 7px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04); color: var(--text-secondary);
+      font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: rgba(0,255,178,0.1); border-color: rgba(0,255,178,0.3); color: var(--neon-green);
+    }
+
+    /* Products grid */
+    .store-products { padding-bottom: 80px; }
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+    /* Store info banner */
+    .store-info-banner {
+      border-radius: var(--radius-xl); padding: 28px 32px; margin-bottom: 32px;
+      display: flex; align-items: center; gap: 20px;
+    }
+    .store-info-banner.amazon { background: rgba(255,153,0,0.05); border: 1px solid rgba(255,153,0,0.15); }
+    .store-info-banner.flipkart { background: rgba(40,116,240,0.05); border: 1px solid rgba(40,116,240,0.15); }
+    .banner-icon { font-size: 3rem; flex-shrink: 0; }
+    .banner-text h3 { font-family: var(--font-display); font-size: 1rem; margin-bottom: 6px; }
+    .banner-text p { color: var(--text-secondary); font-size: 0.88rem; margin: 0; }
+    .banner-perks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .perk { padding: 4px 12px; border-radius: 100px; font-size: 0.76rem; background: rgba(255,255,255,0.06); color: var(--text-secondary); }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .empty-state .es-icon { font-size: 3rem; margin-bottom: 16px; }
+
+    @media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } .store-stats-bar { flex-wrap: wrap; } }
+    @media (max-width: 480px) { .products-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="deals.html">Deals</a>
+      <a href="store.html" class="active">Stores</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <div class="nav-coins" id="nav-coins" style="display:none;">💰 <span id="nav-coins-val">0</span></div>
+      <div id="nav-auth-links" style="display:flex; gap:8px;">
+        <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+        <a href="signup.html" class="btn btn-primary btn-sm">Sign Up Free</a>
+      </div>
+      <div id="nav-user-menu" style="display:none; gap:8px; align-items:center;">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+        <button class="btn btn-secondary btn-sm btn-logout">Logout</button>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+
+<div class="store-hero">
+  <div class="container">
+    <h1 class="gradient-text animate-on-scroll">Shop Smarter at Every Store</h1>
+    <p class="animate-on-scroll">Browse deals from India's top platforms, earn coins on every purchase, and never overpay again.</p>
+  </div>
+</div>
+
+<div class="store-tabs">
+  <div class="container">
+    <div class="store-tab-row animate-on-scroll">
+      <div class="store-tab both active" data-store="both" onclick="switchStore('both')">
+        <div class="store-logo">⚡</div>
+        <div>
+          <div class="store-name">All Stores</div>
+          <div class="store-deals-count">Best deals across platforms</div>
+        </div>
+      </div>
+      <div class="store-tab amazon" data-store="amazon" onclick="switchStore('amazon')">
+        <div class="store-logo">🛒</div>
+        <div>
+          <div class="store-name">Amazon</div>
+          <div class="store-deals-count" id="amazon-count">Loading deals...</div>
+        </div>
+      </div>
+      <div class="store-tab flipkart" data-store="flipkart" onclick="switchStore('flipkart')">
+        <div class="store-logo">🛍️</div>
+        <div>
+          <div class="store-name">Flipkart</div>
+          <div class="store-deals-count" id="flipkart-count">Loading deals...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="store-products">
+  <div class="container">
+
+    <!-- Stats bar -->
+    <div class="store-stats-bar animate-on-scroll">
+      <div class="store-stat">
+        <div class="sstat-num" style="color:var(--neon-green);" id="stat-deals">24</div>
+        <div class="sstat-label">Live Deals</div>
+      </div>
+      <div class="store-stat">
+        <div class="sstat-num" style="color:#FF9900;">₹1,200</div>
+        <div class="sstat-label">Avg. Savings</div>
+      </div>
+      <div class="store-stat">
+        <div class="sstat-num" style="color:var(--neon-purple);" id="stat-coins">500</div>
+        <div class="sstat-label">Max Coins per Deal</div>
+      </div>
+      <div class="store-stat">
+        <div class="sstat-num" style="color:var(--neon-blue);">2hrs</div>
+        <div class="sstat-label">Avg. Price Update</div>
+      </div>
+    </div>
+
+    <!-- Store info banner (dynamic) -->
+    <div id="store-info-banner" class="store-info-banner both animate-on-scroll" style="background:rgba(0,255,178,0.04);border:1px solid rgba(0,255,178,0.12);">
+      <div class="banner-icon">⚡</div>
+      <div class="banner-text">
+        <h3>Comparing All Stores</h3>
+        <p>Showing the absolute best deals across Amazon and Flipkart right now.</p>
+        <div class="banner-perks">
+          <span class="perk">🔥 Best Price Guaranteed</span>
+          <span class="perk">💰 Earn Coins</span>
+          <span class="perk">🔄 Updated Every 2hrs</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter row -->
+    <div class="filter-row animate-on-scroll" id="filter-row">
+      <div class="filter-chip active" onclick="filterCat(this,'all')">🛍️ All Categories</div>
+      <div class="filter-chip" onclick="filterCat(this,'electronics')">📱 Electronics</div>
+      <div class="filter-chip" onclick="filterCat(this,'audio')">🎧 Audio</div>
+      <div class="filter-chip" onclick="filterCat(this,'fashion')">👟 Fashion</div>
+      <div class="filter-chip" onclick="filterCat(this,'home')">🏠 Home</div>
+    </div>
+
+    <!-- Section header -->
+    <div class="store-section-header">
+      <div class="store-badge both" id="section-badge">⚡ ALL STORES</div>
+      <div style="color:var(--text-muted);font-size:0.88rem;" id="product-count-label">Showing 24 deals</div>
+    </div>
+
+    <!-- Products grid -->
+    <div class="products-grid" id="store-products-grid">
+      <!-- Rendered by JS -->
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:12px; display:inline-flex;"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+        <p>We help users save money by finding the best deals and rewarding them with coins for smart shopping.</p>
+      </div>
+      <div class="footer-col"><h4>Platform</h4><a href="deals.html">All Deals</a><a href="store.html">Stores</a><a href="rewards.html">Rewards</a><a href="dashboard.html">Dashboard</a></div>
+      <div class="footer-col"><h4>Support</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a><a href="about.html">About Us</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 NeonMoney. All rights reserved.</p>
+      <p>We earn through affiliate links. <a href="disclaimer.html" style="color:var(--neon-green);text-decoration:none;">Read Disclaimer</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/deals.js"></script>
+<script>
+  let currentStore = 'both';
+  let currentCat = 'all';
+
+  const STORE_PRODUCTS = [
+    { id: 1, name: 'Sony WH-1000XM5', emoji: '🎧', cat: 'audio', amazon: 29990, flipkart: 27990, coins: 150, badge: '🔥 HOT' },
+    { id: 2, name: 'Samsung 65" 4K TV', emoji: '📺', cat: 'electronics', amazon: 64999, flipkart: 61999, coins: 350, badge: '⚡ FLASH' },
+    { id: 3, name: 'Apple AirPods Pro', emoji: '🎵', cat: 'audio', amazon: 24900, flipkart: 23499, coins: 120, badge: '🍎 APPLE' },
+    { id: 4, name: 'Nike Air Max 270', emoji: '👟', cat: 'fashion', amazon: 9995, flipkart: 8999, coins: 50, badge: '👟 KICKS' },
+    { id: 5, name: 'boAt Rockerz 450', emoji: '🎵', cat: 'audio', amazon: 1999, flipkart: 1799, coins: 20, badge: '🇮🇳 DESI' },
+    { id: 6, name: 'Xiaomi 13 Pro', emoji: '📱', cat: 'electronics', amazon: 49999, flipkart: 47999, coins: 250, badge: '📱 PHONE' },
+    { id: 7, name: 'JBL Charge 5', emoji: '🔊', cat: 'audio', amazon: 13999, flipkart: 12999, coins: 70, badge: '🔊 SOUND' },
+    { id: 8, name: 'Adidas Ultraboost', emoji: '👟', cat: 'fashion', amazon: 12999, flipkart: 11999, coins: 65, badge: '🔥 HOT' },
+    { id: 9, name: 'OnePlus 12R', emoji: '📱', cat: 'electronics', amazon: 39999, flipkart: 38499, coins: 200, badge: '⚡ DEAL' },
+    { id: 10, name: 'Philips Air Fryer', emoji: '🍳', cat: 'home', amazon: 7999, flipkart: 7499, coins: 40, badge: '🏠 HOME' },
+    { id: 11, name: 'iRobot Roomba i3', emoji: '🤖', cat: 'home', amazon: 29999, flipkart: 28499, coins: 150, badge: '🤖 TECH' },
+    { id: 12, name: 'Bose QuietComfort 45', emoji: '🎧', cat: 'audio', amazon: 34900, flipkart: 32999, coins: 175, badge: '🎵 AUDIO' },
+  ];
+
+  function renderStoreProducts() {
+    const grid = document.getElementById('store-products-grid');
+    let filtered = STORE_PRODUCTS.filter(p => {
+      const catOk = currentCat === 'all' || p.cat === currentCat;
+      return catOk;
+    });
+
+    // Determine best price per store
+    filtered = filtered.map(p => {
+      const bestStore = p.amazon <= p.flipkart ? 'amazon' : 'flipkart';
+      const bestPrice = Math.min(p.amazon, p.flipkart);
+      const worstPrice = Math.max(p.amazon, p.flipkart);
+      const savingAmt = worstPrice - bestPrice;
+      const savingPct = Math.round((savingAmt / worstPrice) * 100);
+      return { ...p, bestStore, bestPrice, savingAmt, savingPct };
+    });
+
+    // Filter by store
+    if (currentStore === 'amazon') {
+      filtered = filtered.filter(() => true); // show all but highlight amazon
+    } else if (currentStore === 'flipkart') {
+      filtered = filtered.filter(() => true);
+    }
+
+    document.getElementById('product-count-label').textContent = `Showing ${filtered.length} deals`;
+    document.getElementById('stat-deals').textContent = filtered.length;
+
+    grid.innerHTML = filtered.map(p => {
+      const highlightAmazon = currentStore === 'amazon' || currentStore === 'both';
+      const highlightFlipkart = currentStore === 'flipkart' || currentStore === 'both';
+      return `
+        <div class="product-card animate-on-scroll" style="cursor:pointer;">
+          <div class="pc-badge">${p.badge}</div>
+          <div class="pc-img">${p.emoji}</div>
+          <h3 class="pc-name">${p.name}</h3>
+          <div class="pc-prices">
+            <div class="pc-price-row ${highlightAmazon && p.bestStore==='amazon' ? 'best' : ''}">
+              <span style="font-size:0.75rem;color:${p.bestStore==='amazon'?'#FF9900':'var(--text-muted)'};">🛒 Amazon</span>
+              <span style="font-weight:700;color:${p.bestStore==='amazon'?'#FF9900':'var(--text-muted)'};">₹${p.amazon.toLocaleString('en-IN')}</span>
+              ${p.bestStore==='amazon' ? '<span class="best-tag">BEST</span>' : ''}
+            </div>
+            <div class="pc-price-row ${highlightFlipkart && p.bestStore==='flipkart' ? 'best' : ''}">
+              <span style="font-size:0.75rem;color:${p.bestStore==='flipkart'?'#2874F0':'var(--text-muted)'};">🛍️ Flipkart</span>
+              <span style="font-weight:700;color:${p.bestStore==='flipkart'?'#2874F0':'var(--text-muted)'};">₹${p.flipkart.toLocaleString('en-IN')}</span>
+              ${p.bestStore==='flipkart' ? '<span class="best-tag">BEST</span>' : ''}
+            </div>
+          </div>
+          <div class="pc-saving">Save ₹${p.savingAmt.toLocaleString('en-IN')} (${p.savingPct}% off)</div>
+          <div class="pc-coins">💰 Earn ${p.coins} Coins</div>
+          <a href="deals.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:12px;font-size:0.82rem;padding:10px;">🛒 Best Deal</a>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function switchStore(store) {
+    currentStore = store;
+    document.querySelectorAll('.store-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.store-tab[data-store="${store}"]`).classList.add('active');
+
+    const banner = document.getElementById('store-info-banner');
+    const badge = document.getElementById('section-badge');
+    if (store === 'amazon') {
+      banner.className = 'store-info-banner amazon animate-on-scroll visible';
+      banner.innerHTML = `<div class="banner-icon">🛒</div><div class="banner-text"><h3 style="color:#FF9900;">Amazon Deals</h3><p>Top deals from Amazon India. Click any product to go directly to Amazon.</p><div class="banner-perks"><span class="perk">🚚 Prime Delivery</span><span class="perk">✅ Amazon Choice</span><span class="perk">💰 Earn Coins</span></div></div>`;
+      badge.className = 'store-badge amazon';
+      badge.innerHTML = '🛒 AMAZON DEALS';
+      document.getElementById('stat-deals').style.color = '#FF9900';
+    } else if (store === 'flipkart') {
+      banner.className = 'store-info-banner flipkart animate-on-scroll visible';
+      banner.innerHTML = `<div class="banner-icon">🛍️</div><div class="banner-text"><h3 style="color:#2874F0;">Flipkart Deals</h3><p>Top deals from Flipkart India. Click any product to go directly to Flipkart.</p><div class="banner-perks"><span class="perk">⚡ Flipkart Plus</span><span class="perk">🛡️ Buyer Protection</span><span class="perk">💰 Earn Coins</span></div></div>`;
+      badge.className = 'store-badge flipkart';
+      badge.innerHTML = '🛍️ FLIPKART DEALS';
+      document.getElementById('stat-deals').style.color = '#2874F0';
+    } else {
+      banner.className = 'store-info-banner both animate-on-scroll visible';
+      banner.innerHTML = `<div class="banner-icon">⚡</div><div class="banner-text"><h3>Comparing All Stores</h3><p>Showing the absolute best deals across Amazon and Flipkart right now.</p><div class="banner-perks"><span class="perk">🔥 Best Price Guaranteed</span><span class="perk">💰 Earn Coins</span><span class="perk">🔄 Updated Every 2hrs</span></div></div>`;
+      badge.className = 'store-badge both';
+      badge.innerHTML = '⚡ ALL STORES';
+      document.getElementById('stat-deals').style.color = 'var(--neon-green)';
+    }
+    renderStoreProducts();
+  }
+
+  function filterCat(el, cat) {
+    currentCat = cat;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    renderStoreProducts();
+  }
+
+  // Init
+  document.addEventListener('DOMContentLoaded', () => {
+    const amazonCount = STORE_PRODUCTS.length;
+    const flipkartCount = STORE_PRODUCTS.length;
+    document.getElementById('amazon-count').textContent = amazonCount + ' active deals';
+    document.getElementById('flipkart-count').textContent = flipkartCount + ' active deals';
+    renderStoreProducts();
+  });
+</script>
+<style>
+  .pc-price-row { display: flex; align-items: center; gap: 8px; justify-content: space-between; padding: 6px 0; }
+  .best-tag { font-family: var(--font-display); font-size: 0.62rem; background: rgba(0,255,178,0.12); color: var(--neon-green); padding: 2px 7px; border-radius: 100px; letter-spacing: 0.06em; }
+</style>
+</body>
+</html>
