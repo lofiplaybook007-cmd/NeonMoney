@@ -8,7 +8,19 @@
   <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css">
   <style>
     .page-hero { padding: calc(var(--nav-height) + 60px) 0 60px; }
-    .coins-balance-bar { background:linear-gradient(135deg,rgba(0,255,178,0.08),rgba(124,58,237,0.08)); border:1px solid rgba(0,255,178,0.15); border-radius:var(--radius-xl); padding:36px 48px; display:flex; align-items:center; justify-content:space-between; margin-bottom:60px; }
+    
+    .coins-balance-bar { 
+      background: linear-gradient(135deg,rgba(0,255,178,0.08),rgba(124,58,237,0.08)); 
+      border: 1px solid rgba(0,255,178,0.15); 
+      border-radius: var(--radius-xl); 
+      padding: 36px 48px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      margin-bottom: 60px; 
+      gap: 20px; /* Added gap to prevent things from touching */
+    }
+    
     .bal-num { font-family:var(--font-display); font-size:3rem; font-weight:900; color:var(--neon-green); }
     .bal-label { font-family:var(--font-display); font-size:0.65rem; letter-spacing:0.15em; color:var(--text-muted); }
     .reward-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-xl); padding:28px; text-align:center; transition:var(--transition); }
@@ -17,6 +29,20 @@
     .reward-name { font-family:var(--font-body); font-size:1rem; font-weight:700; margin-bottom:8px; }
     .reward-cost { font-family:var(--font-display); font-size:1.4rem; font-weight:900; color:var(--neon-yellow); margin-bottom:16px; }
     .reward-desc { font-size:0.85rem; color:var(--text-muted); font-family:var(--font-ui); margin-bottom:20px; }
+
+    /* --- MOBILE FIX --- */
+    @media (max-width: 768px) {
+      .coins-balance-bar {
+        flex-direction: column; /* Stacks the items vertically */
+        text-align: center; /* Centers the text */
+        padding: 24px; /* Shrinks the padding slightly for phones */
+      }
+      .coins-balance-bar > div {
+        text-align: center !important; /* Forces the inner text to center */
+        margin-bottom: 16px; /* Adds space between the stacked items */
+      }
+      .bal-num { font-size: 2.2rem; } /* Makes the giant number a little smaller on phones */
+    }
   </style>
   <link rel="icon" type="image/png" href="logo.png">
 </head>
@@ -46,14 +72,18 @@
     <div>
       <div class="bal-label">YOUR BALANCE</div>
       <div class="bal-num">1,250 💰</div>
-      <div style="font-family:var(--font-ui);font-size:0.85rem;color:var(--text-secondary);margin-top:4px;">800 confirmed · 350 pending · 100 expiring soon</div>
+      <div style="font-family:var(--font-ui);font-size:0.85rem;color:var(--text-secondary);margin-top:4px;">800 confirmed · 350 pending</div>
     </div>
-    <div style="text-align:right;">
+    
+    <div>
       <div style="font-family:var(--font-display);font-size:0.7rem;color:var(--text-muted);margin-bottom:8px;">COIN → VALUE</div>
       <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--text-primary);">100 coins = ₹10</div>
       <div style="font-size:0.78rem;color:var(--text-muted);font-family:var(--font-ui);margin-top:4px;">Min. redemption: 500 coins</div>
     </div>
-    <a href="dashboard.html" class="btn btn-primary btn-lg btn-ripple">Earn More Coins →</a>
+
+    <div>
+      <a href="dashboard.html" class="btn btn-primary btn-lg btn-ripple">Earn More Coins →</a>
+    </div>
   </div>
 
   <!-- Filter Tabs -->
