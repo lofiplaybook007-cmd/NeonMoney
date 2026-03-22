@@ -139,7 +139,7 @@
       <div class="footer-col"><h4>Support</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
       <div class="footer-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a></div>
     </div>
-    <div class="footer-bottom"><p>© 2025 NeonMoney.</p><p><a href="disclaimer.html" style="color:var(--neon-green);text-decoration:none;">Affiliate Disclaimer</a></p></div>
+    <div class="footer-bottom"><p>© 2025 NeonMoney.</p></div>
   </div>
 </footer>
 
@@ -150,7 +150,7 @@
 <script src="deals.js"></script>
 
 <script>
-  // 1. Make the Price Slider dynamically update the text
+  // Filter Logic
   const priceFilter = document.getElementById('price-filter');
   const priceVal = document.getElementById('price-val');
   if (priceFilter) {
@@ -158,50 +158,32 @@
       priceVal.textContent = '₹' + parseInt(priceFilter.value).toLocaleString('en-IN');
     });
   }
-
-  // 2. The Apply Filters Button Magic
   function applyFilters() {
-    // Tell deals.js what the max price is
+    if(typeof dealsState === 'undefined') return;
     dealsState.priceMax = parseInt(document.getElementById('price-filter').value);
-
-    // Tell deals.js which category is checked
     if (document.getElementById('flt-cat-electronics').checked) dealsState.cat = 'electronics';
     else if (document.getElementById('flt-cat-audio').checked) dealsState.cat = 'audio';
     else if (document.getElementById('flt-cat-fashion').checked) dealsState.cat = 'fashion';
     else if (document.getElementById('flt-cat-home').checked) dealsState.cat = 'home';
-    else dealsState.cat = 'all'; // Default if none are checked
-
-    // Force deals.js to rebuild the screen with the new filters!
+    else dealsState.cat = 'all';
     dealsState.page = 1;
     renderDeals(document.getElementById('deals-grid'), null);
-
     if (typeof showNotification === 'function') showNotification('✅ Filters applied!', 'success');
   }
-
-  // 3. The Reset Button Magic
   function resetFilters() {
-    // Uncheck HTML boxes and reset slider
+    if(typeof dealsState === 'undefined') return;
     if(priceFilter) { priceFilter.value = 100000; priceVal.textContent = '₹1,00,000'; }
-    document.getElementById('flt-amazon').checked = true;
-    document.getElementById('flt-flipkart').checked = true;
-    document.getElementById('flt-cat-electronics').checked = false;
-    document.getElementById('flt-cat-audio').checked = false;
-    document.getElementById('flt-cat-fashion').checked = false;
-    document.getElementById('flt-cat-home').checked = false;
-
-    // Reset deals.js brain
+    ['flt-amazon','flt-flipkart'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = true; });
+    ['flt-cat-electronics','flt-cat-audio','flt-cat-fashion','flt-cat-home'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
     dealsState.priceMax = 100000;
     dealsState.cat = 'all';
     dealsState.page = 1;
-    
-    // Rebuild screen
     renderDeals(document.getElementById('deals-grid'), null);
   }
 </script>
 
 <script type='text/javascript'>
       var cId = '271764';
-
       (function(d, t) {
         var s = document.createElement('script');
         s.type = 'text/javascript';
