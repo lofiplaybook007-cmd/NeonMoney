@@ -241,8 +241,11 @@
 </footer>
 
 <script src="main.js"></script>
-<script src="auth.js"></script>
+<script type="module" src="auth.js"></script>
+<script src="spin.js"></script>
+<script src="alerts.js"></script>
 <script src="deals.js"></script>
+
 <script>
   let currentStore = 'both';
   let currentCat = 'all';
@@ -269,7 +272,6 @@
       return catOk;
     });
 
-    // Determine best price per store
     filtered = filtered.map(p => {
       const bestStore = p.amazon <= p.flipkart ? 'amazon' : 'flipkart';
       const bestPrice = Math.min(p.amazon, p.flipkart);
@@ -279,9 +281,8 @@
       return { ...p, bestStore, bestPrice, savingAmt, savingPct };
     });
 
-    // Filter by store
     if (currentStore === 'amazon') {
-      filtered = filtered.filter(() => true); // show all but highlight amazon
+      filtered = filtered.filter(() => true); 
     } else if (currentStore === 'flipkart') {
       filtered = filtered.filter(() => true);
     }
@@ -292,8 +293,15 @@
     grid.innerHTML = filtered.map(p => {
       const highlightAmazon = currentStore === 'amazon' || currentStore === 'both';
       const highlightFlipkart = currentStore === 'flipkart' || currentStore === 'both';
+      
+      // Auto-generate real Amazon & Flipkart search links!
+      const searchName = encodeURIComponent(p.name);
+      const finalLink = p.bestStore === 'amazon' 
+          ? `https://www.amazon.in/s?k=${searchName}` 
+          : `https://www.flipkart.com/search?q=${searchName}`;
+
       return `
-        <div class="product-card animate-on-scroll" style="cursor:pointer;">
+        <div class="product-card animate-on-scroll">
           <div class="pc-badge">${p.badge}</div>
           <div class="pc-img">${p.emoji}</div>
           <h3 class="pc-name">${p.name}</h3>
@@ -311,7 +319,7 @@
           </div>
           <div class="pc-saving">Save ₹${p.savingAmt.toLocaleString('en-IN')} (${p.savingPct}% off)</div>
           <div class="pc-coins">💰 Earn ${p.coins} Coins</div>
-          <a href="deals.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:12px;font-size:0.82rem;padding:10px;">🛒 Best Deal</a>
+          <a href="${finalLink}" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:12px;font-size:0.82rem;padding:10px;">🛒 Best Deal</a>
         </div>
       `;
     }).join('');
@@ -353,7 +361,6 @@
     renderStoreProducts();
   }
 
-  // Init
   document.addEventListener('DOMContentLoaded', () => {
     const amazonCount = STORE_PRODUCTS.length;
     const flipkartCount = STORE_PRODUCTS.length;
@@ -362,9 +369,21 @@
     renderStoreProducts();
   });
 </script>
+
 <style>
   .pc-price-row { display: flex; align-items: center; gap: 8px; justify-content: space-between; padding: 6px 0; }
   .best-tag { font-family: var(--font-display); font-size: 0.62rem; background: rgba(0,255,178,0.12); color: var(--neon-green); padding: 2px 7px; border-radius: 100px; letter-spacing: 0.06em; }
 </style>
+
+<script type='text/javascript'>
+      var cId = '271764';
+      (function(d, t) {
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = (document.location.protocol == 'https:' ? 'https://cdn0.cuelinks.com/js/' : 'http://cdn0.cuelinks.com/js/')  + 'cuelinksv2.js';
+        document.getElementsByTagName('body')[0].appendChild(s);
+      }());
+</script>
 </body>
 </html>
