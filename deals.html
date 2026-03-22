@@ -86,30 +86,22 @@
 
       <div class="filter-group">
         <div class="filter-heading">STORE</div>
-        <label class="filter-option"><input type="checkbox" checked> Amazon</label>
-        <label class="filter-option"><input type="checkbox" checked> Flipkart</label>
+        <label class="filter-option"><input type="checkbox" id="flt-amazon" checked> Amazon</label>
+        <label class="filter-option"><input type="checkbox" id="flt-flipkart" checked> Flipkart</label>
       </div>
 
       <div class="filter-group">
         <div class="filter-heading">CATEGORY</div>
-        <label class="filter-option"><input type="checkbox" checked> Electronics</label>
-        <label class="filter-option"><input type="checkbox"> Fashion</label>
-        <label class="filter-option"><input type="checkbox"> Home & Kitchen</label>
-        <label class="filter-option"><input type="checkbox"> Sports</label>
-        <label class="filter-option"><input type="checkbox"> Books</label>
+        <label class="filter-option"><input type="checkbox" id="flt-cat-electronics"> Electronics</label>
+        <label class="filter-option"><input type="checkbox" id="flt-cat-fashion"> Fashion</label>
+        <label class="filter-option"><input type="checkbox" id="flt-cat-home"> Home & Kitchen</label>
+        <label class="filter-option"><input type="checkbox" id="flt-cat-audio"> Audio</label>
       </div>
 
       <div class="filter-group">
         <div class="filter-heading">PRICE RANGE</div>
         <input type="range" class="price-range" min="0" max="100000" value="100000" id="price-filter">
         <div class="price-labels"><span>₹0</span><span id="price-val">₹1,00,000</span></div>
-      </div>
-
-      <div class="filter-group">
-        <div class="filter-heading">COINS REWARD</div>
-        <label class="filter-option"><input type="checkbox"> 10+ Coins</label>
-        <label class="filter-option"><input type="checkbox"> 50+ Coins</label>
-        <label class="filter-option"><input type="checkbox"> 100+ Coins</label>
       </div>
 
       <button class="btn btn-primary" style="width:100%;" onclick="applyFilters()">Apply Filters</button>
@@ -152,17 +144,13 @@
 </footer>
 
 <script src="main.js"></script>
-<script src="auth.js"></script>
+<script type="module" src="auth.js"></script>
 <script src="spin.js"></script>
 <script src="alerts.js"></script>
-<script>
-  // Load all deals
-  const dealsGrid = document.getElementById('deals-grid');
-  if (dealsGrid && typeof DEMO_PRODUCTS !== 'undefined') {
-    renderProductCards(DEMO_PRODUCTS, dealsGrid);
-  }
+<script src="deals.js"></script>
 
-  // Price filter
+<script>
+  // 1. Make the Price Slider dynamically update the text
   const priceFilter = document.getElementById('price-filter');
   const priceVal = document.getElementById('price-val');
   if (priceFilter) {
@@ -171,12 +159,44 @@
     });
   }
 
-  function applyFilters() { showNotification && showNotification('✅ Filters applied!', 'success'); }
-  function resetFilters() { if(priceFilter) { priceFilter.value = 100000; priceVal.textContent = '₹1,00,000'; } }
+  // 2. The Apply Filters Button Magic
+  function applyFilters() {
+    // Tell deals.js what the max price is
+    dealsState.priceMax = parseInt(document.getElementById('price-filter').value);
 
-  window.addEventListener('load', () => {
-    if (dealsGrid && typeof DEMO_PRODUCTS !== 'undefined') renderProductCards(DEMO_PRODUCTS, dealsGrid);
-  });
+    // Tell deals.js which category is checked
+    if (document.getElementById('flt-cat-electronics').checked) dealsState.cat = 'electronics';
+    else if (document.getElementById('flt-cat-audio').checked) dealsState.cat = 'audio';
+    else if (document.getElementById('flt-cat-fashion').checked) dealsState.cat = 'fashion';
+    else if (document.getElementById('flt-cat-home').checked) dealsState.cat = 'home';
+    else dealsState.cat = 'all'; // Default if none are checked
+
+    // Force deals.js to rebuild the screen with the new filters!
+    dealsState.page = 1;
+    renderDeals(document.getElementById('deals-grid'), null);
+
+    if (typeof showNotification === 'function') showNotification('✅ Filters applied!', 'success');
+  }
+
+  // 3. The Reset Button Magic
+  function resetFilters() {
+    // Uncheck HTML boxes and reset slider
+    if(priceFilter) { priceFilter.value = 100000; priceVal.textContent = '₹1,00,000'; }
+    document.getElementById('flt-amazon').checked = true;
+    document.getElementById('flt-flipkart').checked = true;
+    document.getElementById('flt-cat-electronics').checked = false;
+    document.getElementById('flt-cat-audio').checked = false;
+    document.getElementById('flt-cat-fashion').checked = false;
+    document.getElementById('flt-cat-home').checked = false;
+
+    // Reset deals.js brain
+    dealsState.priceMax = 100000;
+    dealsState.cat = 'all';
+    dealsState.page = 1;
+    
+    // Rebuild screen
+    renderDeals(document.getElementById('deals-grid'), null);
+  }
 </script>
 </body>
 </html>
