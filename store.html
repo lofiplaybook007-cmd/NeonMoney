@@ -96,13 +96,62 @@
 <div class="store-hero">
   <div class="container">
     <h1 class="gradient-text animate-on-scroll">Shop at 50+ Top Stores</h1>
-    <p class="animate-on-scroll">Click any store below to start shopping. You can buy <b>anything</b> (clothes, electronics, medicines, groceries) and you will automatically earn coins in your NeonMoney account!</p>
+    <p class="animate-on-scroll">Click any store below to start shopping. You can buy <b>anything</b> and you will automatically earn coins in your NeonMoney account!</p>
   </div>
 </div>
 
 <div class="container">
-  <div class="store-directory-grid" id="stores-container">
+  <div class="store-directory-grid">
+    
+    <div class="app-card animate-on-scroll">
+      <div class="app-icon">🛒</div>
+      <h3 class="app-name">Amazon</h3>
+      <div class="app-cat">Everything</div>
+      <div class="app-reward">Up to 50 Coins</div>
+      <a href="https://www.amazon.in" target="_blank" class="btn btn-primary" style="width: 100%;">Shop Now ↗</a>
     </div>
+
+    <div class="app-card animate-on-scroll">
+      <div class="app-icon">🛍️</div>
+      <h3 class="app-name">Flipkart</h3>
+      <div class="app-cat">Everything</div>
+      <div class="app-reward">Up to 50 Coins</div>
+      <a href="https://www.flipkart.com" target="_blank" class="btn btn-primary" style="width: 100%;">Shop Now ↗</a>
+    </div>
+
+    <div class="app-card animate-on-scroll">
+      <div class="app-icon">👚</div>
+      <h3 class="app-name">Meesho</h3>
+      <div class="app-cat">Fashion</div>
+      <div class="app-reward">Up to 80 Coins</div>
+      <a href="https://www.meesho.com" target="_blank" class="btn btn-primary" style="width: 100%;">Shop Now ↗</a>
+    </div>
+
+    <div class="app-card animate-on-scroll">
+      <div class="app-icon">💄</div>
+      <h3 class="app-name">Nykaa</h3>
+      <div class="app-cat">Beauty</div>
+      <div class="app-reward">Up to 60 Coins</div>
+      <a href="https://www.nykaa.com" target="_blank" class="btn btn-primary" style="width: 100%;">Shop Now ↗</a>
+    </div>
+
+    <div class="app-card animate-on-scroll">
+      <div class="app-icon">💊</div>
+      <h3 class="app-name">Tata 1mg</h3>
+      <div class="app-cat">Medicines</div>
+      <div class="app-reward">Up to 100 Coins</div>
+      <a href="https://www.1mg.com" target="_blank" class="btn btn-primary" style="width: 100%;">Shop Now ↗</a>
+    </div>
+
+    <div class="app-card animate-on-scroll">
+      <div class="app-icon">👗</div>
+      <h3 class="app-name">Myntra</h3>
+      <div class="app-cat">Fashion</div>
+      <div class="app-reward">Up to 60 Coins</div>
+      <a href="https://www.myntra.com" target="_blank" class="btn btn-primary" style="width: 100%;">Shop Now ↗</a>
+    </div>
+
+  </div>
 </div>
 
 <footer class="footer">
@@ -121,49 +170,6 @@
 <script type="module" src="auth.js"></script>
 <script src="spin.js"></script>
 <script src="alerts.js"></script>
-
-<script>
-  // This is your Database of Stores. You can add as many as you want here!
-  // Just put the normal URL. Cuelinks will do the rest automatically.
-  const ALL_STORES = [
-    { name: "Amazon", icon: "🛒", category: "Everything", reward: "Up to 50 Coins / ₹100", url: "https://www.amazon.in" },
-    { name: "Flipkart", icon: "🛍️", category: "Everything", reward: "Up to 50 Coins / ₹100", url: "https://www.flipkart.com" },
-    { name: "Meesho", icon: "👚", category: "Fashion", reward: "Up to 80 Coins / ₹100", url: "https://www.meesho.com" },
-    { name: "Nykaa", icon: "💄", category: "Beauty", reward: "Up to 60 Coins / ₹100", url: "https://www.nykaa.com" },
-    { name: "Tata 1mg", icon: "💊", category: "Medicines", reward: "Up to 100 Coins / ₹100", url: "https://www.1mg.com" },
-    { name: "Myntra", icon: "👗", category: "Fashion", reward: "Up to 60 Coins / ₹100", url: "https://www.myntra.com" },
-    { name: "Ajio", icon: "🕶️", category: "Fashion", reward: "Up to 70 Coins / ₹100", url: "https://www.ajio.com" },
-    { name: "Croma", icon: "💻", category: "Electronics", reward: "Up to 40 Coins / ₹100", url: "https://www.croma.com" },
-    { name: "Swiggy Instamart", icon: "🥦", category: "Groceries", reward: "Up to 30 Coins / ₹100", url: "https://www.swiggy.com/instamart" },
-    { name: "Blinkit", icon: "⚡", category: "Groceries", reward: "Up to 30 Coins / ₹100", url: "https://www.blinkit.com" },
-    { name: "MakeMyTrip", icon: "✈️", category: "Travel", reward: "Up to 150 Coins / Booking", url: "https://www.makemytrip.com" },
-    { name: "Boat Lifestyle", icon: "🎧", category: "Audio", reward: "Up to 90 Coins / ₹100", url: "https://www.boat-lifestyle.com" }
-  ];
-
-  // This function draws the stores on the screen
-  document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('stores-container');
-    container.innerHTML = ALL_STORES.map(store => `
-      <div class="app-card animate-on-scroll">
-        <div class="app-icon">${store.icon}</div>
-        <h3 class="app-name">${store.name}</h3>
-        <div class="app-cat">${store.category}</div>
-        <div class="app-reward">${store.reward}</div>
-        <button onclick="shopNow('${store.url}')" class="btn btn-primary" style="width: 100%;">Shop Now ↗</button>
-      </div>
-    `).join('');
-  });
-
-  // This function handles the click and opens the store
-  window.shopNow = function(url) {
-    if (typeof showNotification === 'function') {
-      showNotification('Redirecting... You will earn coins for any purchase!', 'success');
-    }
-    setTimeout(() => {
-      window.open(url, '_blank');
-    }, 800);
-  };
-</script>
 
 <script type='text/javascript'>
       var cId = '271764';
