@@ -333,11 +333,26 @@ function trackDealClick(id, store, e) {
   e.preventDefault();
   const deal = ALL_DEALS.find(d => d.id === id);
   if (!deal) return;
+
+  // 1. Show the cool notification
   if (typeof showNotification === 'function') {
-    showNotification(`🛒 Opening ${store === 'amazon' ? 'Amazon' : 'Flipkart'} deal — you'll earn ${deal.coins} coins after purchase!`, 'success');
+    showNotification(`🛒 Taking you to ${store === 'amazon' ? 'Amazon' : 'Flipkart'}...`, 'success');
   }
-  // In production: redirect to affiliate link
-  console.log(`[NeonMoney] Deal click tracked: ${deal.name} on ${store}`);
+
+  // 2. Build the real link to search for this exact product!
+  let outLink = '';
+  const searchName = encodeURIComponent(deal.name); // Makes it safe for URLs
+  
+  if (store === 'amazon') {
+    outLink = `https://www.amazon.in/s?k=${searchName}`;
+  } else {
+    outLink = `https://www.flipkart.com/search?q=${searchName}`;
+  }
+
+  // 3. Open the new tab after a tiny delay so they see the notification
+  setTimeout(() => {
+    window.open(outLink, '_blank');
+  }, 800);
 }
 
 function addPriceAlert(id) {
