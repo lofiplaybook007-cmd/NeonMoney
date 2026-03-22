@@ -329,7 +329,7 @@ function resetFilters() {
   if (container) renderDeals(container, pagination);
 }
 
-function trackDealClick(id, store, e) {
+window.trackDealClick = function(id, store, e) {
   e.preventDefault();
   const deal = ALL_DEALS.find(d => d.id === id);
   if (!deal) return;
@@ -341,7 +341,7 @@ function trackDealClick(id, store, e) {
 
   // 2. Build the real link to search for this exact product!
   let outLink = '';
-  const searchName = encodeURIComponent(deal.name); // Makes it safe for URLs
+  const searchName = encodeURIComponent(deal.name);
   
   if (store === 'amazon') {
     outLink = `https://www.amazon.in/s?k=${searchName}`;
@@ -349,12 +349,11 @@ function trackDealClick(id, store, e) {
     outLink = `https://www.flipkart.com/search?q=${searchName}`;
   }
 
-  // 3. Open the new tab after a tiny delay so they see the notification
+  // 3. Open the new tab after a tiny delay
   setTimeout(() => {
     window.open(outLink, '_blank');
   }, 800);
-}
-
+};
 function addPriceAlert(id) {
   const deal = ALL_DEALS.find(d => d.id === id);
   if (!deal) return;
