@@ -1,86 +1,76 @@
 /* ============================================================
-   NEON MONEYVERSE — AUTH JS
+   NEON MONEYVERSE — REAL FIREBASE AUTH JS
    ============================================================ */
 
 'use strict';
 
-// ── FIREBASE CONFIG (Replace with your actual config) ──────
-// import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.x/firebase-app.js';
-// import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
-//          signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from '...firebase-auth.js';
-//
-// const firebaseConfig = {
-//   apiKey: "YOUR_API_KEY",
-//   authDomain: "YOUR_DOMAIN.firebaseapp.com",
-//   projectId: "YOUR_PROJECT_ID",
-//   storageBucket: "YOUR_BUCKET.appspot.com",
-//   messagingSenderId: "YOUR_SENDER_ID",
-//   appId: "YOUR_APP_ID"
-// };
-// const app  = initializeApp(firebaseConfig);
-// const auth = getAuth(app);
+// 1. Import Firebase from the Web
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged, 
+  signOut,
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup
+} from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 
-// ── DEMO AUTH (Replace with Firebase) ─────────────────────
-const DEMO_USER = { email: 'demo@neonmoney.in', password: 'demo123', name: 'Demo User', coins: 1250 };
+// 2. Your Exact Firebase Keys
+const firebaseConfig = {
+  apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+  authDomain: "neonmoney-a2d18.firebaseapp.com",
+  projectId: "neonmoney-a2d18",
+  storageBucket: "neonmoney-a2d18.firebasestorage.app",
+  messagingSenderId: "759618988071",
+  appId: "1:759618988071:web:312dda665f3efb76bc4602",
+  measurementId: "G-9R99HC2B3V"
+};
 
-function getUser() {
-  try { return JSON.parse(sessionStorage.getItem('nm_user')); } catch { return null; }
-}
-function setUser(user) { sessionStorage.setItem('nm_user', JSON.stringify(user)); }
-function clearUser()   { sessionStorage.removeItem('nm_user'); }
+// 3. Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-// ── UPDATE NAV FOR LOGGED-IN STATE ─────────────────────────
-function updateNavAuth() {
-  const user = getUser();
+// ── UPDATE NAV & PROTECT PAGES (Runs Automatically) ────────
+onAuthStateChanged(auth, (user) => {
   const authLinks = document.getElementById('nav-auth-links');
   const userMenu  = document.getElementById('nav-user-menu');
   const coinsNav  = document.getElementById('nav-coins');
-  if (!authLinks && !userMenu) return;
+  const userName  = document.getElementById('nav-user-name');
+  const coinsVal  = document.getElementById('nav-coins-val');
+
   if (user) {
-    authLinks && (authLinks.style.display = 'none');
-    userMenu  && (userMenu.style.display  = 'flex');
-    coinsNav  && (coinsNav.style.display  = 'flex');
-    const coinsVal = document.getElementById('nav-coins-val');
-    if (coinsVal) coinsVal.textContent = (user.coins || 0).toLocaleString('en-IN');
-    const userName = document.getElementById('nav-user-name');
-    if (userName) userName.textContent = user.name || user.email;
+    // User is logged in! Show dashboard stuff
+    if (authLinks) authLinks.style.display = 'none';
+    if (userMenu)  userMenu.style.display  = 'flex';
+    if (coinsNav)  coinsNav.style.display  = 'flex';
+    
+    // Set Name (fallback to the first part of their email if no name is provided)
+    if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
+    
+    // Give them a starter balance for the UI since we just switched databases
+    if (coinsVal) coinsVal.textContent = "100"; 
   } else {
-    authLinks && (authLinks.style.display = 'flex');
-    userMenu  && (userMenu.style.display  = 'none');
-    coinsNav  && (coinsNav.style.display  = 'none');
-  }
-}
+    // User is logged out! Show login stuff
+    if (authLinks) authLinks.style.display = 'flex';
+    if (userMenu)  userMenu.style.display  = 'none';
+    if (coinsNav)  coinsNav.style.display  = 'none';
 
-// ── LOGIN FORM ─────────────────────────────────────────────
-const loginForm = document.getElementById('login-form');
-if (loginForm) {
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email    = loginForm.querySelector('#login-email').value.trim();
-    const password = loginForm.querySelector('#login-password').value;
-    const btnEl    = loginForm.querySelector('button[type=submit]');
-    const errEl    = document.getElementById('login-error');
-
-    btnEl.disabled = true; btnEl.textContent = 'Signing in...';
-    errEl && (errEl.style.display = 'none');
-
-    // Demo auth — replace with Firebase signInWithEmailAndPassword
-    await new Promise(r => setTimeout(r, 1000));
-    if (email === DEMO_USER.email && password === DEMO_USER.password) {
-      setUser(DEMO_USER);
-      window.location.href = 'dashboard.html';
-    } else {
-      errEl && (errEl.textContent = '❌ Invalid email or password.', errEl.style.display = 'block');
-      btnEl.disabled = false; btnEl.textContent = 'Sign In';
+    // Protect Dashboard: Kick them out if they try to sneak in without logging in
+    if (window.location.pathname.includes('dashboard.html')) {
+      window.location.href = 'login.html';
     }
-  });
-}
+  }
+});
 
 // ── SIGNUP FORM ────────────────────────────────────────────
 const signupForm = document.getElementById('signup-form');
 if (signupForm) {
-  signupForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  signupForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Stop page reload
+    
     const name     = signupForm.querySelector('#signup-name').value.trim();
     const email    = signupForm.querySelector('#signup-email').value.trim();
     const password = signupForm.querySelector('#signup-password').value;
@@ -88,52 +78,92 @@ if (signupForm) {
     const btnEl    = signupForm.querySelector('button[type=submit]');
     const errEl    = document.getElementById('signup-error');
 
-    errEl && (errEl.style.display = 'none');
+    if (errEl) errEl.style.display = 'none'; // Hide old errors
 
+    // Check passwords
     if (password !== confirm) {
-      errEl && (errEl.textContent = '❌ Passwords do not match.', errEl.style.display = 'block');
+      if (errEl) { errEl.textContent = '❌ Passwords do not match.'; errEl.style.display = 'block'; }
       return;
     }
     if (password.length < 6) {
-      errEl && (errEl.textContent = '❌ Password must be at least 6 characters.', errEl.style.display = 'block');
+      if (errEl) { errEl.textContent = '❌ Password must be at least 6 characters.'; errEl.style.display = 'block'; }
       return;
     }
 
-    btnEl.disabled = true; btnEl.textContent = 'Creating account...';
+    // Change button text so they know it's working
+    btnEl.disabled = true; 
+    btnEl.textContent = 'Creating account...';
 
-    // Demo — replace with Firebase createUserWithEmailAndPassword
-    await new Promise(r => setTimeout(r, 1200));
-    const newUser = { name, email, coins: 100, joinedDate: new Date().toISOString() };
-    setUser(newUser);
-    showNotification && showNotification('🎉 Welcome! You earned 100 signup coins!', 'success');
-    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+    // Tell Firebase to create the user!
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Attach their name to their new account
+        return updateProfile(userCredential.user, { displayName: name });
+      })
+      .then(() => {
+        if (typeof showNotification === 'function') showNotification('🎉 Welcome! Account created.', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 1000);
+      })
+      .catch((error) => {
+        // If Firebase throws an error (like "email already in use")
+        if (errEl) { errEl.textContent = '❌ ' + error.message; errEl.style.display = 'block'; }
+        btnEl.disabled = false; 
+        btnEl.textContent = 'Sign Up Free';
+      });
   });
 }
 
-// ── GOOGLE LOGIN ────────────────────────────────────────────
+// ── LOGIN FORM ─────────────────────────────────────────────
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email    = loginForm.querySelector('#login-email').value.trim();
+    const password = loginForm.querySelector('#login-password').value;
+    const btnEl    = loginForm.querySelector('button[type=submit]');
+    const errEl    = document.getElementById('login-error');
+
+    btnEl.disabled = true; 
+    btnEl.textContent = 'Signing in...';
+    if (errEl) errEl.style.display = 'none';
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        window.location.href = 'dashboard.html';
+      })
+      .catch((error) => {
+        if (errEl) { errEl.textContent = '❌ Invalid email or password.'; errEl.style.display = 'block'; }
+        btnEl.disabled = false; 
+        btnEl.textContent = 'Sign In ->';
+      });
+  });
+}
+
+// ── GOOGLE LOGIN (Bonus Feature!) ───────────────────────────
 document.querySelectorAll('.btn-google').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    btn.disabled = true; btn.innerHTML = '⏳ Connecting...';
-    // Replace with: const provider = new GoogleAuthProvider(); signInWithPopup(auth, provider)
-    await new Promise(r => setTimeout(r, 1500));
-    const googleUser = { name: 'Google User', email: 'user@gmail.com', coins: 100 };
-    setUser(googleUser);
-    window.location.href = 'dashboard.html';
+  btn.addEventListener('click', () => {
+    btn.disabled = true; 
+    btn.innerHTML = '⏳ Connecting...';
+    
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        window.location.href = 'dashboard.html';
+      })
+      .catch((error) => {
+        console.error(error);
+        btn.disabled = false; 
+        btn.innerHTML = 'Continue with Google';
+      });
   });
 });
 
 // ── LOGOUT ─────────────────────────────────────────────────
 document.querySelectorAll('.btn-logout').forEach(btn => {
   btn.addEventListener('click', () => {
-    clearUser();
-    window.location.href = 'index.html';
+    signOut(auth).then(() => {
+      window.location.href = 'index.html';
+    }).catch((error) => {
+      console.error("Logout Error", error);
+    });
   });
 });
-
-// ── PROTECT DASHBOARD ──────────────────────────────────────
-if (window.location.pathname.includes('dashboard')) {
-  if (!getUser()) window.location.href = 'login.html';
-}
-
-// ── INIT ───────────────────────────────────────────────────
-updateNavAuth();
