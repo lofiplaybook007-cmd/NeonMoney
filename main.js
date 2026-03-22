@@ -365,3 +365,82 @@ const toastCSS = `
 const style = document.createElement('style');
 style.textContent = toastCSS;
 document.head.appendChild(style);
+
+/* ============================================================
+   SMART SEARCH BAR LOGIC
+   ============================================================ */
+
+// 1. A mini-database of products to search through
+const sampleProducts = [
+    { name: "Sony WH-1000XM5 Headphones", img: "🎧", amz: "₹24,990", flip: "₹23,499", best: "Flipkart", save: "₹1,491" },
+    { name: "Nike Air Max 270 Shoes", img: "👟", amz: "₹11,495", flip: "₹10,499", best: "Flipkart", save: "₹996" },
+    { name: "Samsung 65-inch 4K TV", img: "📺", amz: "₹65,990", flip: "₹62,990", best: "Flipkart", save: "₹3,000" },
+    { name: "Apple AirPods Pro 2nd Gen", img: "🍎", amz: "₹20,900", flip: "₹19,500", best: "Flipkart", save: "₹1,400" },
+    { name: "JBL Flip 6 Bluetooth Speaker", img: "🔊", amz: "₹8,999", flip: "₹9,499", best: "Amazon", save: "₹500" }
+];
+
+// 2. The magic function that searches and shows results
+window.doSearch = function(query) {
+    if (!query) return;
+
+    // Find the hidden results section on the homepage
+    const resultsSection = document.getElementById('results-section');
+    const resultsTitle = document.getElementById('results-title');
+    const resultsGrid = document.getElementById('results-grid');
+
+    if (!resultsSection) return;
+
+    // Search the database (ignores uppercase/lowercase)
+    const lowerQuery = query.toLowerCase();
+    const matches = sampleProducts.filter(p => p.name.toLowerCase().includes(lowerQuery));
+
+    // Make the hidden results section visible!
+    resultsSection.style.display = 'block';
+
+    if (matches.length > 0) {
+        // Build the HTML cards for the exact products found
+        resultsTitle.innerHTML = `Found ${matches.length} best deals for "<span class="gradient-text">${query}</span>"`;
+        resultsGrid.innerHTML = matches.map(p => `
+            <div class="reward-card glass-card">
+                <div style="font-size: 3rem; margin-bottom: 16px;">${p.img}</div>
+                <h4 style="margin-bottom: 12px; font-family: var(--font-body);">${p.name}</h4>
+                <div style="display:flex; justify-content:space-between; font-size: 0.85rem; margin-bottom: 8px;">
+                    <span>🛒 Amazon:</span> <span style="${p.best === 'Amazon' ? 'color:var(--neon-green);font-weight:bold;' : 'color:var(--text-muted);'}">${p.amz}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size: 0.85rem; margin-bottom: 16px;">
+                    <span>🛍️ Flipkart:</span> <span style="${p.best === 'Flipkart' ? 'color:var(--neon-green);font-weight:bold;' : 'color:var(--text-muted);'}">${p.flip}</span>
+                </div>
+                <div style="background: rgba(0,255,178,0.08); color: var(--neon-green); padding: 8px; border-radius: 6px; font-size: 0.8rem; margin-bottom: 16px; border: 1px solid rgba(0,255,178,0.2);">
+                    Save <strong>${p.save}</strong> on ${p.best}
+                </div>
+                <a href="deals.html" class="btn btn-primary btn-sm" style="width: 100%; justify-content: center;">View Deal</a>
+            </div>
+        `).join('');
+    } else {
+        // What to show if they search for something we don't have yet
+        resultsTitle.innerHTML = `No live deals found for "${query}" right now.`;
+        resultsGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border);">
+                <div style="font-size: 2rem; margin-bottom: 12px;">⏳</div>
+                <p>We are currently scanning Amazon and Flipkart for the best prices. Check back soon!</p>
+                <a href="deals.html" class="btn btn-secondary" style="margin-top: 16px;">Browse All Deals</a>
+            </div>
+        `;
+    }
+
+    // Automatically scroll down so the user sees the results!
+    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+// 3. Connect the typing box to the search function
+document.addEventListener('DOMContentLoaded', () => {
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    
+    if (searchForm && searchInput) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Stop the page from reloading
+            window.doSearch(searchInput.value);
+        });
+    }
+});
