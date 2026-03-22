@@ -4,6 +4,7 @@
 
 'use strict';
 
+// 1. Your Live Deals Database (Edit these whenever you want!)
 const PRICE_ALERTS = [
   { product: 'Sony WH-1000XM5', saving: 1491, days: 2, store: 'Flipkart', img: '🎧', urgency: 'high' },
   { product: 'Samsung 65" 4K TV', saving: 3000, hours: 4, store: 'Flipkart', img: '📺', urgency: 'critical' },
@@ -11,6 +12,7 @@ const PRICE_ALERTS = [
   { product: 'Nike Air Max 270', saving: 996, days: 1, store: 'Flipkart', img: '👟', urgency: 'medium' },
 ];
 
+// 2. Logic for rendering the alerts on a dedicated alerts page (if you build one)
 function renderAlerts(container) {
   if (!container) return;
   container.innerHTML = PRICE_ALERTS.map(a => `
@@ -40,11 +42,11 @@ window.dismissAlert = function(btn) {
   setTimeout(() => card.remove(), 300);
 };
 
-// Render on alerts page
+// 3. Render on an Alerts page (if it exists)
 const alertsContainer = document.getElementById('alerts-container');
 if (alertsContainer) renderAlerts(alertsContainer);
 
-// Render hero loss alert
+// 4. The 5-Second Auto-Rotating Logic for your Homepage!
 const heroAlert = document.querySelector('.loss-alert-box');
 if (heroAlert) {
   let i = 0;
@@ -55,5 +57,5 @@ if (heroAlert) {
     i++;
   };
   rotate();
-  setInterval(rotate, 5000);
+  setInterval(rotate, 5000); // 5000 milliseconds = 5 seconds
 }
