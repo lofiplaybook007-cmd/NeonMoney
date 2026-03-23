@@ -58,7 +58,7 @@
     <div class="coins-hero animate-on-scroll">
       <div>
         <div class="coins-label">TOTAL COINS</div>
-        <div class="coins-total glow-text-green">1,250</div>
+        <div class="coins-total glow-text-green" id="user-coin-balance">...</div>
         <div style="margin-top:8px;">
           <span class="badge badge-green">🟢 Active Streak: 7 Days</span>
         </div>
@@ -213,7 +213,55 @@
 <script src="spin.js"></script>
 <script src="alerts.js"></script>
 
-  <script type="module">
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+    authDomain: "neonmoney-a2d18.firebaseapp.com",
+    projectId: "neonmoney-a2d18",
+    storageBucket: "neonmoney-a2d18.firebasestorage.app",
+    messagingSenderId: "759618988071",
+    appId: "1:759618988071:web:b65d190a3a7ececabc4602"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // 1. Set the User's Name
+      let displayName = user.email.split('@')[0];
+      displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+      const nameDisplay = document.getElementById('user-name-display');
+      if (nameDisplay) nameDisplay.textContent = displayName;
+
+      // 2. Fetch their real Coin Balance!
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      const balanceDisplay = document.getElementById('user-coin-balance');
+
+      if (userSnap.exists()) {
+        // User exists in database, show their coins
+        if (balanceDisplay) balanceDisplay.textContent = userSnap.data().coins;
+      } else {
+        // Brand new user! Create their wallet and give them 50 Bonus Coins
+        await setDoc(userRef, {
+          email: user.email,
+          coins: 50,
+          joinedAt: new Date()
+        });
+        if (balanceDisplay) balanceDisplay.textContent = "50";
+      }
+
+    } else {
+      window.location.href = 'login.html';
+    }
+  });
+</script>
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
   const auth = getAuth();
 
