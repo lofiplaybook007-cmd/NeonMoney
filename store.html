@@ -101,6 +101,12 @@
 </div>
 
 <div class="container">
+  <div class="search-container" style="max-width: 600px; margin: 0 auto 30px auto; padding: 0 20px;">
+      <div style="position: relative;">
+        <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 1.2rem;">🔍</span>
+        <input type="text" id="store-search" placeholder="Search for stores (e.g., Myntra, Amazon) or categories..." style="width: 100%; padding: 15px 15px 15px 45px; border-radius: 12px; border: 1px solid #333; background: #1a1a2e; color: #fff; font-size: 1rem; outline: none; transition: border-color 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+      </div>
+    </div>
   <div class="store-directory-grid">
     
  <div class="app-card animate-on-scroll">
@@ -341,6 +347,33 @@
         document.getElementsByTagName('body')[0].appendChild(s);
       }());
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('store-search');
+    const storeCards = document.querySelectorAll('.app-card');
 
+    // Make the border glow neon blue when they click it
+    searchInput.addEventListener('focus', () => searchInput.style.borderColor = '#00f2fe');
+    searchInput.addEventListener('blur', () => searchInput.style.borderColor = '#333');
+
+    // Filter the stores instantly as they type
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      storeCards.forEach(card => {
+        // Look at both the Store Name and the Category!
+        const storeName = card.querySelector('.app-name').textContent.toLowerCase();
+        const storeCat = card.querySelector('.app-cat').textContent.toLowerCase();
+        
+        // If the typed word matches the name or category, show it. Otherwise, hide it!
+        if (storeName.includes(searchTerm) || storeCat.includes(searchTerm)) {
+          card.style.display = ''; 
+        } else {
+          card.style.display = 'none'; 
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>
