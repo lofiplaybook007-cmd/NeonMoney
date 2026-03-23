@@ -277,29 +277,47 @@
 </a>
     <div class="nav-links">
       <a href="index.html" class="active">Home</a>
-     @keyframes firePulse {
-0% { box-shadow: 0 0 15px #ff416c, 0 0 30px #ff4b2b; }
-50% { box-shadow: 0 0 30px #ff416c, 0 0 60px #ff4b2b; transform: scale(1.02); }
-100% { box-shadow: 0 0 15px #ff416c, 0 0 30px #ff4b2b; }
-}
-.fire-btn {
-display: inline-block;
-background: linear-gradient(90deg, #ff416c, #ff4b2b);
-color: white !important;
-font-size: 1.5rem;
-font-weight: 900;
-padding: 20px 50px;
-border-radius: 50px;
-text-decoration: none;
-text-transform: uppercase;
-letter-spacing: 2px;
-animation: firePulse 2s infinite;
-border: 2px solid #fff;
-margin-top: 20px;
-}
-.hero-section-new { padding: 100px 20px; text-align: center; margin-bottom: 40px;}
-.hero-title-new { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 20px; line-height: 1.2; }
-.hero-title-new span { background: linear-gradient(90deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    <style>
+      @keyframes firePulse {
+        0% { box-shadow: 0 0 15px #ff416c, 0 0 30px #ff4b2b; }
+        50% { box-shadow: 0 0 30px #ff416c, 0 0 60px #ff4b2b; transform: scale(1.02); }
+        100% { box-shadow: 0 0 15px #ff416c, 0 0 30px #ff4b2b; }
+      }
+      .fire-btn {
+        display: inline-block;
+        background: linear-gradient(90deg, #ff416c, #ff4b2b);
+        color: white !important;
+        font-size: 1.5rem;
+        font-weight: 900;
+        padding: 20px 50px;
+        border-radius: 50px;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        animation: firePulse 2s infinite;
+        border: 2px solid #fff;
+        margin-top: 20px;
+      }
+      .hero-section { padding: 100px 20px; text-align: center; margin-bottom: 40px;}
+      .hero-title { font-size: 4rem; font-weight: 900; margin-bottom: 20px; line-height: 1.2; }
+      .hero-title span { background: linear-gradient(90deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+
+    <div class="hero-section animate-on-scroll">
+      <h1 class="hero-title">Shop The Best Brands.<br><span>Earn Real Cash.</span></h1>
+      <p style="font-size: 1.2rem; color: #aaa; max-width: 600px; margin: 0 auto 40px auto;">
+        Stop leaving money on the table. Explore our directory of 25+ top Indian stores. Click our link, buy your item, and get cash added directly to your NeonMoney vault!
+      </p>
+      <a href="store.html" class="fire-btn">🔥 GO TO STORES 🔥</a>
+    </div>
+
+    <div style="background: #1a1a2e; padding: 80px 20px; text-align: center; border-top: 1px solid #333; border-bottom: 1px solid #333; margin-bottom: 60px;" class="animate-on-scroll">
+      <h2 style="font-size: 2.5rem; margin-bottom: 20px;">📉 Never Overpay Again</h2>
+      <p style="font-size: 1.1rem; color: #aaa; max-width: 700px; margin: 0 auto 40px auto;">
+        Found a product you love but the price is too high? Paste the Amazon or Flipkart link into our Smart Tracker. We will save it to your vault and alert you the second the price drops!
+      </p>
+      <a href="tracker.html" style="background: #00f2fe; color: #000; padding: 15px 40px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; text-decoration: none; display: inline-block; transition: transform 0.2s;">Open Price Tracker ↗</a>
+    </div>
       <a href="store.html">Stores</a>
       <a href="rewards.html">Rewards</a>
       <a href="faq.html">FAQ</a>
