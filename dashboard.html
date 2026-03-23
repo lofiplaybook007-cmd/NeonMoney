@@ -212,5 +212,29 @@
 <script type="module" src="auth.js"></script>
 <script src="spin.js"></script>
 <script src="alerts.js"></script>
+
+  <script type="module">
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is logged in! Let's get their email.
+      // We will split the email at the "@" symbol to use the first part as their name
+      const namePart = user.email.split('@')[0]; 
+      
+      // Find the Demo User text and change it to their real name
+      const nameDisplay = document.getElementById('user-name-display');
+      if (nameDisplay) {
+        nameDisplay.textContent = namePart;
+      }
+    } else {
+      // If nobody is logged in, kick them back to the login page
+      window.location.href = 'login.html';
+    }
+  });
+</script>
+  
 </body>
 </html>
