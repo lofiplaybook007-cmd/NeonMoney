@@ -622,16 +622,56 @@
     <a href="deals.html" class="btn btn-primary" style="width:100%;justify-content:center;">🛒 Go to Best Deal</a>
   </div>
 </div>
-
+<div id="cookie-banner" class="cookie-banner">
+  <div class="cookie-content">
+    <div class="cookie-icon">🍪</div>
+    <div>
+      <h4 style="margin-bottom: 4px; font-family: var(--font-display); color: var(--text-primary);">We value your privacy</h4>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">
+        We use cookies to enhance your browsing experience, serve personalized deals, and analyze our traffic. 
+      </p>
+    </div>
+  </div>
+  <div class="cookie-buttons">
+    <button id="btn-reject-cookies" class="btn btn-secondary btn-sm">Essential Only</button>
+    <button id="btn-accept-cookies" class="btn btn-primary btn-sm">Accept All</button>
+  </div>
+</div>
 <script src="main.js"></script>
 <script type="module" src="auth.js"></script>
 <script src="spin.js"></script>
 <script src="alerts.js"></script>
 <script>
+<script>
   function doSearchTag(q) {
     document.getElementById('search-input').value = q;
     doSearch(q);
   }
+
+  // --- COOKIE BANNER LOGIC ---
+  document.addEventListener("DOMContentLoaded", () => {
+    const cookieBanner = document.getElementById("cookie-banner");
+    const btnAccept = document.getElementById("btn-accept-cookies");
+    const btnReject = document.getElementById("btn-reject-cookies");
+
+    // Check if user already accepted/rejected cookies in the past
+    if (!localStorage.getItem("neon_cookies_status")) {
+      // If not, wait 2 seconds, then slide the banner up
+      setTimeout(() => {
+        cookieBanner.classList.add("show");
+      }, 2000);
+    }
+
+    // Function to hide banner and save their choice
+    const hideBanner = (status) => {
+      localStorage.setItem("neon_cookies_status", status);
+      cookieBanner.classList.remove("show");
+    };
+
+    // Listen for button clicks
+    btnAccept.addEventListener("click", () => hideBanner("accepted"));
+    btnReject.addEventListener("click", () => hideBanner("rejected"));
+  });
 </script>
 
 <script type='text/javascript'>
