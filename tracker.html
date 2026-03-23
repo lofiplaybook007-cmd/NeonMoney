@@ -71,9 +71,9 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    // Notice we added getDocs, query, and orderBy here!
+    import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // Your Exact NeonMoney Firebase Keys
     const firebaseConfig = {
       apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
       authDomain: "neonmoney-a2d18.firebaseapp.com",
@@ -83,58 +83,84 @@
       appId: "1:759618988071:web:b65d190a3a7ececabc4602"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-
     let currentUser = null;
 
-    // Check if user is logged in
+    // FUNCTION: Fetch and display the links from Firebase
+    async function loadVault(user) {
+      const listDiv = document.getElementById('tracked-list');
+      
+      try {
+        // Ask Firebase for this specific user's links, sorted by newest first
+        const q = query(collection(db, "users", user.uid, "trackedProducts"), orderBy("dateAdded", "desc"));
+        const querySnapshot = await getDocs(q);
+        
+        if (querySnapshot.empty) {
+          listDiv.innerHTML = '<p style="color: #aaa;">Your vault is empty. Paste a link above to start tracking!</p>';
+          return;
+        }
+
+        listDiv.innerHTML = ''; // Clear the "Loading" text
+        
+        // Loop through every link in the database and create a box for it
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          // Shorten the link so it doesn't break the screen
+          const shortLink = data.productUrl.length > 50 ? data.productUrl.substring(0, 50) + '...' : data.productUrl;
+          
+          listDiv.innerHTML += `
+            <div class="tracked-item">
+              <div>
+                <a href="${data.productUrl}" target="_blank" class="tracked-link">${shortLink}</a>
+              </div>
+              <div class="status-badge">🔄 ${data.status || 'Tracking'}</div>
+            </div>
+          `;
+        });
+      } catch (error) {
+        console.error("Error loading vault:", error);
+        listDiv.innerHTML = '<p style="color: #ff4d4d;">Error loading your vault. Please refresh.</p>';
+      }
+    }
+
+    // Check login status and load the vault!
     onAuthStateChanged(auth, (user) => {
       if (user) {
         currentUser = user;
+        loadVault(user); // Automatically load their links when they open the page
       } else {
-        // If not logged in, send them to login page
         window.location.href = 'login.html';
       }
     });
 
-    // Handle the "Track Price" button click
+    // Save a new link
     document.getElementById('track-btn').addEventListener('click', async () => {
       const urlInput = document.getElementById('product-url');
       const url = urlInput.value;
       const statusMsg = document.getElementById('status-msg');
-
-      if (!url) {
-        alert("Please paste a product link first!");
-        return;
-      }
-
-      if (!currentUser) {
-        alert("You must be logged in to track prices.");
-        return;
-      }
-
-      // Change button text while saving
       const btn = document.getElementById('track-btn');
+
+      if (!url) { alert("Please paste a product link first!"); return; }
+      if (!currentUser) return;
+
       btn.textContent = "Saving...";
 
       try {
-        // Save the link to Firestore under this specific user's account
         await addDoc(collection(db, "users", currentUser.uid, "trackedProducts"), {
           productUrl: url,
           dateAdded: serverTimestamp(),
-          status: "Tracking Initiated"
+          status: "Tracking"
         });
 
-        // Show Success Message & Reset Input
         urlInput.value = '';
         btn.textContent = "Track Price ↗";
         statusMsg.style.display = "block";
-        
-        // Hide message after 4 seconds
         setTimeout(() => { statusMsg.style.display = "none"; }, 4000);
+        
+        // INSTANTLY refresh the vault list to show the new link!
+        loadVault(currentUser);
 
       } catch (error) {
         console.error("Error saving link: ", error);
