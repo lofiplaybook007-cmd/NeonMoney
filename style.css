@@ -372,3 +372,60 @@ p  { font-family: var(--font-ui); color: var(--text-secondary); }
   .grid-4 { grid-template-columns: 1fr; }
   h1 { font-size: 2.2rem; }
 }
+
+/* ── COOKIE BANNER ── */
+.cookie-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(150%); /* Hidden below screen initially */
+  width: calc(100% - 48px);
+  max-width: 760px;
+  background: rgba(15,23,42,0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 999999;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0,255,178,0.1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* This class triggers the slide-up animation */
+.cookie-banner.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.cookie-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cookie-icon {
+  font-size: 2.2rem;
+}
+
+.cookie-buttons {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Make it look good on phones */
+@media (max-width: 768px) {
+  .cookie-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    bottom: 16px;
+    padding: 16px;
+  }
+  .cookie-buttons {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
