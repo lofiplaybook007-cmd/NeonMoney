@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Tracker | NeonMoney</title>
+  <style>
+    /* NeonMoney Base Styles */
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f0f1a; color: #fff; }
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: #1a1a2e; border-bottom: 1px solid #333; }
+    .nav-logo { font-size: 1.5rem; font-weight: bold; color: #fff; text-decoration: none; }
+    .nav-logo span { color: #00f2fe; }
+    
+    /* Tracker UI Styles */
+    .tracker-container { max-width: 800px; margin: 60px auto; padding: 20px; text-align: center; }
+    .tracker-box { background: #1a1a2e; padding: 40px; border-radius: 16px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1); }
+    .tracker-box h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .tracker-box p { color: #aaa; margin-bottom: 30px; font-size: 1.1rem; }
+    
+    .input-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .url-input { flex: 1; min-width: 250px; padding: 15px 20px; border-radius: 8px; border: 1px solid #333; background: #0f0f1a; color: #fff; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+    .url-input:focus { border-color: #00f2fe; }
+    
+    .btn-track { padding: 15px 30px; background: linear-gradient(90deg, #00f2fe, #4facfe); border: none; border-radius: 8px; color: #fff; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-track:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4); }
+    
+    /* Success Message */
+    #status-msg { margin-top: 20px; font-size: 1.1rem; color: #00f2fe; display: none; padding: 10px; background: rgba(0, 242, 254, 0.1); border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Neon<span>Money</span></a>
+    <div>
+      <a href="dashboard.html" style="color: #fff; text-decoration: none; margin-right: 20px;">Dashboard</a>
+      <a href="store.html" style="color: #fff; text-decoration: none;">Stores</a>
+    </div>
+  </nav>
+
+  <div class="tracker-container">
+    <div class="tracker-box animate-on-scroll">
+      <h1>📉 Smart Price Tracker</h1>
+      <p>Paste a product link from Amazon, Flipkart, or Myntra. We will save it to your vault and alert you when the price drops!</p>
+      
+      <div class="input-group">
+        <input type="url" id="product-url" class="url-input" placeholder="https://www.amazon.in/dp/B08...">
+        <button id="track-btn" class="btn-track">Track Price ↗</button>
+      </div>
+      
+      <div id="status-msg">✅ Link successfully saved to your tracking vault!</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    // Your Exact NeonMoney Firebase Keys
+    const firebaseConfig = {
+      apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+      authDomain: "neonmoney-a2d18.firebaseapp.com",
+      projectId: "neonmoney-a2d18",
+      storageBucket: "neonmoney-a2d18.firebasestorage.app",
+      messagingSenderId: "759618988071",
+      appId: "1:759618988071:web:b65d190a3a7ececabc4602"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+
+    // Check if user is logged in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+      } else {
+        // If not logged in, send them to login page
+        window.location.href = 'login.html';
+      }
+    });
+
+    // Handle the "Track Price" button click
+    document.getElementById('track-btn').addEventListener('click', async () => {
+      const urlInput = document.getElementById('product-url');
+      const url = urlInput.value;
+      const statusMsg = document.getElementById('status-msg');
+
+      if (!url) {
+        alert("Please paste a product link first!");
+        return;
+      }
+
+      if (!currentUser) {
+        alert("You must be logged in to track prices.");
+        return;
+      }
+
+      // Change button text while saving
+      const btn = document.getElementById('track-btn');
+      btn.textContent = "Saving...";
+
+      try {
+        // Save the link to Firestore under this specific user's account
+        await addDoc(collection(db, "users", currentUser.uid, "trackedProducts"), {
+          productUrl: url,
+          dateAdded: serverTimestamp(),
+          status: "Tracking Initiated"
+        });
+
+        // Show Success Message & Reset Input
+        urlInput.value = '';
+        btn.textContent = "Track Price ↗";
+        statusMsg.style.display = "block";
+        
+        // Hide message after 4 seconds
+        setTimeout(() => { statusMsg.style.display = "none"; }, 4000);
+
+      } catch (error) {
+        console.error("Error saving link: ", error);
+        alert("Something went wrong. Please try again.");
+        btn.textContent = "Track Price ↗";
+      }
+    });
+  </script>
+</body>
+</html>
