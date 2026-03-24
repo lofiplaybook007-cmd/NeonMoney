@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us — NeonMoney</title>
   <meta name="description" content="Get in touch with NeonMoney. Questions about coins, deals, or technical issues — we're here to help.">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="animations.css">
+<link rel="stylesheet" href="dashboard.css">
   <style>
     .contact-hero { padding: calc(var(--nav-height) + 70px) 0 60px; text-align: center; }
     .contact-badge {
@@ -270,8 +271,8 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
-<script src="js/auth.js"></script>
+<script src="main.js"></script>
+<script src="auth.js"></script>
 <script>
   // Category pills
   document.querySelectorAll('.cat-pill').forEach(pill => {
@@ -327,5 +328,56 @@
     document.getElementById('form-success').style.display = 'block';
   }
 </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+      authDomain: "neonmoney-a2d18.firebaseapp.com",
+      projectId: "neonmoney-a2d18",
+      storageBucket: "neonmoney-a2d18.firebasestorage.app",
+      messagingSenderId: "759618988071",
+      appId: "1:759618988071:web:b65d190a3a7ececabc4602"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Show real coins if logged in
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        const navCoinDisplay = document.getElementById('nav-coins-val');
+        
+        // Hide auth links, show user menu
+        document.getElementById('nav-auth-links').style.display = 'none';
+        document.getElementById('nav-user-menu').style.display = 'flex';
+        document.getElementById('nav-coins').style.display = 'block';
+
+        let currentCoins = 0;
+        if (userSnap.exists()) {
+          currentCoins = userSnap.data().coins;
+        } else {
+          currentCoins = parseInt(localStorage.getItem('neon_coins')) || 0;
+        }
+        
+        if (navCoinDisplay) navCoinDisplay.textContent = currentCoins.toLocaleString('en-IN');
+      }
+    });
+
+    // Logout logic
+    const logoutBtns = document.querySelectorAll('.btn-logout');
+    logoutBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        signOut(auth).then(() => {
+          window.location.href = 'login.html';
+        });
+      });
+    });
+  </script>
 </body>
 </html>
