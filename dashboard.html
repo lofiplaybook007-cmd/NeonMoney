@@ -305,6 +305,15 @@
       window.location.href = 'login.html';
     }
   });
+<script>
+  // Mobile Menu Logic for Dashboard
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  if(hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  }
 </script>
   
 </body>
