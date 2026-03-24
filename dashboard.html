@@ -322,4 +322,16 @@
 </script>
   
 </body>
+  <script>
+  // Fetch saved coins from browser memory
+  document.addEventListener("DOMContentLoaded", () => {
+    let savedCoins = parseInt(localStorage.getItem('neon_coins')) || 0;
+
+    const navCoinDisplay = document.getElementById('nav-coins-val');
+    const dashCoinDisplay = document.getElementById('user-coin-balance');
+
+    if (navCoinDisplay) navCoinDisplay.textContent = savedCoins.toLocaleString('en-IN');
+    if (dashCoinDisplay) dashCoinDisplay.textContent = savedCoins.toLocaleString('en-IN');
+  });
+</script>
 </html>
