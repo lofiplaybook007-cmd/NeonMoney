@@ -277,47 +277,6 @@
 </a>
     <div class="nav-links">
       <a href="index.html" class="active">Home</a>
-    <style>
-      @keyframes firePulse {
-        0% { box-shadow: 0 0 15px #ff416c, 0 0 30px #ff4b2b; }
-        50% { box-shadow: 0 0 30px #ff416c, 0 0 60px #ff4b2b; transform: scale(1.02); }
-        100% { box-shadow: 0 0 15px #ff416c, 0 0 30px #ff4b2b; }
-      }
-      .fire-btn {
-        display: inline-block;
-        background: linear-gradient(90deg, #ff416c, #ff4b2b);
-        color: white !important;
-        font-size: 1.5rem;
-        font-weight: 900;
-        padding: 20px 50px;
-        border-radius: 50px;
-        text-decoration: none;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        animation: firePulse 2s infinite;
-        border: 2px solid #fff;
-        margin-top: 20px;
-      }
-      .hero-section { padding: 100px 20px; text-align: center; margin-bottom: 40px;}
-      .hero-title { font-size: 4rem; font-weight: 900; margin-bottom: 20px; line-height: 1.2; }
-      .hero-title span { background: linear-gradient(90deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    </style>
-
-    <div class="hero-section animate-on-scroll">
-      <h1 class="hero-title">Shop The Best Brands.<br><span>Earn Real Cash.</span></h1>
-      <p style="font-size: 1.2rem; color: #aaa; max-width: 600px; margin: 0 auto 40px auto;">
-        Stop leaving money on the table. Explore our directory of 25+ top Indian stores. Click our link, buy your item, and get cash added directly to your NeonMoney vault!
-      </p>
-      <a href="store.html" class="fire-btn">🔥 GO TO STORES 🔥</a>
-    </div>
-
-    <div style="background: #1a1a2e; padding: 80px 20px; text-align: center; border-top: 1px solid #333; border-bottom: 1px solid #333; margin-bottom: 60px;" class="animate-on-scroll">
-      <h2 style="font-size: 2.5rem; margin-bottom: 20px;">📉 Never Overpay Again</h2>
-      <p style="font-size: 1.1rem; color: #aaa; max-width: 700px; margin: 0 auto 40px auto;">
-        Found a product you love but the price is too high? Paste the Amazon or Flipkart link into our Smart Tracker. We will save it to your vault and alert you the second the price drops!
-      </p>
-      <a href="tracker.html" style="background: #00f2fe; color: #000; padding: 15px 40px; border-radius: 8px; font-size: 1.2rem; font-weight: bold; text-decoration: none; display: inline-block; transition: transform 0.2s;">Open Price Tracker ↗</a>
-    </div>
       <a href="store.html">Stores</a>
       <a href="rewards.html">Rewards</a>
       <a href="faq.html">FAQ</a>
@@ -465,17 +424,47 @@
 <!-- ══════════════════════════════════════════
      SECTION 4: LOSS ALERT
 ══════════════════════════════════════════ -->
-<section class="loss-section">
+<section class="real-cash-section" style="padding: 80px 0;">
   <div class="container">
-    <div class="section-label animate-on-scroll"><span class="section-tag">⚠️ Price Intelligence</span></div>
-    <h2 class="section-title animate-on-scroll">Don't Lose Money<br>on <span class="gradient-text">Bad Timing</span></h2>
-    <br>
-    <div class="loss-alert-box animate-on-scroll">
-      <div class="alert-icon-big">⚠️</div>
-      <div>
-        <div class="alert-msg" id="loss-alert-text"></div>
-        <a href="deals.html" class="btn btn-secondary btn-sm" style="margin-top:12px;">See All Alerts →</a>
+    <div class="cta-box" style="background: linear-gradient(135deg, rgba(255,107,43,0.05), rgba(255,0,85,0.05)); border: 1px solid rgba(255,107,43,0.2); border-radius: var(--radius-xl); padding: 60px 20px; text-align: center;">
+      <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 16px; color: #FF6B2B; font-family: var(--font-display); text-shadow: 0 0 20px rgba(255,107,43,0.3);">Real Cash.</h2>
+      <p style="max-width: 600px; margin: 0 auto 32px auto; font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6;">
+        Stop leaving money on the table. Explore our directory of 25+ top Indian stores. Click our link, buy your item, and get cash added directly to your NeonMoney vault!
+      </p>
+      <a href="store.html" class="btn btn-primary btn-lg" style="background: linear-gradient(90deg, #FF6B2B, #FF0055); box-shadow: 0 0 20px rgba(255,107,43,0.4); border: none; color: white;">
+        ▶ GO TO STORES
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="tracker-section" style="padding: 20px 0 80px;">
+  <div class="container">
+    <div class="search-wrap" style="max-width: 800px; margin: 0 auto; text-align: center;">
+      
+      <h2 class="section-title" style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+        <span style="font-size: 2rem;">📈</span> Smart Price Tracker
+      </h2>
+      <p class="section-sub" style="margin-top: 12px;">
+        Paste a product link from Amazon, Flipkart, or Myntra. We will save it to your vault and alert you when the price drops!
+      </p>
+      
+      <div class="search-box" style="margin-top: 40px; background: rgba(15,23,42,0.8); border: 1px solid var(--border); display: flex; align-items: center; padding: 8px 8px 8px 20px; border-radius: var(--radius-lg);">
+        <input type="text" placeholder="https://www.amazon.in/dp/B08..." style="flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 1rem; width: 100%;">
+        <button class="btn btn-primary" style="background: var(--neon-blue); color: #0A0A0F; box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);">
+          Track Price ↗
+        </button>
       </div>
+
+      <div style="margin-top: 80px; text-align: left;">
+        <h3 style="display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-size: 1.5rem;">
+          <span style="font-size: 1.8rem;">🗃️</span> My Tracked Vault
+        </h3>
+        <div style="margin-top: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 48px 20px; text-align: center; color: var(--text-muted);">
+          <p>You haven't tracked any products yet. Paste a link above to start saving!</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -686,7 +675,7 @@
 <script type="module" src="auth.js"></script>
 <script src="spin.js"></script>
 <script src="alerts.js"></script>
-<script>
+
 <script>
   function doSearchTag(q) {
     document.getElementById('search-input').value = q;
