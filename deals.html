@@ -192,6 +192,29 @@
         document.getElementsByTagName('body')[0].appendChild(s);
       }());
 </script>
+   <script type="module">
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+      if (user) {
+          // 1. Get the name from email (aryan@gmail.com becomes aryan)
+          let displayName = user.email.split('@')[0];
+
+          // 2. Capitalize the first letter (Aryan)
+          displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+
+          // 3. Find the text and change it!
+          const nameDisplay = document.getElementById('user-name-display');
+          if (nameDisplay) {
+              nameDisplay.textContent = displayName;
+          }
+      } else {
+          // Kick out users who aren't logged in
+          window.location.href = 'login.html';
+      }
+  });
+</script>
 </body>
 </html>
   
