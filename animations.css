@@ -255,3 +255,74 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   FIRE & ICE ANIMATED BUTTON
+   ============================================================ */
+
+.fire-ice-btn {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 48px;
+  font-family: var(--font-display, sans-serif);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 50px;
+  background: #050505; /* Deep black center */
+  z-index: 1;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* This creates the glowing, animated outer ring */
+.fire-ice-btn::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  /* The gradient blending Fire (Orange/Red) and Ice (Blue/Cyan) */
+  background: linear-gradient(90deg, #ff3300, #ff8c00, #00f2fe, #4facfe, #ff3300);
+  background-size: 300%;
+  border-radius: 50px;
+  z-index: -1;
+  filter: blur(12px); /* Makes it glow like energy */
+  animation: fireIcePulse 6s linear infinite;
+}
+
+/* This keeps the inside of the button dark so the text is readable */
+.fire-ice-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0a0a0f;
+  border-radius: 50px;
+  z-index: -1;
+}
+
+/* Hover effect to make it feel interactive */
+.fire-ice-btn:hover {
+  transform: scale(1.05);
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.fire-ice-btn:hover::before {
+  filter: blur(16px); /* Glows brighter on hover */
+}
+
+/* The animation that moves the fire and ice around the button */
+@keyframes fireIcePulse {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
