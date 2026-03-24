@@ -101,15 +101,15 @@
       </div>
       <div class="coins-breakdown">
         <div class="coin-item confirmed">
-          <div class="coin-item-val">800</div>
+          <div class="coin-item-val">0</div>
           <div class="coin-item-label">Confirmed</div>
         </div>
         <div class="coin-item pending">
-          <div class="coin-item-val">350</div>
+          <div class="coin-item-val">0</div>
           <div class="coin-item-label">Pending</div>
         </div>
         <div class="coin-item expired">
-          <div class="coin-item-val">100</div>
+          <div class="coin-item-val">0</div>
           <div class="coin-item-label">Expiring Soon</div>
         </div>
       </div>
@@ -132,12 +132,12 @@
       </div>
       <div class="qstat-card animate-on-scroll delay-3">
         <div class="qstat-top"><span class="qstat-icon">🎰</span><span class="qstat-change up">+7</span></div>
-        <div class="qstat-val">7</div>
+        <div class="qstat-val">0</div>
         <div class="qstat-name">Day Streak</div>
       </div>
       <div class="qstat-card animate-on-scroll delay-4">
         <div class="qstat-top"><span class="qstat-icon">🎁</span><span class="qstat-change">~</span></div>
-        <div class="qstat-val">2</div>
+        <div class="qstat-val">0</div>
         <div class="qstat-name">Rewards Redeemed</div>
       </div>
     </div>
@@ -230,50 +230,75 @@
 </div>
 
 <script src="main.js"></script>
-<script type="module" src="auth.js"></script>
-<script src="spin.js"></script>
-<script src="alerts.js"></script>
+  <script src="spin.js"></script>
+  <script src="alerts.js"></script>
 
-<script type="module">
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-  const auth = getAuth();
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-  onAuthStateChanged(auth, (user) => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+      authDomain: "neonmoney-a2d18.firebaseapp.com",
+      projectId: "neonmoney-a2d18",
+      storageBucket: "neonmoney-a2d18.firebasestorage.app",
+      messagingSenderId: "759618988071",
+      appId: "1:759618988071:web:b65d190a3a7ececabc4602"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-          let displayName = user.email.split('@')[0];
-          displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
-          const nameDisplay = document.getElementById('user-name-display');
-          if (nameDisplay) {
-              nameDisplay.textContent = displayName;
-          }
+        // 1. Calculate Name from email and replace "Demo User"
+        let displayName = user.email.split('@')[0];
+        displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+        const nameDisplay = document.getElementById('user-name-display');
+        if (nameDisplay) nameDisplay.textContent = displayName;
+
+        // 2. Fetch their LIVE Coin Balance!
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        const coinsDisplay = document.getElementById('user-coin-balance');
+        const navCoinDisplay = document.getElementById('nav-coins-val');
+
+        let currentCoins = 0;
+        if (userSnap.exists()) {
+          currentCoins = userSnap.data().coins;
+        } else {
+          currentCoins = parseInt(localStorage.getItem('neon_coins')) || 0;
+        }
+        
+        if (coinsDisplay) coinsDisplay.textContent = currentCoins;
+        if (navCoinDisplay) navCoinDisplay.textContent = currentCoins.toLocaleString('en-IN');
+
       } else {
-          // Kick out users who aren't logged in
-          window.location.href = 'login.html';
+        window.location.href = 'login.html'; // Kick out if not logged in
       }
-  });
-</script>
-
-<script>
-  // Mobile Menu Logic
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.querySelector('.nav-links');
-  if(hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
     });
-  }
 
-  // Fetch saved coins from browser memory
-  document.addEventListener("DOMContentLoaded", () => {
-    let savedCoins = parseInt(localStorage.getItem('neon_coins')) || 0;
-    
-    const navCoinDisplay = document.getElementById('nav-coins-val');
-    const dashCoinDisplay = document.getElementById('user-coin-balance');
-    
-    if (navCoinDisplay) navCoinDisplay.textContent = savedCoins.toLocaleString('en-IN');
-    if (dashCoinDisplay) dashCoinDisplay.textContent = savedCoins.toLocaleString('en-IN');
-  });
-</script>
-  
+    // 3. Setup Logout Buttons
+    const logoutBtns = document.querySelectorAll('.btn-logout');
+    logoutBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        signOut(auth).then(() => {
+          window.location.href = 'login.html';
+        });
+      });
+    });
+  </script>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    if(hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+  </script>
 </body>
 </html>
