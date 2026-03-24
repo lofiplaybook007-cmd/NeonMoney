@@ -1,0 +1,39 @@
+<main class="dashboard-main">
+  <div class="dashboard-header">
+    <h2>My <span class="gradient-text">Profile</span></h2>
+    <p>Manage your account, view your balance, and track your activity.</p>
+  </div>
+
+  <div class="grid-2" style="gap:24px;">
+    <div class="glass-card" style="padding:32px; text-align:center;">
+      <div style="font-size: 4rem; margin-bottom: 16px;">👨‍💻</div>
+      <h3 id="profile-name" style="font-size: 1.8rem; margin-bottom: 8px;">Aryan</h3>
+      <p id="profile-email" style="color: var(--text-muted); margin-bottom: 24px;">Loading email...</p>
+      
+      <div style="background: rgba(0,255,178,0.05); border: 1px solid rgba(0,255,178,0.2); padding: 16px; border-radius: var(--radius-md);">
+        <p style="font-size: 0.85rem; color: var(--neon-green); text-transform: uppercase; font-weight: bold;">Total Wallet Balance</p>
+        <div style="font-family: var(--font-display); font-size: 2.5rem; color: #fff;" id="profile-coins">... 💰</div>
+      </div>
+    </div>
+
+    <div class="glass-card" style="padding:32px;">
+      <h3 style="margin-bottom: 20px;">Account Details</h3>
+      <div class="form-group">
+        <label class="form-label">Member Since</label>
+        <input type="text" class="form-input" value="January 2026" disabled>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subscription Tier</label>
+        <input type="text" class="form-input" value="Free User" disabled style="color: var(--text-muted);">
+      </div>
+      
+      <h3 style="margin-top: 32px; margin-bottom: 20px;">Lifetime Summary</h3>
+      <div class="flex-between" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+        <span>Items Purchased</span> <strong style="color: var(--text-primary);">0</strong>
+      </div>
+      <div class="flex-between" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+        <span>Items in Wishlist</span> <strong style="color: var(--text-primary);">2</strong>
+      </div>
+    </div>
+  </div>
+</main>
