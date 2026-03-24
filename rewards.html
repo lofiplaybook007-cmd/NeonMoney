@@ -50,12 +50,23 @@
 <div class="bg-mesh"></div><div class="bg-noise"></div>
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
-    <div class="nav-links"><a href="index.html">Home</a><a href="deals.html">Deals</a><a href="store.html">Stores</a><a href="rewards.html" class="active">Rewards</a><a href="faq.html">FAQ</a></div>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="NeonMoney Logo" style="height: 36px; width: auto; margin-right: 8px; border-radius: 8px;">
+      Neon<span class="accent">Money</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="deals.html">Deals</a>
+      <a href="store.html">Stores</a>
+      <a href="rewards.html" class="active">Rewards</a>
+      <a href="faq.html">FAQ</a>
+    </div>
     <div class="nav-actions">
-      <div class="nav-coins" id="nav-coins" style="display:none;">💰 <span id="nav-coins-val">0</span></div>
-      <div id="nav-auth-links" style="display:flex;gap:8px;"><a href="login.html" class="btn btn-secondary btn-sm">Login</a><a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a></div>
-      <div id="nav-user-menu" style="display:none;gap:8px;align-items:center;"><a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a><button class="btn btn-secondary btn-sm btn-logout">Logout</button></div>
+      <div class="nav-coins" id="nav-coins">💰 <span id="nav-coins-val">0</span></div>
+      <div id="nav-user-menu" style="display:flex; gap:8px; align-items:center;">
+        <button class="btn btn-secondary btn-sm btn-logout" id="logout-btn">Logout</button>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div> 
     </div>
   </div>
 </nav>
@@ -206,6 +217,31 @@
       } else {
           // Kick out users who aren't logged in
           window.location.href = 'login.html';
+      }
+  });
+</script>
+  <script>
+  // Mobile Menu Logic
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  if(hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  }
+</script>
+
+<script type="module">
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+      if (!user) {
+          // If they are not logged in, hide the logout button and show login/signup
+          document.getElementById('nav-user-menu').innerHTML = `
+            <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+            <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
+          `;
       }
   });
 </script>
