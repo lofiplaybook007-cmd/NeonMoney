@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeonMoney | Compare Amazon vs Flipkart Prices & Earn Rewards</title>
     <meta name="description" content="Stop overpaying online! Compare live prices between Amazon and Flipkart, find the lowest price online, and earn coins to redeem for free gift cards in India.">
-    <meta name="keywords" content="amazon vs flipkart price comparison, lowest price online, best deals and offers today, earn rewards shopping india, price drop alerts">
     
     <link rel="icon" type="image/png" href="logo.png">
-
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="animations.css">
+    
   <style>
     /* ── HERO ── */
     .hero {
@@ -85,46 +84,6 @@
     .chip-2 { bottom: -16px; left: -24px; color: var(--neon-green); border-color: rgba(0,255,178,0.2); }
     .chip-3 { top: 50%; right: -50px; transform: translateY(-50%); color: #A78BFA; border-color: rgba(124,58,237,0.2); }
 
-    /* ── SEARCH SECTION ── */
-    .search-section { padding: 80px 0; }
-    .search-wrap { max-width: 700px; margin: 0 auto; }
-    .search-box {
-      position: relative;
-      background: rgba(15,23,42,0.6); backdrop-filter: blur(20px);
-      border: 1px solid rgba(0,255,178,0.2); border-radius: var(--radius-xl);
-      padding: 8px 8px 8px 24px;
-      display: flex; align-items: center; gap: 12px;
-      box-shadow: var(--shadow-green);
-    }
-    .search-box input {
-      flex: 1; background: none; border: none; outline: none;
-      font-family: var(--font-ui); font-size: 1rem; color: var(--text-primary);
-      padding: 8px 0;
-    }
-    .search-box input::placeholder { color: var(--text-muted); }
-    .search-icon { font-size: 1.2rem; color: var(--text-muted); }
-    #search-results {
-      position: absolute; top: calc(100% + 8px); left: 0; right: 0;
-      background: rgba(10,10,15,0.97); backdrop-filter: blur(20px);
-      border: 1px solid var(--border); border-radius: var(--radius-lg);
-      overflow: hidden; z-index: 100; display: none;
-    }
-    .search-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; justify-content: center; }
-    .search-tag {
-      font-family: var(--font-ui); font-size: 0.82rem; color: var(--text-secondary);
-      background: var(--bg-card); border: 1px solid var(--border);
-      padding: 6px 14px; border-radius: 100px; cursor: pointer; transition: var(--transition);
-    }
-    .search-tag:hover { color: var(--neon-green); border-color: rgba(0,255,178,0.3); }
-
-    /* ── RESULTS SECTION ── */
-    #results-section { display: none; padding: 40px 0 80px; }
-    #results-title { font-size: 1.5rem; margin-bottom: 32px; }
-
-    /* ── TRENDING ── */
-    .trending-section { padding: 80px 0; }
-    #trending-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-
     /* ── LOSS ALERT ── */
     .loss-section { padding: 60px 0; }
     .loss-alert-box {
@@ -140,18 +99,12 @@
 
     /* ── SPIN SECTION ── */
     .spin-home-section { padding: 80px 0; }
-    .spin-home-wrap {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-    }
+    .spin-home-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
     .spin-content h2 { margin-bottom: 16px; }
     .spin-content p { margin-bottom: 28px; }
     .spin-perks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
-    .spin-perk {
-      display: flex; align-items: center; gap: 12px;
-      font-family: var(--font-ui); font-size: 0.9rem; color: var(--text-secondary);
-    }
+    .spin-perk { display: flex; align-items: center; gap: 12px; font-family: var(--font-ui); font-size: 0.9rem; color: var(--text-secondary); }
     .spin-perk-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; background: rgba(0,255,178,0.08); }
-
     .spin-visual { position: relative; text-align: center; }
     #spin-wheel-el-home { width: 280px; height: 280px; }
 
@@ -242,39 +195,30 @@
     #modal-img { font-size: 4rem; text-align: center; display: block; margin-bottom: 16px; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) { #trending-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 768px) {
       .hero-grid, .spin-home-wrap { grid-template-columns: 1fr; gap: 40px; }
       .hero-right { display: none; }
       .steps-grid, .reviews-grid { grid-template-columns: 1fr; }
       .stats-bar { grid-template-columns: repeat(2, 1fr); }
-      #trending-grid { grid-template-columns: repeat(2, 1fr); }
       .chip-1, .chip-2, .chip-3 { display: none; }
       .cta-buttons { flex-direction: column; align-items: center; }
-      
-      /* --- MOBILE SEARCH BAR FIX --- */
-      .search-box { padding: 6px 6px 6px 16px; }
-      .search-box input { min-width: 0; font-size: 0.9rem; }
     }
     @media (max-width: 480px) {
-      #trending-grid, .stats-bar { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: 1fr; }
     }
   </style>
-  <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
 
-<!-- Background -->
 <div class="bg-mesh"></div>
 <div class="bg-noise"></div>
 <div id="particles"></div>
 
-<!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
-   <a href="index.html" class="nav-logo">
-  <img src="logo.png" alt="Neon Money Logo" style="height: 40px; width: auto;">
-</a>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="Neon Money Logo" style="height: 40px; width: auto;">
+    </a>
     <div class="nav-links">
       <a href="index.html" class="active">Home</a>
       <a href="store.html">Stores</a>
@@ -296,134 +240,65 @@
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════════
-     SECTION 1: HERO
-══════════════════════════════════════════ -->
 <section class="hero">
   <div class="container">
     <div class="hero-grid">
-
-      <!-- Left -->
       <div class="hero-left">
-   <div class="hero-eyebrow" style="animation-delay:0s;">
-      🔥 Live Price Comparison · India's #1 Deal Finder
-    </div>
-    <h1 class="hero-title gradient-text" style="animation-delay:0.1s;">
-      Stop Overpaying<br>Online 💸
-    </h1>
-    <p class="hero-subtitle hero-subtitle" style="animation-delay:0.2s;">
-      Check prices, unlock deals, and earn coins before you buy. Compare Amazon vs Flipkart instantly — and get rewarded for smart shopping.
-    </p>
-    <div class="hero-buttons hero-cta">
-      <a href="signup.html" class="btn btn-secondary btn-lg btn-ripple">🚀 Start Saving</a>
-    </div>
-    <div class="hero-social-proof">
-      <div class="proof-avatars">
-        <div class="av">👤</div><div class="av">👤</div><div class="av">👤</div><div class="av">👤</div><div class="av">+</div>
+        <div class="hero-eyebrow" style="animation-delay:0s;">
+          🔥 Live Price Comparison · India's #1 Deal Finder
+        </div>
+        <h1 class="hero-title gradient-text" style="animation-delay:0.1s;">
+          Stop Overpaying<br>Online 💸
+        </h1>
+        <p class="hero-subtitle hero-subtitle" style="animation-delay:0.2s;">
+          Check prices, unlock deals, and earn coins before you buy. Compare Amazon vs Flipkart instantly — and get rewarded for smart shopping.
+        </p>
+        <div class="hero-buttons hero-cta">
+          <a href="signup.html" class="btn btn-secondary btn-lg btn-ripple">🚀 Start Saving</a>
+        </div>
+        <div class="hero-social-proof">
+          <div class="proof-avatars">
+            <div class="av">👤</div><div class="av">👤</div><div class="av">👤</div><div class="av">👤</div><div class="av">+</div>
+          </div>
+          <p class="proof-text"><strong>50,000+</strong> users saved this month</p>
+        </div>
       </div>
-      <p class="proof-text"><strong>50,000+</strong> users saved this month</p>
-    </div>
-  </div>
 
-  <div class="hero-right hero-card-anim">
-    <div class="hero-price-card float-1 pulse-green">
-      <div class="hpc-product">
-        <div class="hpc-img">🎧</div>
-        <div>
-          <div class="hpc-name">Sony WH-1000XM5</div>
-          <div class="hpc-cat">Wireless Headphones · Electronics</div>
-        </div>
-      </div>
-      <div class="hpc-compare">
-        <div class="hpc-row amazon">
-          <span class="hpc-store amazon">🛒 Amazon</span>
-          <span class="hpc-price" style="color:#FF9900">₹24,990</span>
-        </div>
-        <div class="hpc-row flipkart">
-          <span class="hpc-store flipkart">🛍️ Flipkart</span>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span class="hpc-price" style="color:#2874F0">₹23,499</span>
-            <span class="hpc-best">BEST</span>
+      <div class="hero-right hero-card-anim">
+        <div class="hero-price-card float-1 pulse-green">
+          <div class="hpc-product">
+            <div class="hpc-img">🎧</div>
+            <div>
+              <div class="hpc-name">Sony WH-1000XM5</div>
+              <div class="hpc-cat">Wireless Headphones · Electronics</div>
+            </div>
+          </div>
+          <div class="hpc-compare">
+            <div class="hpc-row amazon">
+              <span class="hpc-store amazon">🛒 Amazon</span>
+              <span class="hpc-price" style="color:#FF9900">₹24,990</span>
+            </div>
+            <div class="hpc-row flipkart">
+              <span class="hpc-store flipkart">🛍️ Flipkart</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="hpc-price" style="color:#2874F0">₹23,499</span>
+                <span class="hpc-best">BEST</span>
+              </div>
+            </div>
+          </div>
+          <div class="hpc-saving">
+            You save <strong>₹1,491</strong> on Flipkart · Earn <span style="color:var(--neon-yellow)">💰 120 Coins</span>
           </div>
         </div>
-      </div>
-      <div class="hpc-saving">
-        You save <strong>₹1,491</strong> on Flipkart · Earn <span style="color:var(--neon-yellow)">💰 120 Coins</span>
-      </div>
-    </div>
 
-    <div class="float-chip chip-1 float-2">💰 +120 Coins earned!</div>
-    <div class="float-chip chip-2 float-3">✅ Best price found!</div>
-    <div class="float-chip chip-3 float-2">⚡ Live comparison</div>
-  </div>
-
-</div>
-
-        <!-- Floating chips -->
         <div class="float-chip chip-1 float-2">💰 +120 Coins earned!</div>
         <div class="float-chip chip-2 float-3">✅ Best price found!</div>
         <div class="float-chip chip-3 float-2">⚡ Live comparison</div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     SECTION 2: SEARCH BAR
-══════════════════════════════════════════ -->
-<section class="search-section">
-  <div class="container">
-    <div class="search-wrap">
-      <div class="section-label animate-on-scroll"><span class="section-tag">🔍 Smart Search</span></div>
-      <h2 class="section-title animate-on-scroll">Find the Best Price <span class="gradient-text">Instantly</span></h2>
-      <p class="section-sub animate-on-scroll">Type any product — we'll compare Amazon & Flipkart live and show you the best deal.</p>
-
-      <form id="search-form" style="position:relative;" class="animate-on-scroll">
-        <div class="search-box streak-container">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="search-input" placeholder='Try "Headphones", "Nike Shoes", "Samsung TV"…' autocomplete="off">
-          <button type="submit" class="btn btn-primary btn-ripple">Search</button>
-        </div>
-        <div id="search-results"></div>
-      </form>
-
-      <div class="search-tags animate-on-scroll delay-2">
-        <button class="search-tag" onclick="doSearchTag('Headphones')">🎧 Headphones</button>
-        <button class="search-tag" onclick="doSearchTag('Shoes')">👟 Shoes</button>
-        <button class="search-tag" onclick="doSearchTag('Samsung')">📺 Samsung TV</button>
-        <button class="search-tag" onclick="doSearchTag('Apple')">🍎 Apple</button>
-        <button class="search-tag" onclick="doSearchTag('Speaker')">🔊 Speakers</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Results -->
-<section id="results-section">
-  <div class="container">
-    <h3 id="results-title"></h3>
-    <div id="results-grid" class="grid-4"></div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     SECTION 3: TRENDING DEALS
-══════════════════════════════════════════ -->
-<section class="trending-section">
-  <div class="container">
-    <div class="section-label animate-on-scroll"><span class="section-tag">🔥 Trending Now</span></div>
-    <div class="flex-between animate-on-scroll" style="margin-bottom: 40px;">
-      <h2>Today's <span class="gradient-text">Hot Deals</span></h2>
-      <a href="deals.html" class="btn btn-secondary btn-sm">View All →</a>
-    </div>
-    <div id="trending-grid"></div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     SECTION 4: LOSS ALERT
-══════════════════════════════════════════ -->
 <section class="real-cash-section" style="padding: 80px 0;">
   <div class="container">
     <div class="cta-box" style="background: linear-gradient(135deg, rgba(255,107,43,0.05), rgba(255,0,85,0.05)); border: 1px solid rgba(255,107,43,0.2); border-radius: var(--radius-xl); padding: 60px 20px; text-align: center;">
@@ -469,9 +344,21 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     SECTION 5: SPIN & WIN
-══════════════════════════════════════════ -->
+<section class="loss-section">
+  <div class="container">
+    <div class="section-label animate-on-scroll"><span class="section-tag">⚠️ Price Intelligence</span></div>
+    <h2 class="section-title animate-on-scroll">Don't Lose Money<br>on <span class="gradient-text">Bad Timing</span></h2>
+    <br>
+    <div class="loss-alert-box animate-on-scroll">
+      <div class="alert-icon-big">⚠️</div>
+      <div>
+        <div class="alert-msg" id="loss-alert-text"></div>
+        <a href="deals.html" class="btn btn-secondary btn-sm" style="margin-top:12px;">See All Alerts →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="spin-home-section">
   <div class="container">
     <div class="spin-home-wrap">
@@ -498,9 +385,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     SECTION 6: HOW IT WORKS
-══════════════════════════════════════════ -->
 <section class="how-section">
   <div class="container">
     <div class="section-label animate-on-scroll"><span class="section-tag">🧠 Simple Process</span></div>
@@ -530,9 +414,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     STATS BANNER
-══════════════════════════════════════════ -->
 <section class="stats-section">
   <div class="container">
     <div class="stats-bar animate-on-scroll">
@@ -556,9 +437,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     SECTION 7: REVIEWS
-══════════════════════════════════════════ -->
 <section class="reviews-section">
   <div class="container">
     <div class="section-label animate-on-scroll"><span class="section-tag">⭐ Real Reviews</span></div>
@@ -605,9 +483,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     SECTION 8: CTA
-══════════════════════════════════════════ -->
 <section class="cta-section">
   <div class="container">
     <div class="cta-box animate-on-scroll">
@@ -622,7 +497,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -641,7 +515,6 @@
   </div>
 </footer>
 
-<!-- PRODUCT MODAL -->
 <div id="product-modal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -656,6 +529,7 @@
     <a href="deals.html" class="btn btn-primary" style="width:100%;justify-content:center;">🛒 Go to Best Deal</a>
   </div>
 </div>
+
 <div id="cookie-banner" class="cookie-banner">
   <div class="cookie-content">
     <div class="cookie-icon">🍪</div>
@@ -671,17 +545,13 @@
     <button id="btn-accept-cookies" class="btn btn-primary btn-sm">Accept All</button>
   </div>
 </div>
+
 <script src="main.js"></script>
 <script type="module" src="auth.js"></script>
 <script src="spin.js"></script>
 <script src="alerts.js"></script>
 
 <script>
-  function doSearchTag(q) {
-    document.getElementById('search-input').value = q;
-    doSearch(q);
-  }
-
   // --- COOKIE BANNER LOGIC ---
   document.addEventListener("DOMContentLoaded", () => {
     const cookieBanner = document.getElementById("cookie-banner");
@@ -692,7 +562,7 @@
     if (!localStorage.getItem("neon_cookies_status")) {
       // If not, wait 2 seconds, then slide the banner up
       setTimeout(() => {
-        cookieBanner.classList.add("show");
+        if(cookieBanner) cookieBanner.classList.add("show");
       }, 2000);
     }
 
@@ -703,14 +573,13 @@
     };
 
     // Listen for button clicks
-    btnAccept.addEventListener("click", () => hideBanner("accepted"));
-    btnReject.addEventListener("click", () => hideBanner("rejected"));
+    if(btnAccept) btnAccept.addEventListener("click", () => hideBanner("accepted"));
+    if(btnReject) btnReject.addEventListener("click", () => hideBanner("rejected"));
   });
 </script>
 
 <script type='text/javascript'>
       var cId = '271764';
-
       (function(d, t) {
         var s = document.createElement('script');
         s.type = 'text/javascript';
@@ -719,8 +588,6 @@
         document.getElementsByTagName('body')[0].appendChild(s);
       }());
 </script>
-</body>
-</html>
-    
+
 </body>
 </html>
