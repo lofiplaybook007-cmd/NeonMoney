@@ -40,11 +40,23 @@
 
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
-    <div class="nav-links"><a href="index.html">Home</a><a href="deals.html">Deals</a><a href="store.html">Stores</a><a href="rewards.html">Rewards</a></div>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="NeonMoney Logo" style="height: 36px; width: auto; margin-right: 8px; border-radius: 8px;">
+      Neon<span class="accent">Money</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="deals.html">Deals</a>
+      <a href="store.html">Stores</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="faq.html">FAQ</a>
+    </div>
     <div class="nav-actions">
-      <div class="nav-coins" id="nav-coins" style="display:flex;">💰 <span id="nav-coins-val">1,250</span></div>
-      <div id="nav-user-menu" style="display:flex;gap:8px;align-items:center;"><span id="nav-user-name" style="font-size:0.85rem;color:var(--text-secondary);font-family:var(--font-ui);">Demo User</span><button class="btn btn-secondary btn-sm btn-logout">Logout</button></div>
+      <div class="nav-coins" id="nav-coins">💰 <span id="nav-coins-val">0</span></div>
+      <div id="nav-user-menu" style="display:flex; gap:8px; align-items:center;">
+        <button class="btn btn-secondary btn-sm btn-logout" id="logout-btn">Logout</button>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div> 
     </div>
   </div>
 </nav>
@@ -225,7 +237,7 @@
 
  <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  <script type="module">import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
   import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
   const firebaseConfig = {
