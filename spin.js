@@ -136,11 +136,20 @@ const targetAngle = (360 * 5) + stopAngle; // 5 full spins + landing spot
         showNotification(`🎉 Amazing! You won ${won.coins} coins!`, 'success');
       }
 
-      // Update coin display if on dashboard
-      const coinDisplay = document.querySelector('.coins-total');
-      if (coinDisplay) {
-        const current = parseInt(coinDisplay.textContent.replace(/,/g, '')) || 0;
-        coinDisplay.textContent = (current + won.coins).toLocaleString('en-IN');
+     // 1. Get current saved coins (or start at 0)
+let savedCoins = parseInt(localStorage.getItem('neon_coins')) || 0;
+
+// 2. Add the newly won coins
+let newTotal = savedCoins + won.coins;
+
+// 3. Save the new total back to the browser's memory
+localStorage.setItem('neon_coins', newTotal);
+
+// 4. Update the visual numbers on the screen instantly
+const navCoinDisplay = document.getElementById('nav-coins-val');
+const dashCoinDisplay = document.getElementById('user-coin-balance');
+if (navCoinDisplay) navCoinDisplay.textContent = newTotal.toLocaleString('en-IN');
+if (dashCoinDisplay) dashCoinDisplay.textContent = newTotal.toLocaleString('en-IN');
       }
     }, 4200);
   });
