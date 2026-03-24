@@ -150,7 +150,6 @@ const navCoinDisplay = document.getElementById('nav-coins-val');
 const dashCoinDisplay = document.getElementById('user-coin-balance');
 if (navCoinDisplay) navCoinDisplay.textContent = newTotal.toLocaleString('en-IN');
 if (dashCoinDisplay) dashCoinDisplay.textContent = newTotal.toLocaleString('en-IN');
-      }
     }, 4200);
   });
 });
