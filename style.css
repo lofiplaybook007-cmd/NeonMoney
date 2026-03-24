@@ -429,3 +429,9 @@ p  { font-family: var(--font-ui); color: var(--text-secondary); }
     justify-content: flex-end;
   }
 }
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3rem !important; /* Makes the text smaller on phones */
+    line-height: 1.2 !important; /* Fixes the spacing between words */
+  }
+}
