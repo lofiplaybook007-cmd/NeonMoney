@@ -83,7 +83,7 @@
     <div>
       <div class="bal-label">YOUR BALANCE</div>
       <div class="bal-num"><span id="user-coin-balance">0</span> 💰</div>
-      <div style="font-family:var(--font-ui);font-size:0.85rem;color:var(--text-secondary);margin-top:4px;">800 confirmed · 350 pending</div>
+      <div style="font-family:var(--font-ui);font-size:0.85rem;color:var(--text-secondary);margin-top:4px;">0 confirmed · 0 pending</div>
     </div>
     
     <div>
@@ -198,30 +198,59 @@
   }
 </script>
    <script type="module">
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-  const auth = getAuth();
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-  onAuthStateChanged(auth, (user) => {
-      if (user) {
-          // 1. Get the name from email (aryan@gmail.com becomes aryan)
-          let displayName = user.email.split('@')[0];
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+    authDomain: "neonmoney-a2d18.firebaseapp.com",
+    projectId: "neonmoney-a2d18",
+    storageBucket: "neonmoney-a2d18.firebasestorage.app",
+    messagingSenderId: "759618988071",
+    appId: "1:759618988071:web:b65d190a3a7ececabc4602"
+  };
 
-          // 2. Capitalize the first letter (Aryan)
-          displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-          // 3. Find the text and change it!
-          const nameDisplay = document.getElementById('user-name-display');
-          if (nameDisplay) {
-              nameDisplay.textContent = displayName;
-          }
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // Fetch their LIVE Coin Balance!
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      
+      const balanceDisplay = document.getElementById('user-coin-balance');
+      const navCoinDisplay = document.getElementById('nav-coins-val');
+
+      let currentCoins = 0;
+      if (userSnap.exists()) {
+        currentCoins = userSnap.data().coins;
       } else {
-          // Kick out users who aren't logged in
-          window.location.href = 'login.html';
+        currentCoins = parseInt(localStorage.getItem('neon_coins')) || 0;
       }
+      
+      if (balanceDisplay) balanceDisplay.textContent = currentCoins;
+      if (navCoinDisplay) navCoinDisplay.textContent = currentCoins.toLocaleString('en-IN');
+
+    } else {
+      window.location.href = 'login.html';
+    }
+  });
+
+  // Logout Buttons Setup
+  const logoutBtns = document.querySelectorAll('.btn-logout');
+  logoutBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        window.location.href = 'login.html';
+      });
+    });
   });
 </script>
-  <script>
-  // Mobile Menu Logic
+
+<script>
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.querySelector('.nav-links');
   if(hamburger && navLinks) {
@@ -229,33 +258,6 @@
       navLinks.classList.toggle('active');
     });
   }
-</script>
-
-<script type="module">
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-  const auth = getAuth();
-
-  onAuthStateChanged(auth, (user) => {
-      if (!user) {
-          // If they are not logged in, hide the logout button and show login/signup
-          document.getElementById('nav-user-menu').innerHTML = `
-            <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
-            <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
-          `;
-      }
-  });
-</script>
-  <script>
-  // Fetch saved coins from browser memory
-  document.addEventListener("DOMContentLoaded", () => {
-    let savedCoins = parseInt(localStorage.getItem('neon_coins')) || 0;
-
-    const navCoinDisplay = document.getElementById('nav-coins-val');
-    const dashCoinDisplay = document.getElementById('user-coin-balance');
-
-    if (navCoinDisplay) navCoinDisplay.textContent = savedCoins.toLocaleString('en-IN');
-    if (dashCoinDisplay) dashCoinDisplay.textContent = savedCoins.toLocaleString('en-IN');
-  });
 </script>
 </body>
 </html>
