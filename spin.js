@@ -114,9 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
     spinBtn.disabled = true;
     spinBtn.textContent = 'Spinning... 🌀';
 
-    const idx = Math.floor(Math.random() * SEGMENTS.length);
-    const segAngle = 360 / SEGMENTS.length;
-    const targetAngle = 360 * 6 + (segAngle * idx);
+   const idx = Math.floor(Math.random() * SEGMENTS.length);
+const segAngle = 360 / SEGMENTS.length;
+// This calculates the exact center of the winning slice
+const stopAngle = 360 - (idx * segAngle) - (segAngle / 2);
+const targetAngle = (360 * 5) + stopAngle; // 5 full spins + landing spot
     totalRotation += targetAngle;
 
     svg.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
