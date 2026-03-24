@@ -444,3 +444,19 @@ p  { font-family: var(--font-ui); color: var(--text-secondary); }
   display: inline-block;
   vertical-align: bottom;
 }
+/* ── MOBILE NAVBAR FIT FIX ── */
+@media (max-width: 480px) {
+  .nav-inner {
+    padding: 0 12px; /* Reduces the invisible wall on the sides of the screen */
+  }
+  .nav-actions {
+    gap: 6px; /* Brings the coins, logout, and menu closer together */
+  }
+  .btn-sm {
+    padding: 6px 12px; /* Makes the Logout button slightly more compact */
+    font-size: 0.8rem;
+  }
+  .nav-coins {
+    padding: 4px 10px; /* Makes the coin badge slightly more compact */
+  }
+}
