@@ -173,58 +173,50 @@
     .cta-box p  { margin-bottom: 36px; font-size: 1.05rem; position: relative; z-index: 1; }
     .cta-buttons { display: flex; gap: 14px; justify-content: center; position: relative; z-index: 1; }
 
-    /* ── MODAL ── */
-    #product-modal {
-      display: none; position: fixed; inset: 0; z-index: 9998;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-      align-items: center; justify-content: center; padding: 24px;
-    }
-    .modal-content {
-      background: var(--bg-mid); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); padding: 36px; max-width: 480px;
-      width: 100%; position: relative; animation: scale-in 0.3s cubic-bezier(0.16,1,0.3,1);
-    }
-    .modal-close {
-      position: absolute; top: 16px; right: 16px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      color: var(--text-secondary); width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-      font-size: 0.9rem; transition: var(--transition);
-    }
-    .modal-close:hover { color: var(--text-primary); border-color: var(--neon-green); }
-    #modal-img { font-size: 4rem; text-align: center; display: block; margin-bottom: 16px; }
+    /* =========================================
+       NEW: ANALYSIS MODAL (POPUP) STYLES
+       ========================================= */
+    #analysis-modal { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
+    .analysis-content { background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; animation: scale-in 0.3s ease-out; }
+    .close-modal { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+    .close-modal:hover { background: rgba(255,107,43,0.8); }
+    .am-header { padding: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 24px; align-items: center; }
+    .am-img-box { width: 120px; height: 120px; background: #fff; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 3rem; flex-shrink: 0;}
+    .am-title { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 8px; color: #fff;}
+    .am-price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+    .am-price { font-size: 2rem; font-weight: bold; color: #fff; }
+    .am-old-price { text-decoration: line-through; color: #64748b; font-size: 1.1rem; }
+    .am-discount { background: rgba(0,255,178,0.15); color: var(--neon-green); padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
+    .am-body { padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .am-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px; text-align: left; }
+    .am-card h3 { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; color: #fff;}
+    .gauge-container { text-align: center; position: relative; }
+    .gauge-bar { width: 100%; height: 12px; background: linear-gradient(90deg, #ff4d4d, #fbbf24, #00ffb2); border-radius: 10px; margin-bottom: 10px; position: relative; }
+    .gauge-pointer { position: absolute; left: 80%; top: -6px; width: 4px; height: 24px; background: #fff; border-radius: 2px; box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+    .stat-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; }
+    .stat-label { color: #94a3b8; }
+    .stat-val { font-weight: bold; color: #fff; }
+    .compare-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; }
+    
+    .vault-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s, border-color 0.2s; }
+    .vault-item:hover { transform: translateY(-3px); border-color: var(--neon-blue); }
+    .vault-link { color: #fff; text-decoration: none; font-weight: 600; word-break: break-all; margin-right: 15px; }
+    .vault-link:hover { color: var(--neon-blue); text-decoration: underline; }
+    .badge-tracking { background: rgba(0, 242, 254, 0.1); color: #00f2fe; padding: 6px 14px; border-radius: 100px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; }
 
     /* ── RESPONSIVE (MOBILE FIXES) ── */
     @media (max-width: 768px) {
-      /* 1. Kills the giant blank space at the top */
-      .hero { 
-        min-height: auto !important; 
-        padding-top: 130px !important; 
-        padding-bottom: 40px !important; 
-        align-items: flex-start !important; 
-      }
-      
-      /* 2. Shrinks the massive 80px gaps between sections to 40px */
-      .real-cash-section, 
-      .tracker-section, 
-      .spin-home-section, 
-      .how-section, 
-      .stats-section, 
-      .reviews-section, 
-      .cta-section {
-        padding-top: 40px !important;
-        padding-bottom: 40px !important;
-      }
-
-      /* 3. Existing mobile layout rules */
+      .hero { min-height: auto !important; padding-top: 130px !important; padding-bottom: 40px !important; align-items: flex-start !important; }
+      .real-cash-section, .tracker-section, .spin-home-section, .how-section, .stats-section, .reviews-section, .cta-section { padding-top: 40px !important; padding-bottom: 40px !important; }
       .hero-grid, .spin-home-wrap { grid-template-columns: 1fr; gap: 40px; }
       .hero-right { display: none; }
       .steps-grid, .reviews-grid { grid-template-columns: 1fr; }
       .stats-bar { grid-template-columns: repeat(2, 1fr); }
       .chip-1, .chip-2, .chip-3 { display: none; }
       .cta-buttons { flex-direction: column; align-items: center; }
+      .am-header { flex-direction: column; text-align: center; }
+      .am-body { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 480px) {
       .stats-bar { grid-template-columns: 1fr; }
     }
@@ -261,7 +253,8 @@
     </div>
   </div>
 </nav>
-    <div class="scrolling-ticker">
+
+<div class="scrolling-ticker">
   <div class="ticker-content">
     <span class="ticker-item">✨ Track genuine price drops</span><span class="ticker-dot">•</span>
     <span class="ticker-item">🔥 Compare Amazon vs Flipkart instantly</span><span class="ticker-dot">•</span>
@@ -325,10 +318,6 @@
             You save <strong>₹1,491</strong> on Flipkart · Earn <span style="color:var(--neon-yellow)">💰 120 Coins</span>
           </div>
         </div>
-
-        <div class="float-chip chip-1 float-2">💰 +120 Coins earned!</div>
-        <div class="float-chip chip-2 float-3">✅ Best price found!</div>
-        <div class="float-chip chip-3 float-2">⚡ Live comparison</div>
       </div>
     </div>
   </div>
@@ -358,9 +347,9 @@
       </p>
       
       <div class="search-box" style="margin-top: 40px; background: rgba(15,23,42,0.8); border: 1px solid var(--border); display: flex; align-items: center; padding: 8px 8px 8px 20px; border-radius: var(--radius-lg);">
-        <input type="text" placeholder="https://www.amazon.in/dp/B08..." style="flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 1rem; width: 100%;">
-        <button class="btn btn-primary" style="background: var(--neon-blue); color: #0A0A0F; box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);">
-          Track Price ↗
+        <input type="url" id="product-url" placeholder="https://www.amazon.in/dp/B08..." style="flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 1rem; width: 100%;">
+        <button id="analyze-btn" class="btn btn-primary" style="background: var(--neon-blue); color: #0A0A0F; box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);">
+          Analyze Link ↗
         </button>
       </div>
 
@@ -368,8 +357,8 @@
         <h3 style="display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-size: 1.5rem;">
           <span style="font-size: 1.8rem;">🗃️</span> My Tracked Vault
         </h3>
-        <div style="margin-top: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 48px 20px; text-align: center; color: var(--text-muted);">
-          <p>You haven't tracked any products yet. Paste a link above to start saving!</p>
+        <div id="tracked-list" style="margin-top: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 48px 20px; text-align: center; color: var(--text-muted);">
+          <p>Login to view your saved products.</p>
         </div>
       </div>
 
@@ -548,18 +537,62 @@
   </div>
 </footer>
 
-<div id="product-modal">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <span id="modal-img"></span>
-    <h3 id="modal-title" style="margin-bottom:20px;"></h3>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
-      <div class="hpc-row amazon"><span class="hpc-store amazon">🛒 Amazon</span><span id="modal-amazon" class="hpc-price" style="color:#FF9900;"></span></div>
-      <div class="hpc-row flipkart"><span class="hpc-store flipkart">🛍️ Flipkart</span><span id="modal-flipkart" class="hpc-price" style="color:#2874F0;"></span></div>
+<div id="analysis-modal">
+  <div class="analysis-content">
+    <button class="close-modal" id="close-modal">✕</button>
+    
+    <div class="am-header">
+      <div class="am-img-box">📱</div>
+      <div>
+        <div style="color: #64748b; font-size: 0.85rem; margin-bottom: 4px; text-transform: uppercase;">Smart Analysis Complete</div>
+        <div class="am-title">Sample Product Name (Analyzed)</div>
+        <div class="am-price-row">
+          <div class="am-price">₹39,999</div>
+          <div class="am-old-price">₹49,999</div>
+          <div class="am-discount">↓ 20% OFF</div>
+        </div>
+        <div style="color: var(--neon-yellow); font-size: 0.9rem;">★★★★☆ 4.5 Ratings</div>
+      </div>
     </div>
-    <div class="hpc-saving" style="margin-bottom:16px;" id="modal-saving"></div>
-    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:var(--font-display);font-size:0.8rem;color:var(--neon-yellow);margin-bottom:24px;">💰 <span id="modal-coins"></span></div>
-    <a href="deals.html" class="btn btn-primary" style="width:100%;justify-content:center;">🛒 Go to Best Deal</a>
+
+    <div class="am-body">
+      <div class="am-card">
+        <h3>Should you buy now?</h3>
+        <div class="gauge-container">
+          <div class="gauge-bar"><div class="gauge-pointer"></div></div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #94a3b8; margin-bottom: 20px;">
+            <span>Bad Time</span><span>Good Time</span>
+          </div>
+          <div style="color: var(--neon-green); font-weight: bold; font-size: 1.1rem; margin-bottom: 20px;">✓ Go Ahead & Buy Now</div>
+        </div>
+
+        <h3>Price Stats</h3>
+        <div class="stat-row"><span class="stat-label">Highest Price ↑</span><span class="stat-val">₹49,999</span></div>
+        <div class="stat-row"><span class="stat-label">Lowest Price ↓</span><span class="stat-val" style="color: var(--neon-green);">₹35,499</span></div>
+        <div class="stat-row"><span class="stat-label">Average Price ↕</span><span class="stat-val">₹41,200</span></div>
+      </div>
+
+      <div class="am-card">
+        <h3>Compare Available Prices</h3>
+        <div class="compare-row">
+          <div style="font-weight: bold; color: #2874F0;">🛍️ Flipkart</div>
+          <div style="font-weight: bold;">₹39,999 <span style="font-size: 0.8rem; color: var(--neon-green);">(Best)</span></div>
+        </div>
+        <div class="compare-row">
+          <div style="font-weight: bold; color: #FF9900;">🛒 Amazon</div>
+          <div style="font-weight: bold;">₹44,940</div>
+        </div>
+        <div class="compare-row">
+          <div style="font-weight: bold; color: #ff4d4d;">🏢 Vijay Sales</div>
+          <div style="font-weight: bold;">₹41,000</div>
+        </div>
+        
+        <div style="margin-top: 30px; text-align: center;">
+          <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">Save this item to your vault to get notified when it hits the lowest price.</p>
+          <button id="confirm-track-btn" class="btn btn-primary" style="width: 100%; justify-content: center;">🔔 Set Price Drop Alert</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -591,21 +624,15 @@
     const btnAccept = document.getElementById("btn-accept-cookies");
     const btnReject = document.getElementById("btn-reject-cookies");
 
-    // Check if user already accepted/rejected cookies in the past
     if (!localStorage.getItem("neon_cookies_status")) {
-      // If not, wait 2 seconds, then slide the banner up
       setTimeout(() => {
         if(cookieBanner) cookieBanner.classList.add("show");
       }, 2000);
     }
-
-    // Function to hide banner and save their choice
     const hideBanner = (status) => {
       localStorage.setItem("neon_cookies_status", status);
       cookieBanner.classList.remove("show");
     };
-
-    // Listen for button clicks
     if(btnAccept) btnAccept.addEventListener("click", () => hideBanner("accepted"));
     if(btnReject) btnReject.addEventListener("click", () => hideBanner("rejected"));
   });
@@ -620,6 +647,128 @@
         s.src = (document.location.protocol == 'https:' ? 'https://cdn0.cuelinks.com/js/' : 'http://cdn0.cuelinks.com/js/')  + 'cuelinksv2.js';
         document.getElementsByTagName('body')[0].appendChild(s);
       }());
+</script>
+
+<script type="module">
+  // We use getApp to prevent "Firebase already exists" errors since auth.js is also running
+  import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, getDocs, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+    authDomain: "neonmoney-a2d18.firebaseapp.com",
+    projectId: "neonmoney-a2d18",
+    storageBucket: "neonmoney-a2d18.firebasestorage.app",
+    messagingSenderId: "759618988071",
+    appId: "1:759618988071:web:b65d190a3a7ececabc4602"
+  };
+
+  const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  let currentUser = null;
+  let tempUrlToSave = ""; // Stores the URL while looking at the popup
+
+  // FETCH & DISPLAY VAULT LINKS
+  async function loadVault(user) {
+    const listDiv = document.getElementById('tracked-list');
+    listDiv.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 48px 20px;">Loading your vault...</p>';
+    
+    try {
+      const q = query(collection(db, "users", user.uid, "trackedProducts"));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        listDiv.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 48px 20px;">Your vault is empty. Paste a link above to start tracking!</p>';
+        return;
+      }
+      
+      let items = [];
+      querySnapshot.forEach((doc) => items.push(doc.data()));
+      items.sort((a, b) => (b.dateAdded ? b.dateAdded.toMillis() : 0) - (a.dateAdded ? a.dateAdded.toMillis() : 0));
+      
+      listDiv.innerHTML = ''; 
+      // Update styling to match the homepage vault box
+      listDiv.style.background = 'transparent';
+      listDiv.style.border = 'none';
+      listDiv.style.padding = '0';
+      
+      items.forEach((data) => {
+        const shortLink = data.productUrl.length > 50 ? data.productUrl.substring(0, 50) + '...' : data.productUrl;
+        listDiv.innerHTML += `
+          <div class="vault-item">
+            <a href="${data.productUrl}" target="_blank" class="vault-link">${shortLink}</a>
+            <div class="badge-tracking">🔄 ${data.status || 'Tracking'}</div>
+          </div>
+        `;
+      });
+    } catch (error) {
+      console.error(error);
+      listDiv.innerHTML = '<p style="color: #ff4d4d; text-align: center; padding: 48px 20px;">Error loading your vault. Please refresh.</p>';
+    }
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      loadVault(user); 
+    }
+  });
+
+  // POPUP LOGIC
+  const analyzeBtn = document.getElementById('analyze-btn');
+  const modal = document.getElementById('analysis-modal');
+  const closeModal = document.getElementById('close-modal');
+  const confirmBtn = document.getElementById('confirm-track-btn');
+  const urlInput = document.getElementById('product-url');
+
+  if(analyzeBtn) {
+    analyzeBtn.addEventListener('click', () => {
+      if (!urlInput.value) { alert("Please paste a link first!"); return; }
+      tempUrlToSave = urlInput.value;
+      
+      analyzeBtn.textContent = "Analyzing...";
+      setTimeout(() => {
+        analyzeBtn.textContent = "Analyze Link ↗";
+        modal.style.display = "flex";
+      }, 1500);
+    });
+  }
+
+  if(closeModal) {
+    closeModal.addEventListener('click', () => { modal.style.display = "none"; });
+  }
+
+  if(confirmBtn) {
+    confirmBtn.addEventListener('click', async () => {
+      if (!currentUser) {
+        alert("Please login or create a free account to use the tracker vault!");
+        window.location.href = "login.html";
+        return;
+      }
+      confirmBtn.textContent = "Saving to Vault...";
+
+      try {
+        await addDoc(collection(db, "users", currentUser.uid, "trackedProducts"), {
+          productUrl: tempUrlToSave,
+          dateAdded: serverTimestamp(),
+          status: "Tracking"
+        });
+
+        modal.style.display = "none";
+        confirmBtn.textContent = "🔔 Set Price Drop Alert";
+        urlInput.value = '';
+        loadVault(currentUser); // Instantly show in vault
+        alert("Successfully added to your tracking vault!");
+
+      } catch (error) {
+        console.error(error);
+        alert("Something went wrong.");
+        confirmBtn.textContent = "🔔 Set Price Drop Alert";
+      }
+    });
+  }
 </script>
 
 </body>
