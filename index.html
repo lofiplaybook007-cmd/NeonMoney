@@ -194,8 +194,29 @@
     .modal-close:hover { color: var(--text-primary); border-color: var(--neon-green); }
     #modal-img { font-size: 4rem; text-align: center; display: block; margin-bottom: 16px; }
 
-    /* ── RESPONSIVE ── */
+    /* ── RESPONSIVE (MOBILE FIXES) ── */
     @media (max-width: 768px) {
+      /* 1. Kills the giant blank space at the top */
+      .hero { 
+        min-height: auto !important; 
+        padding-top: 130px !important; 
+        padding-bottom: 40px !important; 
+        align-items: flex-start !important; 
+      }
+      
+      /* 2. Shrinks the massive 80px gaps between sections to 40px */
+      .real-cash-section, 
+      .tracker-section, 
+      .spin-home-section, 
+      .how-section, 
+      .stats-section, 
+      .reviews-section, 
+      .cta-section {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+      }
+
+      /* 3. Existing mobile layout rules */
       .hero-grid, .spin-home-wrap { grid-template-columns: 1fr; gap: 40px; }
       .hero-right { display: none; }
       .steps-grid, .reviews-grid { grid-template-columns: 1fr; }
@@ -203,6 +224,7 @@
       .chip-1, .chip-2, .chip-3 { display: none; }
       .cta-buttons { flex-direction: column; align-items: center; }
     }
+
     @media (max-width: 480px) {
       .stats-bar { grid-template-columns: 1fr; }
     }
