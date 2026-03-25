@@ -4,170 +4,305 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Price Tracker | NeonMoney</title>
+  <meta name="description" content="Track product prices and get alerts.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="dashboard.css">
   <style>
-    /* NeonMoney Base Styles */
-    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f0f1a; color: #fff; }
-    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: #1a1a2e; border-bottom: 1px solid #333; }
-    .nav-logo { font-size: 1.5rem; font-weight: bold; color: #fff; text-decoration: none; }
-    .nav-logo span { color: #00f2fe; }
+    .tracker-hero { padding: calc(var(--nav-height) + 60px) 0 40px; text-align: center; }
+    .tracker-box {
+      background: rgba(15,23,42,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-xl);
+      padding: 40px; text-align: center; max-width: 800px; margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(0, 242, 254, 0.05);
+    }
+    .input-group { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+    .url-input {
+      flex: 1; min-width: 250px; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md);
+      padding: 16px 20px; color: #fff; outline: none; transition: 0.3s;
+    }
+    .url-input:focus { border-color: var(--neon-blue); }
+
+    .vault-section { max-width: 800px; margin: 60px auto 100px; padding: 0 20px; }
+    .vault-item {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .vault-link { color: #fff; text-decoration: none; font-weight: 600; word-break: break-all; margin-right: 15px; }
+    .vault-link:hover { color: var(--neon-blue); }
+    .badge-tracking { background: rgba(0, 242, 254, 0.1); color: #00f2fe; padding: 6px 14px; border-radius: 100px; font-size: 0.85rem; font-weight: bold; }
+
+    /* =========================================
+       NEW: ANALYSIS MODAL (POPUP) STYLES
+       ========================================= */
+    #analysis-modal {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .analysis-content {
+      background: #0f172a; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; max-width: 900px; width: 100%; max-height: 90vh;
+      overflow-y: auto; position: relative;
+      animation: scale-in 0.3s ease-out;
+    }
+    .close-modal {
+      position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1);
+      border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%;
+      cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+    }
+    .close-modal:hover { background: rgba(255,107,43,0.8); }
+
+    /* Modal Layout */
+    .am-header { padding: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 24px; align-items: center; }
+    .am-img-box { width: 120px; height: 120px; background: #fff; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 3rem; flex-shrink: 0;}
+    .am-title { font-family: var(--font-display); font-size: 1.4rem; margin-bottom: 8px; }
+    .am-price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+    .am-price { font-size: 2rem; font-weight: bold; color: #fff; }
+    .am-old-price { text-decoration: line-through; color: #64748b; font-size: 1.1rem; }
+    .am-discount { background: rgba(0,255,178,0.15); color: var(--neon-green); padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
+
+    .am-body { padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
     
-    /* Tracker UI Styles */
-    .tracker-container { max-width: 800px; margin: 60px auto; padding: 20px; text-align: center; }
-    .tracker-box { background: #1a1a2e; padding: 40px; border-radius: 16px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1); }
-    .tracker-box h1 { font-size: 2.5rem; margin-bottom: 10px; }
-    .tracker-box p { color: #aaa; margin-bottom: 30px; font-size: 1.1rem; }
+    /* Gauge & Stats */
+    .am-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 24px; }
+    .am-card h3 { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px;}
     
-    .input-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-    .url-input { flex: 1; min-width: 250px; padding: 15px 20px; border-radius: 8px; border: 1px solid #333; background: #0f0f1a; color: #fff; font-size: 1rem; outline: none; transition: border-color 0.3s; }
-    .url-input:focus { border-color: #00f2fe; }
+    .gauge-container { text-align: center; position: relative; }
+    .gauge-bar { width: 100%; height: 12px; background: linear-gradient(90deg, #ff4d4d, #fbbf24, #00ffb2); border-radius: 10px; margin-bottom: 10px; position: relative; }
+    .gauge-pointer { position: absolute; left: 80%; top: -6px; width: 4px; height: 24px; background: #fff; border-radius: 2px; box-shadow: 0 0 10px rgba(255,255,255,0.8); }
     
-    .btn-track { padding: 15px 30px; background: linear-gradient(90deg, #00f2fe, #4facfe); border: none; border-radius: 8px; color: #fff; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-    .btn-track:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4); }
+    .stat-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; }
+    .stat-label { color: #94a3b8; }
+    .stat-val { font-weight: bold; }
     
-    /* Success Message */
-    #status-msg { margin-top: 20px; font-size: 1.1rem; color: #00f2fe; display: none; padding: 10px; background: rgba(0, 242, 254, 0.1); border-radius: 8px; }
+    .compare-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; }
+    
+    @media (max-width: 768px) {
+      .am-header { flex-direction: column; text-align: center; }
+      .am-body { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
-  <nav class="navbar">
-    <a href="index.html" class="nav-logo">Neon<span>Money</span></a>
-    <div>
-      <a href="dashboard.html" style="color: #fff; text-decoration: none; margin-right: 20px;">Dashboard</a>
-      <a href="store.html" style="color: #fff; text-decoration: none;">Stores</a>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="deals.html">Deals</a>
+      <a href="store.html">Stores</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="faq.html">FAQ</a>
     </div>
-  </nav>
+    <div class="nav-actions">
+      <div class="nav-coins" id="nav-coins">💰 <span id="nav-coins-val">0</span></div>
+      <div id="nav-user-menu" style="display:flex; gap:8px; align-items:center;">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+        <button class="btn btn-secondary btn-sm btn-logout">Logout</button>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
 
-  <div class="tracker-container">
+<div class="tracker-hero">
+  <div class="container">
     <div class="tracker-box animate-on-scroll">
-      <h1>📉 Smart Price Tracker</h1>
-      <p>Paste a product link from Amazon, Flipkart, or Myntra. We will save it to your vault and alert you when the price drops!</p>
+      <h1 style="font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 12px;">📉 Smart Price Tracker</h1>
+      <p style="color: var(--text-secondary); font-size: 1.1rem;">Paste a product link from Amazon, Flipkart, or Myntra to analyze the price!</p>
       
       <div class="input-group">
         <input type="url" id="product-url" class="url-input" placeholder="https://www.amazon.in/dp/B08...">
-        <button id="track-btn" class="btn-track">Track Price ↗</button>
+        <button id="analyze-btn" class="btn btn-primary" style="padding: 0 30px; border-radius: var(--radius-md);">Analyze Link ↗</button>
       </div>
-      
-      <div id="status-msg">✅ Link successfully saved to your tracking vault!</div>
     </div>
   </div>
-<style>
-    /* Vault Styles */
-    .vault-section { max-width: 800px; margin: 40px auto; padding: 20px; }
-    .vault-section h2 { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; font-size: 1.8rem; }
-    .tracked-item { background: #1a1a2e; padding: 15px 20px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s; }
-    .tracked-item:hover { transform: translateY(-2px); border-color: #00f2fe; }
-    .tracked-link { color: #fff; text-decoration: none; word-break: break-all; margin-right: 15px; font-weight: bold; }
-    .tracked-link:hover { color: #00f2fe; }
-    .status-badge { background: rgba(0, 242, 254, 0.1); color: #00f2fe; padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; }
-  </style>
+</div>
 
-  <div class="vault-section">
-    <h2>🔐 My Tracked Vault</h2>
-    <div id="tracked-list">
-      <p style="color: #aaa;">Loading your vault...</p>
+<div class="vault-section animate-on-scroll">
+  <h2 style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;"><span>🔐</span> My Tracked Vault</h2>
+  <div id="tracked-list">
+    <p style="color: var(--text-muted); text-align: center;">Loading your vault...</p>
+  </div>
+</div>
+
+<div id="analysis-modal">
+  <div class="analysis-content">
+    <button class="close-modal" id="close-modal">✕</button>
+    
+    <div class="am-header">
+      <div class="am-img-box">📱</div>
+      <div>
+        <div style="color: #64748b; font-size: 0.85rem; margin-bottom: 4px; text-transform: uppercase;">Smart Analysis Complete</div>
+        <div class="am-title">Sample Product Name (Analyzed)</div>
+        <div class="am-price-row">
+          <div class="am-price">₹39,999</div>
+          <div class="am-old-price">₹49,999</div>
+          <div class="am-discount">↓ 20% OFF</div>
+        </div>
+        <div style="color: var(--neon-yellow); font-size: 0.9rem;">★★★★☆ 4.5 Ratings</div>
+      </div>
+    </div>
+
+    <div class="am-body">
+      
+      <div class="am-card">
+        <h3>Should you buy now?</h3>
+        <div class="gauge-container">
+          <div class="gauge-bar"><div class="gauge-pointer"></div></div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #94a3b8; margin-bottom: 20px;">
+            <span>Bad Time</span><span>Good Time</span>
+          </div>
+          <div style="color: var(--neon-green); font-weight: bold; font-size: 1.1rem; margin-bottom: 20px;">✓ Go Ahead & Buy Now</div>
+        </div>
+
+        <h3>Price Stats</h3>
+        <div class="stat-row"><span class="stat-label">Highest Price ↑</span><span class="stat-val">₹49,999</span></div>
+        <div class="stat-row"><span class="stat-label">Lowest Price ↓</span><span class="stat-val" style="color: var(--neon-green);">₹35,499</span></div>
+        <div class="stat-row"><span class="stat-label">Average Price ↕</span><span class="stat-val">₹41,200</span></div>
+      </div>
+
+      <div class="am-card">
+        <h3>Compare Available Prices</h3>
+        <div class="compare-row">
+          <div style="font-weight: bold; color: #2874F0;">🛍️ Flipkart</div>
+          <div style="font-weight: bold;">₹39,999 <span style="font-size: 0.8rem; color: var(--neon-green);">(Best)</span></div>
+        </div>
+        <div class="compare-row">
+          <div style="font-weight: bold; color: #FF9900;">🛒 Amazon</div>
+          <div style="font-weight: bold;">₹44,940</div>
+        </div>
+        <div class="compare-row">
+          <div style="font-weight: bold; color: #ff4d4d;">🏢 Vijay Sales</div>
+          <div style="font-weight: bold;">₹41,000</div>
+        </div>
+        
+        <div style="margin-top: 30px; text-align: center;">
+          <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">Save this item to your vault to get notified when it hits the lowest price.</p>
+          <button id="confirm-track-btn" class="btn btn-primary" style="width: 100%; justify-content: center;">🔔 Set Price Drop Alert</button>
+        </div>
+      </div>
+
     </div>
   </div>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    // Notice we added getDocs, query, and orderBy here!
-    import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+</div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
-      authDomain: "neonmoney-a2d18.firebaseapp.com",
-      projectId: "neonmoney-a2d18",
-      storageBucket: "neonmoney-a2d18.firebasestorage.app",
-      messagingSenderId: "759618988071",
-      appId: "1:759618988071:web:b65d190a3a7ececabc4602"
-    };
+<script src="main.js"></script>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    let currentUser = null;
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, getDocs, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // FUNCTION: Fetch and display the links from Firebase
-    async function loadVault(user) {
-      const listDiv = document.getElementById('tracked-list');
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+    authDomain: "neonmoney-a2d18.firebaseapp.com",
+    projectId: "neonmoney-a2d18",
+    storageBucket: "neonmoney-a2d18.firebasestorage.app",
+    messagingSenderId: "759618988071",
+    appId: "1:759618988071:web:b65d190a3a7ececabc4602"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  let currentUser = null;
+  let tempUrlToSave = ""; // Stores the URL while looking at the popup
+
+  // FETCH & DISPLAY VAULT LINKS
+  async function loadVault(user) {
+    const listDiv = document.getElementById('tracked-list');
+    try {
+      const q = query(collection(db, "users", user.uid, "trackedProducts"));
+      const querySnapshot = await getDocs(q);
       
-      try {
-        // Ask Firebase for this specific user's links, sorted by newest first
-        const q = query(collection(db, "users", user.uid, "trackedProducts"), orderBy("dateAdded", "desc"));
-        const querySnapshot = await getDocs(q);
-        
-        if (querySnapshot.empty) {
-          listDiv.innerHTML = '<p style="color: #aaa;">Your vault is empty. Paste a link above to start tracking!</p>';
-          return;
-        }
-
-        listDiv.innerHTML = ''; // Clear the "Loading" text
-        
-        // Loop through every link in the database and create a box for it
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          // Shorten the link so it doesn't break the screen
-          const shortLink = data.productUrl.length > 50 ? data.productUrl.substring(0, 50) + '...' : data.productUrl;
-          
-          listDiv.innerHTML += `
-            <div class="tracked-item">
-              <div>
-                <a href="${data.productUrl}" target="_blank" class="tracked-link">${shortLink}</a>
-              </div>
-              <div class="status-badge">🔄 ${data.status || 'Tracking'}</div>
-            </div>
-          `;
-        });
-      } catch (error) {
-        console.error("Error loading vault:", error);
-        listDiv.innerHTML = '<p style="color: #ff4d4d;">Error loading your vault. Please refresh.</p>';
+      if (querySnapshot.empty) {
+        listDiv.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Your vault is empty. Paste a link above to start tracking!</p>';
+        return;
       }
+      let items = [];
+      querySnapshot.forEach((doc) => items.push(doc.data()));
+      items.sort((a, b) => (b.dateAdded ? b.dateAdded.toMillis() : 0) - (a.dateAdded ? a.dateAdded.toMillis() : 0));
+      listDiv.innerHTML = ''; 
+      items.forEach((data) => {
+        const shortLink = data.productUrl.length > 55 ? data.productUrl.substring(0, 55) + '...' : data.productUrl;
+        listDiv.innerHTML += `
+          <div class="vault-item">
+            <a href="${data.productUrl}" target="_blank" class="vault-link">${shortLink}</a>
+            <div class="badge-tracking">🔄 ${data.status || 'Tracking'}</div>
+          </div>
+        `;
+      });
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    // Check login status and load the vault!
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        currentUser = user;
-        loadVault(user); // Automatically load their links when they open the page
-      } else {
-        window.location.href = 'login.html';
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      const userSnap = await getDoc(doc(db, "users", user.uid));
+      if (userSnap.exists() && document.getElementById('nav-coins-val')) {
+        document.getElementById('nav-coins-val').textContent = userSnap.data().coins.toLocaleString('en-IN');
       }
-    });
+      loadVault(user); 
+    } else {
+      window.location.href = 'login.html';
+    }
+  });
 
-    // Save a new link
-    document.getElementById('track-btn').addEventListener('click', async () => {
-      const urlInput = document.getElementById('product-url');
-      const url = urlInput.value;
-      const statusMsg = document.getElementById('status-msg');
-      const btn = document.getElementById('track-btn');
+  // POPUP LOGIC
+  const analyzeBtn = document.getElementById('analyze-btn');
+  const modal = document.getElementById('analysis-modal');
+  const closeModal = document.getElementById('close-modal');
+  const confirmBtn = document.getElementById('confirm-track-btn');
+  const urlInput = document.getElementById('product-url');
 
-      if (!url) { alert("Please paste a product link first!"); return; }
-      if (!currentUser) return;
+  // 1. Click "Analyze" -> Show Loading -> Show Modal
+  analyzeBtn.addEventListener('click', () => {
+    if (!urlInput.value) { alert("Please paste a link first!"); return; }
+    tempUrlToSave = urlInput.value;
+    
+    analyzeBtn.textContent = "Analyzing...";
+    // Simulate a 1.5 second "scraping" delay
+    setTimeout(() => {
+      analyzeBtn.textContent = "Analyze Link ↗";
+      modal.style.display = "flex";
+    }, 1500);
+  });
 
-      btn.textContent = "Saving...";
+  // 2. Close Modal manually
+  closeModal.addEventListener('click', () => { modal.style.display = "none"; });
 
-      try {
-        await addDoc(collection(db, "users", currentUser.uid, "trackedProducts"), {
-          productUrl: url,
-          dateAdded: serverTimestamp(),
-          status: "Tracking"
-        });
+  // 3. Click "Set Price Drop Alert" inside the Modal -> Save to Database
+  confirmBtn.addEventListener('click', async () => {
+    if (!currentUser) return;
+    confirmBtn.textContent = "Saving to Vault...";
 
-        urlInput.value = '';
-        btn.textContent = "Track Price ↗";
-        statusMsg.style.display = "block";
-        setTimeout(() => { statusMsg.style.display = "none"; }, 4000);
-        
-        // INSTANTLY refresh the vault list to show the new link!
-        loadVault(currentUser);
+    try {
+      await addDoc(collection(db, "users", currentUser.uid, "trackedProducts"), {
+        productUrl: tempUrlToSave,
+        dateAdded: serverTimestamp(),
+        status: "Tracking"
+      });
 
-      } catch (error) {
-        console.error("Error saving link: ", error);
-        alert("Something went wrong. Please try again.");
-        btn.textContent = "Track Price ↗";
-      }
-    });
-  </script>
+      modal.style.display = "none";
+      confirmBtn.textContent = "🔔 Set Price Drop Alert";
+      urlInput.value = '';
+      loadVault(currentUser); // Instantly show in vault
+      alert("Successfully added to your tracking vault!");
+
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong.");
+      confirmBtn.textContent = "🔔 Set Price Drop Alert";
+    }
+  });
+</script>
 </body>
 </html>
