@@ -253,38 +253,51 @@
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // Fix 1: Show Real Name instead of Demo User
+      // 1. Show Real Name
       let displayName = user.email.split('@')[0];
       displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
       const nameDisplay = document.getElementById('user-name-display');
       if (nameDisplay) nameDisplay.textContent = displayName;
 
-      // Fix 2: Fetch Live Coins securely from your database
+      // 2. Fetch Live Coins
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
       const balanceDisplay = document.getElementById('user-coin-balance');
       const navCoinDisplay = document.getElementById('nav-coins-val');
 
+      let currentCoins = 0;
       if (userSnap.exists()) {
-        if (balanceDisplay) balanceDisplay.textContent = userSnap.data().coins;
-        if (navCoinDisplay) navCoinDisplay.textContent = userSnap.data().coins.toLocaleString('en-IN');
+        currentCoins = userSnap.data().coins;
       } else {
-        // New user setup: Give them 50 coins to start
-        await setDoc(userRef, {
-          email: user.email,
-          coins: 50,
-          joinedAt: new Date()
-        });
-        if (balanceDisplay) balanceDisplay.textContent = "50";
-        if (navCoinDisplay) navCoinDisplay.textContent = "50";
+        // New user setup
+        await setDoc(userRef, { email: user.email, coins: 50, joinedAt: new Date() });
+        currentCoins = 50;
       }
+      
+      if (balanceDisplay) balanceDisplay.textContent = currentCoins;
+      if (navCoinDisplay) navCoinDisplay.textContent = currentCoins.toLocaleString('en-IN');
+
+      // === NEW: THE SPIN WHEEL BRIDGE ===
+      // This allows spin.js to send won coins directly to Firebase!
+      window.addSpinCoinsToDatabase = async function(wonAmount) {
+        // Do the math: Old balance + Spin Win = New Balance
+        const newTotal = currentCoins + wonAmount;
+        currentCoins = newTotal; 
+
+        // Instantly update the screen (NO REFRESH NEEDED!)
+        if (balanceDisplay) balanceDisplay.textContent = newTotal;
+        if (navCoinDisplay) navCoinDisplay.textContent = newTotal.toLocaleString('en-IN');
+
+        // Save it permanently to the database
+        await setDoc(userRef, { coins: newTotal }, { merge: true });
+      };
+
     } else {
-      // Protect the dashboard: Kick out users who aren't logged in
-      window.location.href = 'login.html';
+      window.location.href = 'login.html'; 
     }
   });
 
-  // Sidebar Logout Button Logic
+  // 3. Setup Logout Buttons
   const logoutBtns = document.querySelectorAll('.btn-logout');
   logoutBtns.forEach(btn => {
     btn.addEventListener('click', () => {
