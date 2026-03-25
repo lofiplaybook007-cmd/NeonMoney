@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live Deals Radar | NeonMoney PRO</title>
+  
+  <link rel="icon" type="image/png" href="logo.png">
+  
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="animations.css">
-  <link rel="stylesheet" href="dashboard.css">
   <style>
     /* Premium Header */
     .deals-hero { padding: calc(var(--nav-height) + 40px) 0 30px; text-align: center; }
@@ -25,9 +27,7 @@
       display: flex; justify-content: space-between; align-items: center; gap: 30px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative; overflow: hidden;
     }
-    .pro-banner::before {
-      content: '👑'; position: absolute; font-size: 10rem; opacity: 0.05; right: -20px; bottom: -40px;
-    }
+    .pro-banner::before { content: '👑'; position: absolute; font-size: 10rem; opacity: 0.05; right: -20px; bottom: -40px; }
     .pro-plans { display: flex; gap: 15px; }
     .plan-card {
       background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);
@@ -40,8 +40,7 @@
     .filter-tabs { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
     .filter-btn {
       background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary);
-      padding: 10px 24px; border-radius: 50px; cursor: pointer; font-family: var(--font-display);
-      font-size: 0.9rem; transition: all 0.3s ease;
+      padding: 10px 24px; border-radius: 50px; cursor: pointer; font-family: var(--font-display); font-size: 0.9rem; transition: all 0.3s ease;
     }
     .filter-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
     .filter-btn.active { background: rgba(0, 255, 178, 0.15); border-color: rgba(0, 255, 178, 0.4); color: var(--neon-green); font-weight: bold; }
@@ -56,9 +55,17 @@
     }
     .deal-card:hover { border-color: var(--neon-blue); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1); }
     
-    /* Card Flash Highlight */
     .deal-card.flash { border-color: rgba(255, 51, 0, 0.3); background: linear-gradient(180deg, rgba(255,51,0,0.05), rgba(15,23,42,0.9)); }
     .deal-card.flash:hover { border-color: #ff3300; box-shadow: 0 10px 30px rgba(255, 51, 0, 0.15); }
+    
+    /* 🔒 PRO LOCKED DEAL CARD STYLES */
+    .deal-card.locked-pro { border-color: #FFD700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.15); }
+    .locked-content { filter: blur(8px); opacity: 0.4; user-select: none; pointer-events: none; }
+    .lock-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; z-index: 10; background: rgba(0,0,0,0.4); padding: 20px;
+    }
+    .lock-icon { font-size: 3.5rem; margin-bottom: 12px; filter: drop-shadow(0 0 10px rgba(255,215,0,0.5)); }
     
     .deal-img-box {
       width: 100%; height: 160px; background: rgba(255,255,255,0.02); border-radius: 16px;
@@ -69,7 +76,6 @@
       font-weight: 900; font-size: 0.85rem; padding: 6px 12px; border-radius: 8px; box-shadow: 0 4px 15px rgba(255,51,0,0.4);
     }
     
-    /* Countdown Timer */
     .timer-box {
       position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
       background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);
@@ -85,7 +91,6 @@
     .store-tag.amazon { background: rgba(255,153,0,0.1); color: #FF9900; }
     .store-tag.flipkart { background: rgba(40,116,240,0.1); color: #2874F0; }
     
-    /* Forces the earn pill and button to the absolute bottom of the card */
     .earn-pill { background: rgba(0,255,178,0.1); border: 1px solid rgba(0,255,178,0.2); color: var(--neon-green); padding: 8px; border-radius: 8px; text-align: center; font-size: 0.85rem; font-weight: bold; margin-top: auto; margin-bottom: 16px; }
 
     @media (max-width: 768px) {
@@ -98,7 +103,9 @@
 
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="Neon Money Logo" style="height: 40px; width: auto;">
+    </a>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="deals.html" class="active">Deals</a>
@@ -130,7 +137,7 @@
     <div class="pro-banner animate-on-scroll">
       <div style="text-align: left; z-index: 1;">
         <h2 style="font-family: var(--font-display); color: #fff; font-size: 1.8rem; margin-bottom: 8px;">Unlock <span style="color: #FFD700;">PRO</span> Alerts</h2>
-        <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 400px;">Free users see deals 3 hours late. Upgrade to PRO for instant SMS alerts the second a price drops, plus double coin rewards on every purchase!</p>
+        <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 400px;">Free users see deals 3 hours late. Upgrade to PRO for instant SMS alerts, Secret Error Deals, and <strong style="color:var(--neon-green)">2x Coin Rewards</strong> on every purchase!</p>
       </div>
       <div class="pro-plans" style="z-index: 1;">
         <div class="plan-card" onclick="alert('Payment Gateway Integration Required!')">
@@ -155,6 +162,29 @@
     </div>
 
     <div class="deals-grid">
+
+      <div class="deal-card locked-pro animate-on-scroll" data-category="flash electronics">
+        <div class="lock-overlay">
+          <div class="lock-icon">🔒</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #FFD700; margin-bottom: 8px;">PRO EXCLUSIVE</h3>
+          <p style="font-size: 0.9rem; color: #fff; margin-bottom: 20px;">Massive Error Price Drop! 85% OFF.</p>
+          <button class="btn btn-primary" style="background: linear-gradient(90deg, #FFD700, #F5A623); color: #000; font-weight: 900; border: none;">Subscribe to Unlock ↗</button>
+        </div>
+        
+        <div class="locked-content">
+          <div class="deal-img-box">💻<div class="discount-badge">↓ 85% OFF</div></div>
+          <div>
+            <div class="store-tag amazon">🛒 Amazon</div>
+            <h3 class="deal-title">Secret Gaming Laptop Deal</h3>
+            <div class="deal-prices">
+              <div class="new-price">₹??,???</div>
+              <div class="old-price">₹1,20,000</div>
+            </div>
+          </div>
+          <div class="earn-pill">🎁 Earn 2x Coins</div>
+          <button class="btn btn-primary" style="width: 100%;">Grab Deal Now</button>
+        </div>
+      </div>
 
       <div class="deal-card flash animate-on-scroll" data-category="flash electronics">
         <div class="deal-img-box">
@@ -234,35 +264,9 @@
         <a href="https://myntra.com" target="_blank" class="btn btn-primary" style="width: 100%;">View Deal ↗</a>
       </div>
 
-      <div class="deal-card animate-on-scroll" data-category="electronics">
-        <div class="deal-img-box">📺<div class="discount-badge" style="background:var(--neon-blue);">↓ 40% OFF</div></div>
-        <div>
-          <div class="store-tag flipkart">🛍️ Flipkart</div>
-          <h3 class="deal-title">Samsung 55" 4K Smart LED TV</h3>
-          <div class="deal-prices">
-            <div class="new-price">₹38,999</div>
-            <div class="old-price">₹64,900</div>
-          </div>
-        </div>
-        <div class="earn-pill">🎁 Earn +250 Coins</div>
-        <a href="https://flipkart.com" target="_blank" class="btn btn-primary" style="width: 100%;">View Deal ↗</a>
-      </div>
-
     </div>
   </div>
 </div>
-
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand"><a href="index.html" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a><p>Compare deals, earn coins, save money.</p></div>
-      <div class="footer-col"><h4>Platform</h4><a href="deals.html">All Deals</a><a href="store.html">Stores</a><a href="rewards.html">Rewards</a></div>
-      <div class="footer-col"><h4>Support</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
-      <div class="footer-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a></div>
-    </div>
-    <div class="footer-bottom"><p>© 2025 NeonMoney.</p></div>
-  </div>
-</footer>
 
 <script src="main.js"></script>
 <script src="spin.js"></script>
@@ -353,6 +357,17 @@
   if(hamburger && navLinks) {
     hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); });
   }
+</script>
+
+<script type='text/javascript'>
+      var cId = '271764';
+      (function(d, t) {
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = (document.location.protocol == 'https:' ? 'https://cdn0.cuelinks.com/js/' : 'http://cdn0.cuelinks.com/js/')  + 'cuelinksv2.js';
+        document.getElementsByTagName('body')[0].appendChild(s);
+      }());
 </script>
 
 </body>
