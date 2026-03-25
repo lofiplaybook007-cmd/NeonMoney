@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rewards — NeonMoney 💸</title>
+  
+  <link rel="icon" type="image/png" href="logo.png">
+  
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="dashboard.css">
   <link rel="stylesheet" href="animations.css">
@@ -54,7 +57,7 @@
 </head>
 <body>
 
-  <nav class="navbar" id="navbar">
+<nav class="navbar" id="navbar">
   <div class="nav-inner">
     
     <a href="index.html" class="nav-logo" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
@@ -66,7 +69,7 @@
       <a href="index.html">Home</a>
       <a href="deals.html">Deals</a>
       <a href="store.html">Stores</a>
-      <a href="rewards.html">Rewards</a>
+      <a href="rewards.html" class="active">Rewards</a>
       <a href="faq.html">FAQ</a>
     </div>
 
@@ -211,6 +214,12 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
+        
+        // LOGIN VISIBILITY FIX: Hides Login button, Shows Dashboard & Coins
+        document.getElementById('nav-auth-links').style.display = 'none';
+        document.getElementById('nav-user-menu').style.display = 'flex';
+        document.getElementById('nav-coins').style.display = 'block';
+
         // Fetch Live Coin Balance
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
@@ -234,18 +243,16 @@
           const cost = parseInt(btn.getAttribute('data-cost'));
           
           if (currentCoins >= cost) {
-            // User CAN afford it
             btn.className = 'btn btn-primary redeem-btn';
-            btn.style.background = ''; // Use default green
+            btn.style.background = ''; 
             btn.style.color = '#fff';
             btn.style.borderColor = 'transparent';
             btn.textContent = 'Redeem';
             btn.disabled = false;
           } else {
-            // User CANNOT afford it
             btn.className = 'btn btn-secondary redeem-btn';
             btn.style.background = 'rgba(255,255,255,0.03)';
-            btn.style.color = '#64748b'; // Greyed out text
+            btn.style.color = '#64748b'; 
             btn.style.borderColor = 'rgba(255,255,255,0.1)';
             btn.textContent = cost + ' Coins Needed';
             btn.disabled = true;
