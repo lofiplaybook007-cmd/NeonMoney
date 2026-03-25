@@ -57,40 +57,39 @@
 </head>
 <body>
 
-<nav class="navbar" id="navbar">
-  <div class="nav-inner">
-    
-    <a href="index.html" class="nav-logo" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-      <img src="logo.png" alt="" style="height: 36px; width: 36px; border-radius: 8px; object-fit: cover;">
-      <span style="color: #fff; font-weight: bold; font-size: 1.4rem; font-family: var(--font-display, sans-serif);">Neon<span style="color: var(--neon-green);">Money</span></span>
-    </a>
-    
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="deals.html">Deals</a>
-      <a href="store.html">Stores</a>
-      <a href="rewards.html" class="active">Rewards</a>
-      <a href="faq.html">FAQ</a>
-    </div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      
+      <a href="index.html" class="nav-logo" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <img src="logo.png" alt="" style="height: 36px; width: 36px; border-radius: 8px; object-fit: cover;">
+        <span style="color: #fff; font-weight: bold; font-size: 1.4rem; font-family: var(--font-display, sans-serif);">Neon<span style="color: var(--neon-green);">Money</span></span>
+      </a>
+      
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="deals.html">Deals</a>
+        <a href="store.html">Stores</a>
+        <a href="rewards.html" class="active">Rewards</a> <a href="faq.html">FAQ</a>
+      </div>
 
-    <div class="nav-actions">
-      <div class="nav-coins" id="nav-coins" style="display:none;">💰 <span id="nav-coins-val">0</span></div>
-      
-      <div id="nav-auth-links" style="display:flex; gap:8px;">
-        <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
-        <a href="signup.html" class="btn btn-primary btn-sm">Sign Up Free</a>
+      <div class="nav-actions">
+        <div class="nav-coins" id="nav-coins" style="display:none;">💰 <span id="nav-coins-val">0</span></div>
+        
+        <div id="nav-auth-links" style="display:flex; gap:8px;">
+          <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign Up Free</a>
+        </div>
+        
+        <div id="nav-user-menu" style="display:none; gap:8px; align-items:center;">
+          <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
+          <button class="btn btn-secondary btn-sm btn-logout">Logout</button>
+        </div>
+        
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
       </div>
       
-      <div id="nav-user-menu" style="display:none; gap:8px; align-items:center;">
-        <a href="dashboard.html" class="btn btn-secondary btn-sm">Dashboard</a>
-        <button class="btn btn-secondary btn-sm btn-logout">Logout</button>
-      </div>
-      
-      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
     </div>
-    
-  </div>
-</nav>
+  </nav>
 
   <div class="container" style="padding-top: 120px;">
     
@@ -214,8 +213,8 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        
-        // LOGIN VISIBILITY FIX: Hides Login button, Shows Dashboard & Coins
+
+        // FIX 3: LOGIN VISIBILITY FIX
         document.getElementById('nav-auth-links').style.display = 'none';
         document.getElementById('nav-user-menu').style.display = 'flex';
         document.getElementById('nav-coins').style.display = 'block';
@@ -237,14 +236,14 @@
         document.getElementById('calc-coins').textContent = currentCoins;
         document.getElementById('calc-rupees').textContent = currentCoins / 10;
 
-        // SMART REWARD BUTTON LOGIC (Locks/Unlocks automatically!)
+        // SMART REWARD BUTTON LOGIC
         const redeemBtns = document.querySelectorAll('.redeem-btn');
         redeemBtns.forEach(btn => {
           const cost = parseInt(btn.getAttribute('data-cost'));
           
           if (currentCoins >= cost) {
             btn.className = 'btn btn-primary redeem-btn';
-            btn.style.background = ''; 
+            btn.style.background = '';
             btn.style.color = '#fff';
             btn.style.borderColor = 'transparent';
             btn.textContent = 'Redeem';
@@ -252,7 +251,7 @@
           } else {
             btn.className = 'btn btn-secondary redeem-btn';
             btn.style.background = 'rgba(255,255,255,0.03)';
-            btn.style.color = '#64748b'; 
+            btn.style.color = '#64748b';
             btn.style.borderColor = 'rgba(255,255,255,0.1)';
             btn.textContent = cost + ' Coins Needed';
             btn.disabled = true;
