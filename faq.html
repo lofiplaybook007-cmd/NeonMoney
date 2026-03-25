@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="animations.css">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FAQ — NeonMoney 💸</title>
-  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="animations.css">
   <style>
     .page-hero { padding: calc(var(--nav-height) + 60px) 0 60px; text-align:center; }
     .faq-layout { max-width: 760px; margin: 0 auto; padding-bottom: 100px; }
@@ -26,10 +27,10 @@
     .faq-item.open .faq-answer { max-height: 400px; padding: 0 24px 20px; }
     .faq-answer strong { color: var(--text-primary); }
   </style>
-  <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
 <div class="bg-mesh"></div><div class="bg-noise"></div>
+
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
     
@@ -43,8 +44,7 @@
       <a href="deals.html">Deals</a>
       <a href="store.html">Stores</a>
       <a href="rewards.html">Rewards</a>
-      <a href="faq.html">FAQ</a>
-    </div>
+      <a href="faq.html" class="active">FAQ</a> </div>
 
     <div class="nav-actions">
       <div class="nav-coins" id="nav-coins" style="display:none;">💰 <span id="nav-coins-val">0</span></div>
@@ -183,7 +183,6 @@
       </div>
     </div>
 
-    <!-- Contact CTA -->
     <div class="glass-card animate-on-scroll" style="padding:40px; text-align:center; margin-top:48px;">
       <div style="font-size:2rem; margin-bottom:12px;">📧</div>
       <h3 style="font-family:var(--font-body); margin-bottom:8px;">Still have questions?</h3>
@@ -195,7 +194,6 @@
 </div>
 
 <script src="main.js"></script>
-<script src="auth.js"></script>
 <script src="spin.js"></script>
 <script src="alerts.js"></script>
 <script>
@@ -205,6 +203,57 @@
     document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
+
+  // Hamburger Menu Logic
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  if(hamburger && navLinks) {
+    hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+  }
 </script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0",
+    authDomain: "neonmoney-a2d18.firebaseapp.com",
+    projectId: "neonmoney-a2d18",
+    storageBucket: "neonmoney-a2d18.firebasestorage.app",
+    messagingSenderId: "759618988071",
+    appId: "1:759618988071:web:b65d190a3a7ececabc4602"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // Hide Login, Show Dashboard & Coins
+      document.getElementById('nav-auth-links').style.display = 'none';
+      document.getElementById('nav-user-menu').style.display = 'flex';
+      document.getElementById('nav-coins').style.display = 'block';
+
+      // Fetch Coins
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const navCoinDisplay = document.getElementById('nav-coins-val');
+        if (navCoinDisplay) navCoinDisplay.textContent = userSnap.data().coins.toLocaleString('en-IN');
+      }
+    }
+  });
+
+  // Logout Logic
+  document.querySelectorAll('.btn-logout').forEach(btn => {
+    btn.addEventListener('click', () => {
+      signOut(auth).then(() => { window.location.href = 'login.html'; });
+    });
+  });
+</script>
+
 </body>
 </html>
