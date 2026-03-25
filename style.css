@@ -460,3 +460,59 @@ p  { font-family: var(--font-ui); color: var(--text-secondary); }
     padding: 4px 10px; /* Makes the coin badge slightly more compact */
   }
 }
+/* =========================================
+   SCROLLING TICKER BAR
+   ========================================= */
+.scrolling-ticker {
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  /* This pushes it just below your fixed navbar */
+  margin-top: 70px; 
+}
+
+.ticker-content {
+  display: inline-block;
+  /* 20s controls the speed. Change it to make it faster or slower! */
+  animation: tickerScroll 20s linear infinite;
+}
+
+.ticker-item {
+  color: #fff;
+  font-family: var(--font-ui, sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 0 20px;
+}
+
+.ticker-dot {
+  color: #00FFB2; /* Neon Green separator */
+  margin: 0 10px;
+}
+
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  /* Scrolls exactly half the width to create a flawless infinite loop */
+  100% { transform: translateX(-50%); } 
+}
+
+/* =========================================
+   MOBILE FIX: REMOVE GIANT BLANK SPACES
+   ========================================= */
+@media (max-width: 768px) {
+  .scrolling-ticker {
+    margin-top: 60px; /* Adapts to mobile navbar height */
+  }
+  
+  /* This specifically targets the containers causing the massive gap */
+  .container, section, div[style*="padding-top: 120px"], div[style*="padding: 80px"] {
+    padding-top: 30px !important; 
+    margin-top: 0 !important;
+  }
+}
