@@ -116,14 +116,14 @@
     #analysis-box { display: none; background: #ffffff; border-radius: 12px; padding: 30px; margin-top: 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); text-align: left; font-family: Arial, sans-serif; }
     .bh-top-row { display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; align-items: flex-start;}
     .bh-product-box { flex: 1; min-width: 300px; display: flex; gap: 24px; }
-    .bh-img-placeholder { width: 180px; height: 220px; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #f8fafc; overflow: hidden; flex-shrink: 0; }
+    .bh-img-placeholder { width: 180px; height: 220px; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden; flex-shrink: 0; padding: 10px; }
     .bh-tag { background: #f1f5f9; display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: #475569; margin-bottom: 8px; text-transform: uppercase; border: 1px solid #e2e8f0;}
     .bh-title { font-size: 1.3rem; font-weight: 600; color: #1e293b; margin-bottom: 8px; line-height: 1.4; }
     .bh-rating { color: #f59e0b; font-size: 1rem; margin-bottom: 16px; }
     .bh-price { font-size: 2.2rem; font-weight: bold; color: #0f172a; margin-bottom: 16px;}
     
     .share-box { display: flex; align-items: center; gap: 12px; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 100px; width: fit-content; font-size: 0.85rem; color: #64748b; }
-    .share-btn { font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; }
+    .share-btn { font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; user-select: none; }
     .share-btn:hover { transform: scale(1.1); }
 
     .bh-gauge-box { width: 360px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; background: #fff; }
@@ -146,7 +146,7 @@
     .graph-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .graph-title { font-size: 1.2rem; font-weight: 700; color: #1e293b;}
     .graph-tabs { display: flex; background: #f1f5f9; border-radius: 100px; padding: 4px; border: 1px solid #e2e8f0;}
-    .g-tab { padding: 4px 16px; font-size: 0.8rem; font-weight: 600; cursor: pointer; border-radius: 100px; color: #64748b; transition: background 0.2s; }
+    .g-tab { padding: 4px 16px; font-size: 0.8rem; font-weight: 600; cursor: pointer; border-radius: 100px; color: #64748b; transition: background 0.2s; user-select: none; }
     .g-tab.active { background: #fff; color: #4f46e5; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
     .bh-action-box { width: 360px; display: flex; flex-direction: column; justify-content: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; }
@@ -268,7 +268,9 @@
         
         <div class="bh-top-row">
             <div class="bh-product-box">
-                <div class="bh-img-placeholder" id="res-img-box">📱</div>
+                <div class="bh-img-placeholder" id="res-img-box">
+                    <span style="font-size: 3rem;">📱</span>
+                </div>
                 <div>
                     <div class="bh-tag" id="res-store">🛍️ Flipkart</div>
                     <h2 class="bh-title" id="res-title">Loading Product Data...</h2>
@@ -429,23 +431,32 @@
   const saveVaultBtn = document.getElementById('save-to-vault-btn');
   const successMsg = document.getElementById('vault-success-msg');
 
-  // SHARE BUTTONS
-  document.getElementById('share-wa').addEventListener('click', () => {
-      const text = encodeURIComponent("Check out this massive price drop I found! " + urlInput.value);
-      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-  });
-  document.getElementById('share-copy').addEventListener('click', () => {
-      navigator.clipboard.writeText(urlInput.value).then(() => { alert("Product Link Copied!"); });
-  });
-
   if(analyzeBtn) {
     analyzeBtn.addEventListener('click', async () => {
       const url = urlInput.value;
       if (!url) { alert("Please paste an Amazon or Flipkart link first!"); return; }
       
+      // Activate the Share Buttons dynamically using the pasted URL!
+      document.getElementById('share-wa').onclick = () => {
+          const text = encodeURIComponent("Check out this massive price drop I found! " + url);
+          window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+      };
+      
+      document.getElementById('share-copy').onclick = async () => {
+          try {
+              await navigator.clipboard.writeText(url);
+              const btn = document.getElementById('share-copy');
+              btn.innerHTML = "✅ Copied!";
+              setTimeout(() => btn.innerHTML = "📋 Copy", 2000);
+          } catch (e) {
+              alert("Link Copied: " + url); // Fallback for some browsers
+          }
+      };
+      
       analyzeBtn.textContent = "Analyzing... ⚙️";
       analysisBox.style.display = 'none';
       successMsg.style.display = 'none';
+      if(sugContainer) sugContainer.style.display = 'none';
       saveVaultBtn.style.display = 'block';
 
       try {
@@ -464,10 +475,9 @@
             buyBtn.style.background = isAmazon ? '#f59e0b' : '#f97316';
             buyBtn.href = url;
 
-            // IMAGE INJECTION
-            document.getElementById('res-img-box').innerHTML = `<img src="${data.productImage}" style="max-width:100%; max-height:100%; object-fit:contain;">`;
+            // INJECT REAL IMAGE!
+            document.getElementById('res-img-box').innerHTML = `<img src="${data.productImage}" style="max-width:100%; max-height:100%; object-fit:contain; mix-blend-mode: multiply;">`;
 
-            // STATS INJECTION
             document.getElementById('res-title').textContent = data.productName;
             document.getElementById('res-price').textContent = "₹" + data.currentPrice.toLocaleString();
             document.getElementById('res-low').textContent = "₹" + data.lowestPrice.toLocaleString();
@@ -476,11 +486,8 @@
             let avg = Math.round(data.history.reduce((a,b)=>a+b.price, 0) / data.history.length);
             document.getElementById('res-avg').textContent = "₹" + avg.toLocaleString();
 
-            // GAUGE LOGIC (Smarter focus on affiliate clicks)
             const range = data.highestPrice - data.lowestPrice;
             let ratio = range === 0 ? 0.5 : (data.currentPrice - data.lowestPrice) / range;
-            
-            // Artificial weighting to push needle closer to "Good Time" (green) to encourage clicks
             ratio = ratio * 0.6; 
             
             let angle = 90 - (ratio * 180); 
@@ -489,20 +496,19 @@
             const verdictEl = document.getElementById('res-verdict');
             if (ratio < 0.33) {
                 verdictEl.textContent = "Go Ahead & Buy now";
-                verdictEl.style.color = "#10b981"; // Green
+                verdictEl.style.color = "#10b981"; 
             } else if (ratio < 0.66) {
                 verdictEl.textContent = "Fair Value";
-                verdictEl.style.color = "#f59e0b"; // Yellow
+                verdictEl.style.color = "#f59e0b"; 
             } else {
                 verdictEl.textContent = "Wait for Price Drop";
-                verdictEl.style.color = "#ef4444"; // Red
+                verdictEl.style.color = "#ef4444"; 
             }
 
-            // GRAPH ARRAY FIX (.slice(-30) grabs the LAST 30 days, ending on today!)
+            // Slice(-30) perfectly grabs the LAST 30 array items (the newest 30 days)
             globalHistoryData = data.history;
             drawBuyhatkeChart(globalHistoryData.slice(-30)); 
 
-            // SUGGESTIONS INJECTION
             if(sugGrid && sugContainer) {
                 sugGrid.innerHTML = '';
                 if(data.suggestions && data.suggestions.length > 0) {
@@ -533,13 +539,13 @@
             analyzeBtn.textContent = "Analyze Link ↗";
         }
       } catch (error) {
-        alert("Make sure your Render server is awake!");
+        alert("Make sure your Render server is awake! Refresh and try again.");
         analyzeBtn.textContent = "Analyze Link ↗";
       }
     });
   }
 
-  // GRAPH TABS CLICK LOGIC
+  // GRAPH TABS LOGIC FIX (Needs globalHistoryData which is populated from the NEW backend)
   const tab1m = document.getElementById('tab-1m');
   const tab3m = document.getElementById('tab-3m');
   const tabMax = document.getElementById('tab-max');
@@ -547,12 +553,10 @@
 
   function clearTabs() { allTabs.forEach(t => t.classList.remove('active')); }
 
-  // Fixed the array slicing here too! (-30, -90, and all)
   tab1m.addEventListener('click', () => { clearTabs(); tab1m.classList.add('active'); drawBuyhatkeChart(globalHistoryData.slice(-30)); });
   tab3m.addEventListener('click', () => { clearTabs(); tab3m.classList.add('active'); drawBuyhatkeChart(globalHistoryData.slice(-90)); });
   tabMax.addEventListener('click', () => { clearTabs(); tabMax.classList.add('active'); drawBuyhatkeChart(globalHistoryData); });
 
-  // EXACT BUYHATKE LINE CHART STYLING
   function drawBuyhatkeChart(historyData) {
       const ctx = document.getElementById('priceChart').getContext('2d');
       if (chartInstance) { chartInstance.destroy(); }
