@@ -354,8 +354,8 @@
         </button>
       </div>
 
-      <div id="analysis-box">
-        <div class="analysis-header">
+      <div id="analysis-box" style="display:none; background: rgba(15,23,42,0.95); border: 1px solid var(--neon-blue); border-radius: var(--radius-xl); padding: 30px; margin-top: 30px; box-shadow: 0 10px 40px rgba(0, 242, 254, 0.15); text-align: left;">
+        <div class="analysis-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">
             <div>
                 <span style="color: var(--neon-blue); font-size: 0.85rem; font-weight: bold; text-transform: uppercase;">Analysis Complete</span>
                 <h3 id="res-title" style="font-family: var(--font-display); font-size: 1.5rem; color: #fff; margin-top: 5px;">Loading Product...</h3>
@@ -366,18 +366,31 @@
             </div>
         </div>
         
-        <div class="price-stats-grid">
-            <div class="stat-card"><span>Lowest Price</span><strong id="res-low" style="color: var(--neon-green);">₹0</strong></div>
-            <div class="stat-card"><span>Average Price</span><strong id="res-avg" style="color: #fbbf24;">₹0</strong></div>
-            <div class="stat-card"><span>Highest Price</span><strong id="res-high" style="color: #ff4d4d;">₹0</strong></div>
+        <div class="price-stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;">
+            <div class="stat-card" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center;">
+                <span style="display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px;">Lowest Price</span>
+                <strong id="res-low" style="font-size: 1.4rem; color: var(--neon-green); font-family: var(--font-display);">₹0</strong>
+            </div>
+            <div class="stat-card" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center;">
+                <span style="display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px;">Average Price</span>
+                <strong id="res-avg" style="font-size: 1.4rem; color: #fbbf24; font-family: var(--font-display);">₹0</strong>
+            </div>
+            <div class="stat-card" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center;">
+                <span style="display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px;">Highest Price</span>
+                <strong id="res-high" style="font-size: 1.4rem; color: #ff4d4d; font-family: var(--font-display);">₹0</strong>
+            </div>
         </div>
 
         <h4 style="margin-bottom: 15px; color: var(--text-secondary);">30-Day Price History</h4>
-        <div class="chart-container">
+        <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
             <canvas id="priceChart"></canvas>
         </div>
         
-        <button id="save-to-vault-btn" class="btn btn-primary" style="width: 100%; margin-top: 25px; background: rgba(0,255,178,0.1); border: 1px solid var(--neon-green); color: var(--neon-green); justify-content: center;">
+        <a id="res-buy-btn" href="#" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 25px; background: linear-gradient(90deg, #ff3300, #ff8c00); border: none; color: #fff; justify-content: center; font-size: 1.1rem; font-weight: bold; box-shadow: 0 10px 20px rgba(255, 51, 0, 0.2); display: flex; align-items: center; gap: 8px; text-decoration: none;">
+            🛒 Buy Now & Earn Coins ↗
+        </a>
+
+        <button id="save-to-vault-btn" class="btn btn-primary" style="width: 100%; margin-top: 15px; background: rgba(0,255,178,0.1); border: 1px solid var(--neon-green); color: var(--neon-green); justify-content: center;">
             💾 Save Product to My Tracking Vault
         </button>
         <p id="vault-success-msg" style="display:none; color: var(--neon-green); margin-top: 10px; text-align: center; font-weight: bold;">✅ Successfully saved to your vault!</p>
@@ -561,7 +574,7 @@
       <div class="footer-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 NeonMoney. All rights reserved.</p>
+      <p>© 2026 NeonMoney. All rights reserved.</p>
       <p>We earn through affiliate links. <a href="disclaimer.html" style="color:var(--neon-green);text-decoration:none;">Read Disclaimer</a></p>
     </div>
   </div>
@@ -589,7 +602,6 @@
 <script src="alerts.js"></script>
 
 <script>
-  // --- COOKIE BANNER LOGIC ---
   document.addEventListener("DOMContentLoaded", () => {
     const cookieBanner = document.getElementById("cookie-banner");
     const btnAccept = document.getElementById("btn-accept-cookies");
@@ -640,7 +652,6 @@
   let currentUser = null;
   let chartInstance = null; 
 
-  // FETCH VAULT FUNCTION
   async function loadVault(user) {
     const listDiv = document.getElementById('tracked-list');
     listDiv.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 48px 20px;">Loading your vault...</p>';
@@ -685,14 +696,12 @@
     }
   });
 
-  // =========================================
-  // THE RENDER BACKEND ANALYZER LOGIC
-  // =========================================
   const analyzeBtn = document.getElementById('analyze-btn');
   const urlInput = document.getElementById('product-url');
   const analysisBox = document.getElementById('analysis-box');
   const saveVaultBtn = document.getElementById('save-to-vault-btn');
   const successMsg = document.getElementById('vault-success-msg');
+  const buyBtn = document.getElementById('res-buy-btn');
 
   if(analyzeBtn) {
     analyzeBtn.addEventListener('click', async () => {
@@ -706,7 +715,6 @@
       saveVaultBtn.textContent = "💾 Save Product to My Tracking Vault";
 
       try {
-        // Ping your Render Backend!
         const response = await fetch('https://neonmoney-backend.onrender.com/api/analyze', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -721,13 +729,15 @@
             document.getElementById('res-low').textContent = "₹" + data.lowestPrice.toLocaleString();
             document.getElementById('res-high').textContent = "₹" + data.highestPrice.toLocaleString();
             
+            // THE BUY BUTTON AFFILIATE LINK LOGIC
+            buyBtn.href = url;
+            
             let avg = Math.round(data.history.reduce((a,b)=>a+b.price, 0) / data.history.length);
             document.getElementById('res-avg').textContent = "₹" + avg.toLocaleString();
 
             analysisBox.style.display = 'block';
             analyzeBtn.textContent = "Analyze Link ↗";
             
-            // DRAW THE CHART
             drawChart(data.history);
 
         } else {
@@ -741,7 +751,6 @@
     });
   }
 
-  // THE GRAPH DRAWING FUNCTION
   function drawChart(historyData) {
       const ctx = document.getElementById('priceChart').getContext('2d');
       if (chartInstance) { chartInstance.destroy(); }
@@ -777,7 +786,6 @@
       });
   }
 
-  // SAVE TO VAULT LOGIC
   if(saveVaultBtn) {
       saveVaultBtn.addEventListener('click', async () => {
           if (!currentUser) {
