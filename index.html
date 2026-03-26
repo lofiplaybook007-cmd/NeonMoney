@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="animations.css">
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
   <style>
     /* ── HERO ── */
     .hero { min-height: 100vh; display: flex; align-items: center; padding-top: var(--nav-height); position: relative; overflow: hidden; }
@@ -52,7 +50,6 @@
     .float-chip { position: absolute; background: rgba(15,23,42,0.85); backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 14px; font-family: var(--font-display); font-size: 0.68rem; display: flex; align-items: center; gap: 6px; box-shadow: var(--shadow-card); white-space: nowrap; z-index: 3; }
     .chip-1 { top: -20px; right: -20px; color: var(--neon-yellow); border-color: rgba(251,191,36,0.2); }
     .chip-2 { bottom: -16px; left: -24px; color: var(--neon-green); border-color: rgba(0,255,178,0.2); }
-    .chip-3 { top: 50%; right: -50px; transform: translateY(-50%); color: #A78BFA; border-color: rgba(124,58,237,0.2); }
 
     /* ── LOSS ALERT ── */
     .loss-section { padding: 60px 0; }
@@ -110,60 +107,7 @@
     .cta-box p  { margin-bottom: 36px; font-size: 1.05rem; position: relative; z-index: 1; }
     .cta-buttons { display: flex; gap: 14px; justify-content: center; position: relative; z-index: 1; }
 
-    /* =========================================
-       BUYHATKE UI CLONE (WHITE/LIGHT THEME)
-       ========================================= */
-    #analysis-box { display: none; background: #ffffff; border-radius: 12px; padding: 30px; margin-top: 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); text-align: left; font-family: Arial, sans-serif; }
-    .bh-top-row { display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; align-items: flex-start;}
-    .bh-product-box { flex: 1; min-width: 300px; display: flex; gap: 24px; }
-    .bh-img-placeholder { width: 180px; height: 220px; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden; flex-shrink: 0; padding: 10px; }
-    .bh-tag { background: #f1f5f9; display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: #475569; margin-bottom: 8px; text-transform: uppercase; border: 1px solid #e2e8f0;}
-    .bh-title { font-size: 1.3rem; font-weight: 600; color: #1e293b; margin-bottom: 8px; line-height: 1.4; }
-    .bh-rating { color: #f59e0b; font-size: 1rem; margin-bottom: 16px; }
-    .bh-price { font-size: 2.2rem; font-weight: bold; color: #0f172a; margin-bottom: 16px;}
-    
-    .share-box { display: flex; align-items: center; gap: 12px; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 100px; width: fit-content; font-size: 0.85rem; color: #64748b; }
-    .share-btn { font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; user-select: none; }
-    .share-btn:hover { transform: scale(1.1); }
-
-    .bh-gauge-box { width: 360px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; background: #fff; }
-    .bh-gauge-title { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 20px; }
-    .gauge-wrapper { display: flex; align-items: center; gap: 20px; margin-bottom: 24px;}
-    .gauge-svg-box { width: 140px; position: relative; }
-    .verdict-box { flex: 1; }
-    .verdict-label { font-size: 0.75rem; color: #64748b; margin-bottom: 4px; }
-    .verdict-text { font-size: 1.1rem; font-weight: 700; color: #10b981; }
-    .verdict-sub { font-size: 0.75rem; color: #64748b; margin-top: 4px; }
-    
-    .bh-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-    .bh-stat-item { background: #f8fafc; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;}
-    .bh-stat-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-bottom: 4px; }
-    .bh-stat-val { font-size: 1.1rem; font-weight: bold; color: #1e293b; }
-    .bh-stat-lowest { grid-column: span 2; background: #f8fafc; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
-
-    .bh-middle-row { display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
-    .bh-chart-box { flex: 1; min-width: 300px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; }
-    .graph-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .graph-title { font-size: 1.2rem; font-weight: 700; color: #1e293b;}
-    .graph-tabs { display: flex; background: #f1f5f9; border-radius: 100px; padding: 4px; border: 1px solid #e2e8f0;}
-    .g-tab { padding: 4px 16px; font-size: 0.8rem; font-weight: 600; cursor: pointer; border-radius: 100px; color: #64748b; transition: background 0.2s; user-select: none; }
-    .g-tab.active { background: #fff; color: #4f46e5; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-
-    .bh-action-box { width: 360px; display: flex; flex-direction: column; justify-content: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; }
-    .bh-btn-alert { background: #4f46e5; color: #fff; padding: 14px; border-radius: 8px; text-align: center; font-weight: bold; border: none; cursor: pointer; font-size: 1rem; width: 100%; transition: background 0.2s;}
-    .bh-btn-alert:hover { background: #4338ca; }
-    .bh-btn-buy { background: #f97316; color: #fff; padding: 14px; border-radius: 8px; text-align: center; font-weight: bold; border: none; cursor: pointer; font-size: 1.1rem; width: 100%; text-decoration: none; display: block; transition: background 0.2s;}
-    .bh-btn-buy:hover { background: #ea580c; }
-
-    #suggestions-container { margin-top: 50px; border-top: 1px solid #e2e8f0; padding-top: 30px; }
-    #suggestions-container h3 { color: #1e293b; font-size: 1.4rem; margin-bottom: 20px; font-weight: 600; }
-    .deals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-    .deal-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; background: #fff; }
-    .deal-img { height: 140px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; padding: 10px; }
-    .deal-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: #1e293b; line-height: 1.3; height: 38px; overflow: hidden; }
-    .deal-price { font-size: 1.2rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
-    .deal-discount { font-size: 0.75rem; color: #10b981; font-weight: 700; background: rgba(16,185,129,0.1); padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 12px;}
-
+    /* VAULT STYLES */
     .vault-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s, border-color 0.2s; }
     .vault-item:hover { transform: translateY(-3px); border-color: var(--neon-blue); }
     .vault-link { color: #fff; text-decoration: none; font-weight: 600; word-break: break-all; margin-right: 15px; }
@@ -173,11 +117,15 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .hero { min-height: auto !important; padding-top: 130px !important; padding-bottom: 40px !important; align-items: flex-start !important; }
-      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .real-cash-section, .tracker-section, .spin-home-section, .how-section, .stats-section, .reviews-section, .cta-section { padding-top: 40px !important; padding-bottom: 40px !important; }
+      .hero-grid, .spin-home-wrap { grid-template-columns: 1fr; gap: 40px; }
       .hero-right { display: none; }
-      .bh-top-row, .bh-middle-row { flex-direction: column; }
-      .bh-gauge-box, .bh-action-box { width: 100%; }
-      .bh-product-box { flex-direction: column; align-items: center; text-align: center; }
+      .steps-grid, .reviews-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .cta-buttons { flex-direction: column; align-items: center; }
+    }
+    @media (max-width: 480px) {
+      .stats-bar { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -232,7 +180,7 @@
         <h1 class="hero-title gradient-text" style="animation-delay:0.1s;">Stop Overpaying<br>Online 💸</h1>
         <p class="hero-subtitle hero-subtitle" style="animation-delay:0.2s;">Check prices, unlock deals, and earn coins before you buy. Compare Amazon vs Flipkart instantly.</p>
         <div class="hero-buttons hero-cta">
-          <a href="signup.html" class="btn btn-secondary btn-lg btn-ripple">🚀 Start Saving</a>
+          <a href="#tracker-anchor" class="btn btn-secondary btn-lg btn-ripple">🚀 Track a Price</a>
         </div>
       </div>
       <div class="hero-right hero-card-anim">
@@ -241,14 +189,23 @@
             <div class="hpc-img">🎧</div>
             <div><div class="hpc-name">Sony WH-1000XM5</div><div class="hpc-cat">Wireless Headphones</div></div>
           </div>
-          <div class="hpc-saving">You save <strong>₹1,491</strong> · Earn <span style="color:var(--neon-yellow)">💰 120 Coins</span></div>
+          <div class="hpc-compare">
+            <div class="hpc-row amazon">
+              <span class="hpc-store amazon">🛒 Amazon</span><span class="hpc-price" style="color:#FF9900">₹24,990</span>
+            </div>
+            <div class="hpc-row flipkart">
+              <span class="hpc-store flipkart">🛍️ Flipkart</span>
+              <div style="display:flex;align-items:center;gap:8px;"><span class="hpc-price" style="color:#2874F0">₹23,499</span><span class="hpc-best">BEST</span></div>
+            </div>
+          </div>
+          <div class="hpc-saving">You save <strong>₹1,491</strong> on Flipkart · Earn <span style="color:var(--neon-yellow)">💰 120 Coins</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="tracker-section" style="padding: 20px 0 80px;">
+<section id="tracker-anchor" class="tracker-section" style="padding: 20px 0 80px;">
   <div class="container">
     <div class="search-wrap" style="max-width: 800px; margin: 0 auto; text-align: center;">
       
@@ -264,104 +221,6 @@
         </button>
       </div>
 
-      <div id="analysis-box">
-        
-        <div class="bh-top-row">
-            <div class="bh-product-box">
-                <div class="bh-img-placeholder" id="res-img-box">
-                    <span style="font-size: 3rem;">📱</span>
-                </div>
-                <div>
-                    <div class="bh-tag" id="res-store">🛍️ Flipkart</div>
-                    <h2 class="bh-title" id="res-title">Loading Product Data...</h2>
-                    <div class="bh-rating">4.5 ★★★★★ <span style="color: #64748b; font-size: 0.85rem; font-weight: normal;">(Estimated)</span></div>
-                    <div class="bh-price" id="res-price">₹0</div>
-                    <div class="share-box">
-                        <span>Share on</span>
-                        <span class="share-btn" id="share-wa" title="Share to WhatsApp">🟢 WhatsApp</span>
-                        <span class="share-btn" id="share-copy" title="Copy Link">📋 Copy</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bh-gauge-box">
-                <div class="bh-gauge-title">Should you buy now?</div>
-                <div class="gauge-wrapper">
-                    <div class="gauge-svg-box">
-                        <svg viewBox="0 0 100 55" style="width: 100%; overflow: visible;">
-                            <path d="M 10 50 A 40 40 0 0 1 36 18" fill="none" stroke="#ef4444" stroke-width="12" stroke-linecap="round"/>
-                            <path d="M 36 18 A 40 40 0 0 1 64 18" fill="none" stroke="#f59e0b" stroke-width="12"/>
-                            <path d="M 64 18 A 40 40 0 0 1 90 50" fill="none" stroke="#10b981" stroke-width="12" stroke-linecap="round"/>
-                            <g id="gauge-needle" transform="rotate(90, 50, 50)" style="transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);">
-                                <polygon points="48,50 52,50 50,15" fill="#1e293b" />
-                                <circle cx="50" cy="50" r="4" fill="#1e293b"/>
-                            </g>
-                        </svg>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.65rem; font-weight: 700; color: #64748b; margin-top: 4px;">
-                            <span style="color:#ef4444;">■ Bad Time</span><span style="color:#10b981;">■ Good Time</span>
-                        </div>
-                    </div>
-                    <div class="verdict-box">
-                        <div class="verdict-label">Our Recommendation</div>
-                        <div class="verdict-text" id="res-verdict">Go Ahead & Buy now</div>
-                        <div class="verdict-sub">Optimal price point</div>
-                    </div>
-                </div>
-
-                <div style="font-weight: 700; font-size: 1rem; color: #1e293b; margin-bottom: 12px; margin-top: 20px;">Price Stats</div>
-                <div class="bh-stats-row">
-                    <div class="bh-stat-item">
-                        <div class="bh-stat-label">Highest Price ↑</div>
-                        <div class="bh-stat-val" id="res-high">₹0</div>
-                    </div>
-                    <div class="bh-stat-item">
-                        <div class="bh-stat-label">Average Price ↕</div>
-                        <div class="bh-stat-val" id="res-avg">₹0</div>
-                    </div>
-                    <div class="bh-stat-lowest">
-                        <div class="bh-stat-label">Lowest Price ↓</div>
-                        <div class="bh-stat-val" id="res-low" style="color: #10b981; font-size: 1.3rem;">₹0</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bh-middle-row">
-            <div class="bh-chart-box">
-                <div class="graph-header">
-                    <h3 class="graph-title">Price History</h3>
-                    <div class="graph-tabs">
-                        <span class="g-tab active" id="tab-1m">1 Month</span>
-                        <span class="g-tab" id="tab-3m">3 Months</span>
-                        <span class="g-tab" id="tab-max">Max</span>
-                    </div>
-                </div>
-                <div style="position: relative; height: 260px; width: 100%;">
-                    <canvas id="priceChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="bh-action-box">
-                <div style="text-align: center; margin-bottom: 8px;">
-                    <div style="font-weight: bold; color: #1e293b; margin-bottom: 8px;">Set price drop alert to buy later</div>
-                </div>
-                <button id="save-to-vault-btn" class="bh-btn-alert">🔔 Login Now & Set Alert</button>
-                <div id="vault-success-msg" style="display:none; color: #10b981; font-weight: bold; text-align: center; font-size: 0.9rem; margin-top: 8px;">✅ Saved to your vault!</div>
-                
-                <div style="text-align: center; color: #94a3b8; font-weight: bold; font-size: 0.85rem; margin: 16px 0;">OR</div>
-                
-                <a id="res-buy-btn" href="#" target="_blank" class="bh-btn-buy">🛒 Buy on Store ↗</a>
-            </div>
-        </div>
-
-        <div id="suggestions-container" style="display: none;">
-            <h3>Deals in this category</h3>
-            <div id="suggestions-grid" class="deals-grid">
-                </div>
-        </div>
-
-      </div>
-
       <div style="margin-top: 80px; text-align: left;">
         <h3 style="display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-size: 1.5rem;">
           <span style="font-size: 1.8rem;">🗃️</span> My Tracked Vault
@@ -371,6 +230,147 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<section class="loss-section">
+  <div class="container">
+    <div class="section-label animate-on-scroll"><span class="section-tag">⚠️ Price Intelligence</span></div>
+    <h2 class="section-title animate-on-scroll">Don't Lose Money<br>on <span class="gradient-text">Bad Timing</span></h2>
+    <br>
+    <div class="loss-alert-box animate-on-scroll">
+      <div class="alert-icon-big">⚠️</div>
+      <div>
+        <div class="alert-msg" id="loss-alert-text"></div>
+        <a href="deals.html" class="btn btn-secondary btn-sm" style="margin-top:12px;">See All Alerts →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="spin-home-section">
+  <div class="container">
+    <div class="spin-home-wrap">
+      <div class="spin-content animate-on-scroll">
+        <span class="section-tag">🎰 Daily Rewards</span>
+        <h2 style="margin-top:16px;">Spin & Win <span class="gradient-text">Coins</span> Every Day</h2>
+        <p>Come back daily to spin the wheel. Win coins, unlock premium deals, and redeem for gift cards or recharges.</p>
+        <div class="spin-perks">
+          <div class="spin-perk"><div class="spin-perk-icon">🎯</div> One free spin every 24 hours</div>
+          <div class="spin-perk"><div class="spin-perk-icon">🔥</div> Streak bonuses up to 100 coins</div>
+          <div class="spin-perk"><div class="spin-perk-icon">🎁</div> Redeem for Amazon/Flipkart vouchers</div>
+        </div>
+        <a href="dashboard.html" class="btn btn-primary btn-lg btn-ripple">🎰 Spin Now</a>
+      </div>
+      <div class="spin-visual animate-on-scroll delay-2">
+        <div class="spin-wheel-wrap" style="width:280px;height:280px;margin:0 auto;">
+          <div class="spin-outer-ring"></div>
+          <div class="spin-pointer">▼</div>
+          <svg id="spin-wheel-svg" class="spin-wheel-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <p style="text-align:center; margin-top:16px; font-size:0.85rem; color:var(--text-muted);">Login to spin for free</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how-section">
+  <div class="container">
+    <div class="section-label animate-on-scroll"><span class="section-tag">🧠 Simple Process</span></div>
+    <h2 class="section-title animate-on-scroll">How <span class="gradient-text">NeonMoney</span> Works</h2>
+    <p class="section-sub animate-on-scroll">Three easy steps to start saving money and earning coins on every purchase.</p>
+    <div class="steps-grid">
+      <div class="steps-connector"></div>
+      <div class="step-card glass-card animate-on-scroll delay-1">
+        <span class="step-num">01</span>
+        <span class="step-icon">🔍</span>
+        <h3>Search Any Product</h3>
+        <p>Type the product name — headphones, shoes, phones, anything. Our engine scans Amazon and Flipkart instantly.</p>
+      </div>
+      <div class="step-card glass-card animate-on-scroll delay-2">
+        <span class="step-num">02</span>
+        <span class="step-icon">💸</span>
+        <h3>Check the Best Price</h3>
+        <p>We compare both platforms side by side and highlight where you save the most. No hidden tricks, just the truth.</p>
+      </div>
+      <div class="step-card glass-card animate-on-scroll delay-3">
+        <span class="step-num">03</span>
+        <span class="step-icon">🏆</span>
+        <h3>Earn Coins & Save</h3>
+        <p>Buy through our link, come back, and earn coins. Use them for gift cards, recharges, or exclusive deals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-bar animate-on-scroll">
+      <div>
+        <div class="stat-num" data-count="50000" data-suffix="+">50,000+</div>
+        <div class="stat-label">Happy Users</div>
+      </div>
+      <div>
+        <div class="stat-num" data-count="2500000" data-prefix="₹">₹25L</div>
+        <div class="stat-label">Total Savings</div>
+      </div>
+      <div>
+        <div class="stat-num" data-count="10000" data-suffix="+">10,000+</div>
+        <div class="stat-label">Deals Tracked</div>
+      </div>
+      <div>
+        <div class="stat-num" data-count="500000" data-suffix="+">5L+</div>
+        <div class="stat-label">Coins Distributed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews-section">
+  <div class="container">
+    <div class="section-label animate-on-scroll"><span class="section-tag">⭐ Real Reviews</span></div>
+    <h2 class="section-title animate-on-scroll">People Are <span class="gradient-text">Loving It</span></h2>
+    <p class="section-sub animate-on-scroll">Real users, real savings. Here's what they're saying.</p>
+    <div class="reviews-grid">
+      <div class="review-card animate-on-scroll delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I saved ₹2,000 on my Sony headphones just by comparing prices here. The coin rewards are real — already redeemed for a Flipkart voucher!"</p>
+        <div class="review-author">
+          <div class="review-av" style="background:rgba(0,255,178,0.1)">👤</div>
+          <div><div class="review-name">Priya S.</div><div class="review-meta">Mumbai · 3 days ago</div><div class="review-saving">Saved ₹2,000 💚</div></div>
+        </div>
+      </div>
+      <div class="review-card animate-on-scroll delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The price alert feature is a game changer. Got notified exactly when the Samsung TV dropped. Saved ₹5,000 plus got 350 coins!"</p>
+        <div class="review-author">
+          <div class="review-av" style="background:rgba(124,58,237,0.1)">👤</div>
+          <div><div class="review-name">Rahul M.</div><div class="review-meta">Bengaluru · 1 week ago</div><div class="review-saving">Saved ₹5,000 💚</div></div>
+        </div>
+      </div>
+      <div class="review-card animate-on-scroll delay-3">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">"Daily spin is genuinely fun! I've been on a 7-day streak and already have 400+ coins. Got rewards easily without doing anything complicated."</p>
+        <div class="review-author">
+          <div class="review-av" style="background:rgba(59,130,246,0.1)">👤</div>
+          <div><div class="review-name">Ananya K.</div><div class="review-meta">Delhi · 5 days ago</div><div class="review-saving">400+ Coins earned 💰</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box animate-on-scroll">
+      <span class="section-tag">🚀 Join Free</span>
+      <h2 style="margin-top:16px;">Start Saving <span class="gradient-text">Right Now</span></h2>
+      <p>Join 50,000+ smart shoppers who never overpay. Free to sign up. Real rewards. Zero risk.</p>
+      <div class="cta-buttons">
+        <a href="signup.html" class="btn btn-primary btn-lg btn-ripple">👉 Sign Up Free</a>
+        <a href="deals.html" class="btn btn-secondary btn-lg btn-ripple">🔥 Browse Deals</a>
+      </div>
     </div>
   </div>
 </section>
@@ -392,22 +392,19 @@
 <script type="module">
   import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-  import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
   const firebaseConfig = { apiKey: "AIzaSyBNXh2aPjvZcWceDxCuMNzJegJ3RKwNsx0", authDomain: "neonmoney-a2d18.firebaseapp.com", projectId: "neonmoney-a2d18", storageBucket: "neonmoney-a2d18.firebasestorage.app", messagingSenderId: "759618988071", appId: "1:759618988071:web:b65d190a3a7ececabc4602" };
   const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
   const auth = getAuth(app);
   const db = getFirestore(app);
-  let currentUser = null;
-  let chartInstance = null; 
-  let globalHistoryData = [];
 
   async function loadVault(user) {
     const listDiv = document.getElementById('tracked-list');
     try {
       const q = query(collection(db, "users", user.uid, "trackedProducts"));
       const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) { listDiv.innerHTML = '<p style="color:var(--text-muted); padding:20px;">Your vault is empty.</p>'; return; }
+      if (querySnapshot.empty) { listDiv.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px;">Your vault is empty. Paste a link above to start tracking!</p>'; return; }
       let items = [];
       querySnapshot.forEach((doc) => items.push(doc.data()));
       items.sort((a, b) => (b.dateAdded ? b.dateAdded.toMillis() : 0) - (a.dateAdded ? a.dateAdded.toMillis() : 0));
@@ -420,220 +417,22 @@
     } catch (error) { console.error(error); }
   }
   
-  onAuthStateChanged(auth, async (user) => { if (user) { currentUser = user; loadVault(user); } });
+  onAuthStateChanged(auth, async (user) => { if (user) { loadVault(user); } });
 
+  // EXACT REDIRECT LOGIC FOR THE NEW PAGE
   const analyzeBtn = document.getElementById('analyze-btn');
   const urlInput = document.getElementById('product-url');
-  const analysisBox = document.getElementById('analysis-box');
-  const buyBtn = document.getElementById('res-buy-btn');
-  const sugGrid = document.getElementById('suggestions-grid');
-  const sugContainer = document.getElementById('suggestions-container');
-  const saveVaultBtn = document.getElementById('save-to-vault-btn');
-  const successMsg = document.getElementById('vault-success-msg');
 
   if(analyzeBtn) {
-    analyzeBtn.addEventListener('click', async () => {
+    analyzeBtn.addEventListener('click', () => {
       const url = urlInput.value;
       if (!url) { alert("Please paste an Amazon or Flipkart link first!"); return; }
       
-      // Activate the Share Buttons dynamically using the pasted URL!
-      document.getElementById('share-wa').onclick = () => {
-          const text = encodeURIComponent("Check out this massive price drop I found! " + url);
-          window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-      };
+      analyzeBtn.textContent = "Redirecting... ⚙️";
       
-      document.getElementById('share-copy').onclick = async () => {
-          try {
-              await navigator.clipboard.writeText(url);
-              const btn = document.getElementById('share-copy');
-              btn.innerHTML = "✅ Copied!";
-              setTimeout(() => btn.innerHTML = "📋 Copy", 2000);
-          } catch (e) {
-              alert("Link Copied: " + url); // Fallback for some browsers
-          }
-      };
-      
-      analyzeBtn.textContent = "Analyzing... ⚙️";
-      analysisBox.style.display = 'none';
-      successMsg.style.display = 'none';
-      if(sugContainer) sugContainer.style.display = 'none';
-      saveVaultBtn.style.display = 'block';
-
-      try {
-        const response = await fetch('https://neonmoney-backend.onrender.com/api/analyze', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ url: url })
-        });
-        
-        const data = await response.json();
-        
-        if(data.success) {
-            const isAmazon = url.toLowerCase().includes('amazon');
-            document.getElementById('res-store').textContent = isAmazon ? '🛒 Amazon' : '🛍️ Flipkart';
-            buyBtn.textContent = isAmazon ? '🛒 Buy on Amazon ↗' : '🛍️ Buy on Flipkart ↗';
-            buyBtn.style.background = isAmazon ? '#f59e0b' : '#f97316';
-            buyBtn.href = url;
-
-            // INJECT REAL IMAGE!
-            document.getElementById('res-img-box').innerHTML = `<img src="${data.productImage}" style="max-width:100%; max-height:100%; object-fit:contain; mix-blend-mode: multiply;">`;
-
-            document.getElementById('res-title').textContent = data.productName;
-            document.getElementById('res-price').textContent = "₹" + data.currentPrice.toLocaleString();
-            document.getElementById('res-low').textContent = "₹" + data.lowestPrice.toLocaleString();
-            document.getElementById('res-high').textContent = "₹" + data.highestPrice.toLocaleString();
-            
-            let avg = Math.round(data.history.reduce((a,b)=>a+b.price, 0) / data.history.length);
-            document.getElementById('res-avg').textContent = "₹" + avg.toLocaleString();
-
-            const range = data.highestPrice - data.lowestPrice;
-            let ratio = range === 0 ? 0.5 : (data.currentPrice - data.lowestPrice) / range;
-            ratio = ratio * 0.6; 
-            
-            let angle = 90 - (ratio * 180); 
-            document.getElementById('gauge-needle').style.transform = `rotate(${Math.round(angle)}deg)`;
-
-            const verdictEl = document.getElementById('res-verdict');
-            if (ratio < 0.33) {
-                verdictEl.textContent = "Go Ahead & Buy now";
-                verdictEl.style.color = "#10b981"; 
-            } else if (ratio < 0.66) {
-                verdictEl.textContent = "Fair Value";
-                verdictEl.style.color = "#f59e0b"; 
-            } else {
-                verdictEl.textContent = "Wait for Price Drop";
-                verdictEl.style.color = "#ef4444"; 
-            }
-
-            // Slice(-30) perfectly grabs the LAST 30 array items (the newest 30 days)
-            globalHistoryData = data.history;
-            drawBuyhatkeChart(globalHistoryData.slice(-30)); 
-
-            if(sugGrid && sugContainer) {
-                sugGrid.innerHTML = '';
-                if(data.suggestions && data.suggestions.length > 0) {
-                    data.suggestions.forEach(item => {
-                        sugGrid.innerHTML += `
-                            <div class="deal-card">
-                                <div class="deal-img">
-                                    <img src="${item.image}" style="max-width:100%; max-height:100%; object-fit:contain;">
-                                </div>
-                                <div class="deal-name">${item.name}</div>
-                                <div class="deal-price">${item.price}</div>
-                                <div style="margin-bottom: 12px;"><span class="deal-discount">↓ Search Deals</span></div>
-                                <a href="${item.link}" target="_blank" class="bh-btn-buy" style="font-size:0.9rem; padding:10px; background: #f8fafc; color: #4f46e5; border: 1px solid #e2e8f0;">Search on ${item.store}</a>
-                            </div>
-                        `;
-                    });
-                    sugContainer.style.display = 'block';
-                } else {
-                    sugContainer.style.display = 'none';
-                }
-            }
-
-            analysisBox.style.display = 'block';
-            analyzeBtn.textContent = "Analyze Link ↗";
-
-        } else {
-            alert("Error: " + data.error);
-            analyzeBtn.textContent = "Analyze Link ↗";
-        }
-      } catch (error) {
-        alert("Make sure your Render server is awake! Refresh and try again.");
-        analyzeBtn.textContent = "Analyze Link ↗";
-      }
+      // Sends the user straight to analysis.html with the link attached!
+      window.location.href = 'analysis.html?url=' + encodeURIComponent(url);
     });
-  }
-
-  // GRAPH TABS LOGIC FIX (Needs globalHistoryData which is populated from the NEW backend)
-  const tab1m = document.getElementById('tab-1m');
-  const tab3m = document.getElementById('tab-3m');
-  const tabMax = document.getElementById('tab-max');
-  const allTabs = [tab1m, tab3m, tabMax];
-
-  function clearTabs() { allTabs.forEach(t => t.classList.remove('active')); }
-
-  tab1m.addEventListener('click', () => { clearTabs(); tab1m.classList.add('active'); drawBuyhatkeChart(globalHistoryData.slice(-30)); });
-  tab3m.addEventListener('click', () => { clearTabs(); tab3m.classList.add('active'); drawBuyhatkeChart(globalHistoryData.slice(-90)); });
-  tabMax.addEventListener('click', () => { clearTabs(); tabMax.classList.add('active'); drawBuyhatkeChart(globalHistoryData); });
-
-  function drawBuyhatkeChart(historyData) {
-      const ctx = document.getElementById('priceChart').getContext('2d');
-      if (chartInstance) { chartInstance.destroy(); }
-      
-      const labels = historyData.map(h => h.date);
-      const prices = historyData.map(h => h.price);
-
-      let gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, 'rgba(239, 68, 68, 0.4)'); 
-      gradient.addColorStop(0.5, 'rgba(245, 158, 11, 0.3)'); 
-      gradient.addColorStop(1, 'rgba(16, 185, 129, 0.1)'); 
-
-      chartInstance = new Chart(ctx, {
-          type: 'line',
-          data: {
-              labels: labels,
-              datasets: [{
-                  label: 'Price History (₹)',
-                  data: prices,
-                  borderColor: '#ef4444', 
-                  backgroundColor: gradient,
-                  borderWidth: 2,
-                  pointBackgroundColor: '#fff',
-                  pointBorderColor: '#ef4444',
-                  pointRadius: 0, 
-                  pointHoverRadius: 6,
-                  fill: true,
-                  tension: 0.1 
-              }]
-          },
-          options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: { legend: { display: false } },
-              scales: {
-                  y: { 
-                      ticks: { color: '#64748b', font: {family: 'sans-serif'} }, 
-                      grid: { color: '#f1f5f9' },
-                      border: { display: false }
-                  },
-                  x: { 
-                      ticks: { color: '#64748b', font: {family: 'sans-serif'}, maxTicksLimit: 8 }, 
-                      grid: { display: false },
-                      border: { display: false }
-                  }
-              },
-              interaction: {
-                  intersect: false,
-                  mode: 'index',
-              },
-          }
-      });
-  }
-
-  if(saveVaultBtn) {
-      saveVaultBtn.addEventListener('click', async () => {
-          if (!currentUser) {
-            alert("Please login to save to your vault!");
-            window.location.href = "login.html";
-            return;
-          }
-          saveVaultBtn.textContent = "Saving...";
-          try {
-            await addDoc(collection(db, "users", currentUser.uid, "trackedProducts"), {
-                productUrl: urlInput.value,
-                dateAdded: serverTimestamp(),
-                status: "Tracking"
-            });
-            saveVaultBtn.style.display = "none";
-            successMsg.style.display = "block";
-            loadVault(currentUser);
-          } catch(error) {
-             console.error("Save error:", error);
-             alert("Could not save. Try again.");
-             saveVaultBtn.textContent = "🔔 Login Now & Set Alert";
-          }
-      });
   }
 </script>
 
