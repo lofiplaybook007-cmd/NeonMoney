@@ -107,7 +107,7 @@
     .cta-box p  { margin-bottom: 36px; font-size: 1.05rem; position: relative; z-index: 1; }
     .cta-buttons { display: flex; gap: 14px; justify-content: center; position: relative; z-index: 1; }
 
-    /* VAULT STYLES */
+    /* ── TRACKER VAULT ITEMS ── */
     .vault-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; transition: transform 0.2s, border-color 0.2s; }
     .vault-item:hover { transform: translateY(-3px); border-color: var(--neon-blue); }
     .vault-link { color: #fff; text-decoration: none; font-weight: 600; word-break: break-all; margin-right: 15px; }
@@ -169,6 +169,10 @@
     <span class="ticker-item">🔥 Compare Amazon vs Flipkart instantly</span><span class="ticker-dot">•</span>
     <span class="ticker-item">💰 Earn coins on every purchase</span><span class="ticker-dot">•</span>
     <span class="ticker-item">🎁 Redeem for real cash rewards</span><span class="ticker-dot">•</span>
+    <span class="ticker-item">✨ Track genuine price drops</span><span class="ticker-dot">•</span>
+    <span class="ticker-item">🔥 Compare Amazon vs Flipkart instantly</span><span class="ticker-dot">•</span>
+    <span class="ticker-item">💰 Earn coins on every purchase</span><span class="ticker-dot">•</span>
+    <span class="ticker-item">🎁 Redeem for real cash rewards</span><span class="ticker-dot">•</span>
   </div>
 </div>
 
@@ -181,6 +185,12 @@
         <p class="hero-subtitle hero-subtitle" style="animation-delay:0.2s;">Check prices, unlock deals, and earn coins before you buy. Compare Amazon vs Flipkart instantly.</p>
         <div class="hero-buttons hero-cta">
           <a href="#tracker-anchor" class="btn btn-secondary btn-lg btn-ripple">🚀 Track a Price</a>
+        </div>
+        <div class="hero-social-proof">
+          <div class="proof-avatars">
+            <div class="av">👤</div><div class="av">👤</div><div class="av">👤</div><div class="av">👤</div><div class="av">+</div>
+          </div>
+          <p class="proof-text"><strong>50,000+</strong> users saved this month</p>
         </div>
       </div>
       <div class="hero-right hero-card-anim">
@@ -201,6 +211,18 @@
           <div class="hpc-saving">You save <strong>₹1,491</strong> on Flipkart · Earn <span style="color:var(--neon-yellow)">💰 120 Coins</span></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="real-cash-section" style="padding: 80px 0;">
+  <div class="container">
+    <div class="cta-box" style="background: linear-gradient(135deg, rgba(255,107,43,0.05), rgba(255,0,85,0.05)); border: 1px solid rgba(255,107,43,0.2); border-radius: var(--radius-xl); padding: 60px 20px; text-align: center;">
+      <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 16px; color: #FF6B2B; font-family: var(--font-display); text-shadow: 0 0 20px rgba(255,107,43,0.3);">Real Cash.</h2>
+      <p style="max-width: 600px; margin: 0 auto 32px auto; font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6;">
+        Stop leaving money on the table. Explore our directory of 25+ top Indian stores. Click our link, buy your item, and get cash added directly to your NeonMoney vault!
+      </p>
+     <a href="store.html" class="fire-ice-btn">ENTER THE STORE NOW</a>
     </div>
   </div>
 </section>
@@ -375,10 +397,64 @@
   </div>
 </section>
 
-<footer class="footer"><div class="container"><div class="footer-bottom"><p>© 2026 NeonMoney. All rights reserved.</p></div></div></footer>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:12px; display:inline-flex;"><div class="logo-icon">💸</div>Neon<span class="accent">Money</span></a>
+        <p>We help users save money by finding the best deals and rewarding them with coins for smart shopping.</p>
+      </div>
+      <div class="footer-col"><h4>Platform</h4><a href="deals.html">All Deals</a><a href="store.html">Stores</a><a href="rewards.html">Rewards</a><a href="dashboard.html">Dashboard</a></div>
+      <div class="footer-col"><h4>Support</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact Us</a><a href="about.html">About Us</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms & Conditions</a><a href="disclaimer.html">Disclaimer</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 NeonMoney. All rights reserved.</p>
+      <p>We earn through affiliate links. <a href="disclaimer.html" style="color:var(--neon-green);text-decoration:none;">Read Disclaimer</a></p>
+    </div>
+  </div>
+</footer>
+
+<div id="cookie-banner" class="cookie-banner">
+  <div class="cookie-content">
+    <div class="cookie-icon">🍪</div>
+    <div>
+      <h4 style="margin-bottom: 4px; font-family: var(--font-display); color: var(--text-primary);">We value your privacy</h4>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">
+        We use cookies to enhance your browsing experience, serve personalized deals, and analyze our traffic. 
+      </p>
+    </div>
+  </div>
+  <div class="cookie-buttons">
+    <button id="btn-reject-cookies" class="btn btn-secondary btn-sm">Essential Only</button>
+    <button id="btn-accept-cookies" class="btn btn-primary btn-sm">Accept All</button>
+  </div>
+</div>
 
 <script src="main.js"></script>
 <script type="module" src="auth.js"></script>
+<script src="spin.js"></script>
+<script src="alerts.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cookieBanner = document.getElementById("cookie-banner");
+    const btnAccept = document.getElementById("btn-accept-cookies");
+    const btnReject = document.getElementById("btn-reject-cookies");
+
+    if (!localStorage.getItem("neon_cookies_status")) {
+      setTimeout(() => {
+        if(cookieBanner) cookieBanner.classList.add("show");
+      }, 2000);
+    }
+    const hideBanner = (status) => {
+      localStorage.setItem("neon_cookies_status", status);
+      cookieBanner.classList.remove("show");
+    };
+    if(btnAccept) btnAccept.addEventListener("click", () => hideBanner("accepted"));
+    if(btnReject) btnReject.addEventListener("click", () => hideBanner("rejected"));
+  });
+</script>
 
 <script type='text/javascript'>
       var cId = '271764';
