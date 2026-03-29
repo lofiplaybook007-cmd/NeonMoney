@@ -1060,3 +1060,66 @@ p {
     color: transparent !important;
     display: inline-block !important; /* This fixes the weird spacing/floating issues */
 }
+
+/* 5. HERO SECTION REDESIGN (Centered & Premium) */
+.hero { 
+    min-height: auto !important; /* Removes the massive top gap */
+    padding-top: 160px !important; 
+    padding-bottom: 100px !important; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    text-align: center; /* Centers all text */
+    /* Adds a subtle premium blue glow behind the main text */
+    background: radial-gradient(circle at top center, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+}
+
+.hero-grid { 
+    grid-template-columns: 1fr !important; /* Changes from 2 columns to 1 center column */
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content inside */
+}
+
+/* Sharp, dark, and clean eyebrow pill */
+.hero-eyebrow { 
+    background: rgba(15, 23, 42, 0.8) !important; 
+    border: 1px solid rgba(16, 185, 129, 0.4) !important; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+    border-radius: 100px !important; 
+    padding: 8px 24px !important; 
+    margin-bottom: 32px !important; 
+    font-size: 0.75rem !important; 
+    font-weight: 600 !important;
+    letter-spacing: 0.1em !important; 
+    color: var(--neon-green) !important; 
+}
+
+.hero-title { 
+    font-size: clamp(3rem, 7vw, 5.5rem) !important; /* Makes the title massive and impactful */
+    line-height: 1.15 !important; 
+    margin-bottom: 24px !important; 
+    letter-spacing: -0.03em !important;
+}
+
+.hero-subtitle { 
+    font-size: 1.2rem !important; 
+    margin: 0 auto 40px auto !important; /* Centers subtitle and pushes buttons down */
+    max-width: 650px !important; 
+    line-height: 1.7 !important; 
+}
+
+.hero-buttons { 
+    justify-content: center !important; /* Centers the button */
+    margin-bottom: 40px !important;
+}
+
+.hero-social-proof { 
+    justify-content: center !important; /* Centers the user avatars */
+    margin-top: 0 !important; 
+}
