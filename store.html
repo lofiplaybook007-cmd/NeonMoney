@@ -44,14 +44,20 @@
     .app-icon {
       width: 70px;
       height: 70px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
+      border-radius: 18px; /* App Store style curve */
+      background: #ffffff; /* White background makes brand logos pop */
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.5rem;
       margin-bottom: 16px;
-      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    
+    .app-icon img {
+      width: 65%; /* Keeps the logo nicely padded inside the box */
+      height: 65%;
+      object-fit: contain;
     }
     
     .app-name { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 4px; color: #fff; }
@@ -140,10 +146,10 @@
     <button class="filter-btn" onclick="filterStore('education', this)">🎓 Education</button>
   </div>
 
-  <div class="store-directory-grid">
+<div class="store-directory-grid">
     
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🛒</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=128" alt="Amazon"></div>
       <h3 class="app-name">Amazon</h3>
       <div class="app-cat">Everything</div>
       <div class="app-reward">Up to 50 Coins</div>
@@ -151,7 +157,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🛍️</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=128" alt="Flipkart"></div>
       <h3 class="app-name">Flipkart</h3>
       <div class="app-cat">Everything</div>
       <div class="app-reward">Up to 50 Coins</div>
@@ -159,7 +165,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">👗</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=myntra.com&sz=128" alt="Myntra"></div>
       <h3 class="app-name">Myntra</h3>
       <div class="app-cat">Fashion</div>
       <div class="app-reward">Up to 60 Coins</div>
@@ -167,7 +173,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🕶️</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=ajio.com&sz=128" alt="AJIO"></div>
       <h3 class="app-name">AJIO</h3>
       <div class="app-cat">Fashion</div>
       <div class="app-reward">Up to 70 Coins</div>
@@ -175,7 +181,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">💎</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=tatacliq.com&sz=128" alt="Tata CLiQ"></div>
       <h3 class="app-name">Tata CLiQ</h3>
       <div class="app-cat">Everything</div>
       <div class="app-reward">Up to 60 Coins</div>
@@ -183,7 +189,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🛍️</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=shopsy.in&sz=128" alt="Shopsy"></div>
       <h3 class="app-name">Shopsy</h3>
       <div class="app-cat">Everything</div>
       <div class="app-reward">Up to 40 Coins</div>
@@ -191,7 +197,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">⚽</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=decathlon.in&sz=128" alt="Decathlon"></div>
       <h3 class="app-name">Decathlon</h3>
       <div class="app-cat">Sports</div>
       <div class="app-reward">Up to 50 Coins</div>
@@ -199,7 +205,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">👟</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=in.puma.com&sz=128" alt="Puma"></div>
       <h3 class="app-name">Puma</h3>
       <div class="app-cat">Sports & Shoes</div>
       <div class="app-reward">Up to 60 Coins</div>
@@ -207,7 +213,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">👙</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=clovia.com&sz=128" alt="Clovia"></div>
       <h3 class="app-name">Clovia</h3>
       <div class="app-cat">Lingerie</div>
       <div class="app-reward">Up to 80 Coins</div>
@@ -215,7 +221,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🩲</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=xyxxcrew.com&sz=128" alt="XYXX"></div>
       <h3 class="app-name">XYXX</h3>
       <div class="app-cat">Men's Innerwear</div>
       <div class="app-reward">Up to 70 Coins</div>
@@ -223,7 +229,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">💄</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=nykaa.com&sz=128" alt="Nykaa"></div>
       <h3 class="app-name">Nykaa</h3>
       <div class="app-cat">Beauty</div>
       <div class="app-reward">Up to 60 Coins</div>
@@ -231,7 +237,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🌿</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=mamaearth.in&sz=128" alt="Mamaearth"></div>
       <h3 class="app-name">Mamaearth</h3>
       <div class="app-cat">Beauty & Care</div>
       <div class="app-reward">Up to 80 Coins</div>
@@ -239,7 +245,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🧴</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=buywow.in&sz=128" alt="WOW Skin"></div>
       <h3 class="app-name">WOW Skin</h3>
       <div class="app-cat">Personal Care</div>
       <div class="app-reward">Up to 80 Coins</div>
@@ -247,7 +253,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">☕</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=mcaffeine.com&sz=128" alt="mCaffeine"></div>
       <h3 class="app-name">mCaffeine</h3>
       <div class="app-cat">Personal Care</div>
       <div class="app-reward">Up to 80 Coins</div>
@@ -255,7 +261,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">💻</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=croma.com&sz=128" alt="Croma"></div>
       <h3 class="app-name">Croma</h3>
       <div class="app-cat">Electronics</div>
       <div class="app-reward">Up to 100 Coins</div>
@@ -263,7 +269,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">📺</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=reliancedigital.in&sz=128" alt="Reliance Digital"></div>
       <h3 class="app-name">Reliance Digital</h3>
       <div class="app-cat">Electronics</div>
       <div class="app-reward">Up to 100 Coins</div>
@@ -271,7 +277,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">⌚</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=gonoise.com&sz=128" alt="Noise"></div>
       <h3 class="app-name">Noise</h3>
       <div class="app-cat">Smartwatches</div>
       <div class="app-reward">Up to 70 Coins</div>
@@ -279,7 +285,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">💊</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=pharmeasy.in&sz=128" alt="PharmEasy"></div>
       <h3 class="app-name">PharmEasy</h3>
       <div class="app-cat">Pharmacy</div>
       <div class="app-reward">Up to 60 Coins</div>
@@ -287,7 +293,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🩺</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=netmeds.com&sz=128" alt="Netmeds"></div>
       <h3 class="app-name">Netmeds</h3>
       <div class="app-cat">Pharmacy</div>
       <div class="app-reward">Up to 60 Coins</div>
@@ -295,7 +301,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">✈️</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=makemytrip.com&sz=128" alt="MakeMyTrip"></div>
       <h3 class="app-name">MakeMyTrip</h3>
       <div class="app-cat">Travel</div>
       <div class="app-reward">Up to 200 Coins</div>
@@ -303,7 +309,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🚂</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=yatra.com&sz=128" alt="Yatra"></div>
       <h3 class="app-name">Yatra</h3>
       <div class="app-cat">Travel</div>
       <div class="app-reward">Up to 150 Coins</div>
@@ -311,7 +317,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🏨</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=goibibo.com&sz=128" alt="Goibibo"></div>
       <h3 class="app-name">Goibibo</h3>
       <div class="app-cat">Travel</div>
       <div class="app-reward">Up to 150 Coins</div>
@@ -319,7 +325,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🛫</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=cleartrip.com&sz=128" alt="Cleartrip"></div>
       <h3 class="app-name">Cleartrip</h3>
       <div class="app-cat">Travel</div>
       <div class="app-reward">Up to 150 Coins</div>
@@ -327,7 +333,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🧔‍♂️</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=themancompany.com&sz=128" alt="The Man Company"></div>
       <h3 class="app-name">The Man Company</h3>
       <div class="app-cat">Men's Grooming</div>
       <div class="app-reward">Up to 80 Coins</div>
@@ -335,7 +341,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🌸</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=kamaayurveda.in&sz=128" alt="Kama Ayurveda"></div>
       <h3 class="app-name">Kama Ayurveda</h3>
       <div class="app-cat">Beauty & Care</div>
       <div class="app-reward">Up to 60 Coins</div>
@@ -343,7 +349,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🧸</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=firstcry.com&sz=128" alt="FirstCry"></div>
       <h3 class="app-name">FirstCry</h3>
       <div class="app-cat">Kids & Baby</div>
       <div class="app-reward">Up to 70 Coins</div>
@@ -351,7 +357,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">🍲</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=gobble.com&sz=128" alt="Gobble"></div>
       <h3 class="app-name">Gobble</h3>
       <div class="app-cat">Meal Kits</div>
       <div class="app-reward">Up to 50 Coins</div>
@@ -359,7 +365,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">📱</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=128" alt="Toing AOS"></div>
       <h3 class="app-name">Toing AOS</h3>
       <div class="app-cat">Apps & Food</div>
       <div class="app-reward">Up to 40 Coins</div>
@@ -367,7 +373,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">💊</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=purenutrition.in&sz=128" alt="Purenutrition"></div>
       <h3 class="app-name">Purenutrition</h3>
       <div class="app-cat">Health & Fitness</div>
       <div class="app-reward">Up to 60 Coins</div>
@@ -375,7 +381,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">📚</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=abebooks.com&sz=128" alt="AbeBooks"></div>
       <h3 class="app-name">AbeBooks</h3>
       <div class="app-cat">Books & Media</div>
       <div class="app-reward">Up to 40 Coins</div>
@@ -383,7 +389,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">📖</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=bookscape.com&sz=128" alt="Bookscape"></div>
       <h3 class="app-name">Bookscape</h3>
       <div class="app-cat">Books & Media</div>
       <div class="app-reward">Up to 40 Coins</div>
@@ -391,7 +397,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">📱</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=apps.apple.com&sz=128" alt="Joyread (iOS)"></div>
       <h3 class="app-name">Joyread (iOS)</h3>
       <div class="app-cat">Apps & Reading</div>
       <div class="app-reward">Up to 30 Coins</div>
@@ -399,7 +405,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="shopping">
-      <div class="app-icon">📕</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=iberlibro.com&sz=128" alt="iberlibro"></div>
       <h3 class="app-name">iberlibro</h3>
       <div class="app-cat">Books & Media</div>
       <div class="app-reward">Up to 40 Coins</div>
@@ -407,7 +413,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=axisbank.com&sz=128" alt="Axis Bank Card"></div>
       <h3 class="app-name">Axis Bank Card</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -415,7 +421,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=sbicard.com&sz=128" alt="SBI Flipkart Card"></div>
       <h3 class="app-name">SBI Flipkart Card</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -423,7 +429,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=scapia.cards&sz=128" alt="Federal Scapia"></div>
       <h3 class="app-name">Federal Scapia</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -431,7 +437,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=128" alt="HDFC Swiggy Card"></div>
       <h3 class="app-name">HDFC Swiggy Card</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -439,7 +445,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=rblbank.com&sz=128" alt="RBL Cookies Card"></div>
       <h3 class="app-name">RBL Cookies Card</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -447,7 +453,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=rblbank.com&sz=128" alt="RBL Indian Oil Card"></div>
       <h3 class="app-name">RBL Indian Oil Card</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -455,7 +461,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=rblbank.com&sz=128" alt="RBL Shoprite Card"></div>
       <h3 class="app-name">RBL Shoprite Card</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -463,7 +469,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=rblbank.com&sz=128" alt="RBL World Safari"></div>
       <h3 class="app-name">RBL World Safari</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -471,7 +477,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="finance">
-      <div class="app-icon">💳</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=rblbank.com&sz=128" alt="RBL BookMyShow"></div>
       <h3 class="app-name">RBL BookMyShow</h3>
       <div class="app-cat">Finance</div>
       <div class="app-reward">Up to 500 Coins</div>
@@ -479,7 +485,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="education">
-      <div class="app-icon">💻</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=appsumo.com&sz=128" alt="AppSumo"></div>
       <h3 class="app-name">AppSumo</h3>
       <div class="app-cat">Software & Tools</div>
       <div class="app-reward">Up to 200 Coins</div>
@@ -487,7 +493,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="education">
-      <div class="app-icon">🎓</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=coursera.org&sz=128" alt="Coursera"></div>
       <h3 class="app-name">Coursera</h3>
       <div class="app-cat">Online Courses</div>
       <div class="app-reward">Up to 150 Coins</div>
@@ -495,7 +501,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="education">
-      <div class="app-icon">🎒</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=education.com&sz=128" alt="Education.com"></div>
       <h3 class="app-name">Education.com</h3>
       <div class="app-cat">Kids Learning</div>
       <div class="app-reward">Up to 80 Coins</div>
@@ -503,7 +509,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="education">
-      <div class="app-icon">🧑‍💻</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=edureka.co&sz=128" alt="Edureka"></div>
       <h3 class="app-name">Edureka</h3>
       <div class="app-cat">Tech Certifications</div>
       <div class="app-reward">Up to 150 Coins</div>
@@ -511,7 +517,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="education">
-      <div class="app-icon">🗣️</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=britishcouncil.org&sz=128" alt="British Council"></div>
       <h3 class="app-name">British Council</h3>
       <div class="app-cat">IELTS & English</div>
       <div class="app-reward">Up to 100 Coins</div>
@@ -519,7 +525,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="education">
-      <div class="app-icon">🎟️</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=eventtrix.com&sz=128" alt="Eventtrix"></div>
       <h3 class="app-name">Eventtrix</h3>
       <div class="app-cat">Event Management</div>
       <div class="app-reward">Up to 100 Coins</div>
@@ -527,7 +533,7 @@
     </div>
 
     <div class="app-card animate-on-scroll" data-category="education">
-      <div class="app-icon">🌍</div>
+      <div class="app-icon"><img src="https://www.google.com/s2/favicons?domain=mondly.com&sz=128" alt="Mondly"></div>
       <h3 class="app-name">Mondly</h3>
       <div class="app-cat">Language Learning</div>
       <div class="app-reward">Up to 100 Coins</div>
