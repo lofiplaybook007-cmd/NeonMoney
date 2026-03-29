@@ -1063,14 +1063,13 @@ p {
 
 /* 5. HERO SECTION REDESIGN (Centered & Premium) */
 .hero { 
-    min-height: auto !important; /* Removes the massive top gap */
-    padding-top: 160px !important; 
-    padding-bottom: 100px !important; 
+    min-height: auto !important; 
+    padding-top: 30px !important; /* <--- Changed this from 160px to 30px to shift everything UP */
+    padding-bottom: 80px !important; 
     display: flex; 
     align-items: center; 
     justify-content: center;
-    text-align: center; /* Centers all text */
-    /* Adds a subtle premium blue glow behind the main text */
+    text-align: center; 
     background: radial-gradient(circle at top center, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
 }
 
