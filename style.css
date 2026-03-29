@@ -1122,3 +1122,54 @@ p {
     justify-content: center !important; /* Centers the user avatars */
     margin-top: 0 !important; 
 }
+
+/* 6. HERO SEARCH BAR */
+.hero-search-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto 30px auto !important; /* Spacing above and below */
+    position: relative;
+    z-index: 10;
+}
+.hero-search-box {
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 1px solid var(--border) !important;
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    padding: 8px 8px 8px 24px;
+    border-radius: 100px; /* Perfect pill shape */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+/* Glowing border when the user clicks to type */
+.hero-search-box:focus-within {
+    border-color: var(--neon-blue) !important;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+.hero-search-box input {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    outline: none !important;
+    font-size: 1.05rem !important;
+    font-family: var(--font-body);
+    width: 100%;
+}
+.hero-search-box button {
+    background: var(--neon-blue) !important;
+    color: #0A0A0F !important;
+    border-radius: 100px !important;
+    padding: 14px 32px !important;
+    font-weight: 800 !important;
+    font-size: 1.05rem !important;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    transition: transform 0.2s;
+}
+.hero-search-box button:hover {
+    transform: scale(1.05);
+}
