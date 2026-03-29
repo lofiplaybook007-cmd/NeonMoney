@@ -511,17 +511,18 @@
 
     onAuthStateChanged(auth, async (user) => { if (user) { loadVault(user); } });
 
-    // ANALYZE BUTTON — redirects to analysis.html
+   // ANALYZE BUTTON — redirects to analysis.html
     const analyzeBtn = document.getElementById('analyze-btn');
     const urlInput = document.getElementById('product-url');
     if (analyzeBtn) {
       analyzeBtn.addEventListener('click', () => {
         const url = urlInput.value.trim();
-        if (!url) { alert("Please paste an Amazon or Flipkart link first!"); return; }
-        if (!url.includes('amazon') && !url.includes('flipkart')) {
-          alert("Please paste a valid Amazon or Flipkart product link!");
-          return;
-        }
+        
+        // Changed the alert message to be generic
+        if (!url) { alert("Please paste a product link first!"); return; }
+        
+        // THE LOCK HAS BEEN DELETED FROM HERE!
+        
         analyzeBtn.textContent = "Redirecting... ⚙";
         analyzeBtn.disabled = true;
         window.location.href = 'analysis.html?url=' + encodeURIComponent(url);
@@ -539,7 +540,8 @@
       var inp = document.getElementById('product-url');
       function go() {
         var url = inp ? inp.value.trim() : '';
-        if (!url) { alert('Please paste an Amazon or Flipkart link first!'); return; }
+        if (!url) { alert('Please paste a product link first!'); return; }
+        
         btn.textContent = 'Redirecting... ⚙';
         btn.disabled = true;
         window.location.href = 'analysis.html?url=' + encodeURIComponent(url);
