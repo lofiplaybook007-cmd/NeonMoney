@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price History Analysis | NeonMoney</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="animations.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --bh-blue: #4f46e5;
@@ -617,10 +620,58 @@
                 padding: 16px;
             }
         }
+        /* --- DARK MODE PREMIUM OVERRIDES FOR ANALYSIS PAGE --- */
+body {
+  background-color: transparent !important; /* Lets the animation show through */
+  color: #F8FAFC !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+.bh-header {
+  background: rgba(11, 17, 32, 0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+.bh-logo, .bh-nav a { color: #F8FAFC !important; }
+.bh-nav a:hover { color: #10B981 !important; }
+
+/* Upgrade all cards to premium glass */
+.product-img-box, .gauge-col, .graph-col, .alert-col, .deal-card {
+  background: rgba(30, 41, 59, 0.6) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: #F8FAFC !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
+}
+
+/* Fix text colors */
+.product-title, .product-price, .stats-title, .graph-title, .alert-title, .deals-title, .deal-name, .deal-price {
+  color: #F8FAFC !important;
+}
+.store-badge, .stat-card, .alert-input {
+  background: rgba(255,255,255,0.05) !important;
+  color: #F8FAFC !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+.graph-tabs { background: rgba(255,255,255,0.05) !important; }
+.g-tab { color: #94A3B8 !important; }
+.g-tab.active { background: #3B82F6 !important; color: #fff !important; }
+.verdict-label, .verdict-sub, .stat-label, .deal-store, .share-box { color: #94A3B8 !important; }
+
+/* Loading screen fix */
+#loading-overlay {
+  background: rgba(11, 17, 32, 0.95) !important;
+  color: #F8FAFC !important;
+}
+.deal-img { background: transparent !important; }
     </style>
 </head>
 
 <body>
+  <div class="bg-mesh"></div>
+  <div class="bg-noise"></div>
+  <div id="particles"></div>
 
     <header class="bh-header">
         <a href="index.html" class="bh-logo">
@@ -1063,6 +1114,7 @@
         // START
         analyzeProduct();
     </script>
+    <script src="main.js"></script>
 </body>
 
 </html>
