@@ -548,5 +548,59 @@
       if (inp) inp.addEventListener('keypress', function(e){ if(e.key==='Enter') go(); });
     });
   </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // The stores you want it to type out
+    const stores = ["Amazon", "Flipkart", "Myntra", "Ajio", "Reliance Digital", "Nykaa", "Meesho"];
+    let storeIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const heroInput = document.getElementById('hero-url-input');
+
+    function typeWriterEffect() {
+      if (!heroInput) return;
+      const currentStore = stores[storeIndex];
+
+      if (isDeleting) {
+        charIndex--;
+      } else {
+        charIndex++;
+      }
+
+      // Adds the | cursor while typing
+      const cursor = (charIndex === currentStore.length && !isDeleting) ? ' link...' : '|';
+      heroInput.setAttribute('placeholder', `Paste a ${currentStore.substring(0, charIndex)}${cursor}`);
+
+      let typingSpeed = isDeleting ? 40 : 100;
+
+      // Logic to pause at the end of a word
+      if (!isDeleting && charIndex === currentStore.length) {
+        typingSpeed = 2000; // Wait 2 seconds before deleting
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        storeIndex = (storeIndex + 1) % stores.length; // Move to next store
+        typingSpeed = 500; // Pause before typing next word
+      }
+
+      setTimeout(typeWriterEffect, typingSpeed);
+    }
+
+    // Start the typing effect 1 second after page loads
+    setTimeout(typeWriterEffect, 1000);
+
+    // Make the new search button actually work and redirect to analysis.html
+    var heroBtn = document.getElementById('hero-analyze-btn');
+    function goHero() {
+      var url = heroInput ? heroInput.value.trim() : '';
+      if (!url) { alert('Please paste an Amazon or Flipkart link first!'); return; }
+      heroBtn.textContent = 'Analyzing... ⚙';
+      heroBtn.disabled = true;
+      window.location.href = 'analysis.html?url=' + encodeURIComponent(url);
+    }
+    if (heroBtn) heroBtn.addEventListener('click', goHero);
+    if (heroInput) heroInput.addEventListener('keypress', function(e){ if(e.key==='Enter') goHero(); });
+  });
+</script>
 </body>
 </html>
