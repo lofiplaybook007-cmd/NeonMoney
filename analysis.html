@@ -31,12 +31,10 @@
         }
 
         body {
-            font-family: var(--font-family);
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            line-height: 1.5;
-            padding-bottom: 80px;
-        }
+  background-color: #0B1120 !important; /* 👈 This forces the premium dark navy background */
+  color: #F8FAFC !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
 
         a {
             text-decoration: none;
@@ -707,12 +705,17 @@ body {
                     <div class="product-rating">4.5 ★★★★★ <span
                             style="color:#64748b;font-weight:normal;font-size:0.9rem;">(Estimated)</span></div>
                     <div class="product-price" id="res-price">₹0</div>
-                    <div class="share-box">
-                        <span>Share on</span>
-                        <span class="share-btn" id="share-wa" title="Share to WhatsApp">🟢 WhatsApp</span>
-                        <span class="share-btn" id="share-copy" title="Copy Link">📋 Copy</span>
-                    </div>
-                </div>
+                   <div class="share-box" style="border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.02);">
+          <span style="color: #94A3B8;">Share on</span>
+          
+          <span class="share-btn" id="share-wa" title="Share to WhatsApp" style="display:flex; align-items:center; gap:6px; color:#10B981; font-weight:700;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.38c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.305-.885-.656-1.482-1.465-1.655-1.763-.173-.298-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.98 1.005-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c0-5.445 4.428-9.873 9.873-9.873 2.639 0 5.122 1.028 6.988 2.894a9.82 9.82 0 012.885 6.979c-.001 5.446-4.429 9.875-9.873 9.875M12.051 2C6.527 2 2.004 6.522 2.004 12.05c0 1.765.462 3.489 1.34 5.006L2 22l5.06-1.328a10.02 10.02 0 004.99 1.328h.005c5.523 0 10.046-4.524 10.046-10.051 0-2.676-1.04-5.191-2.932-7.083A9.98 9.98 0 0012.051 2" /></svg> WhatsApp
+          </span>
+          
+          <span class="share-btn" id="share-copy" title="Copy Link" style="display:flex; align-items:center; gap:6px; color:#3B82F6; font-weight:700;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+          </span>
+        </div>
             </div>
 
             <div class="gauge-col">
